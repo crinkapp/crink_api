@@ -1,5 +1,5 @@
 module.exports = (sequelize, type) => {
-    return sequelize.define('mailer', {
+    return sequelize.define('newsletters', {
         id: {
             type: type.INTEGER,
             primaryKey: true,

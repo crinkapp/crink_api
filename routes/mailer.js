@@ -4,6 +4,19 @@ const Mailer = require('../sequelize');
 const nodemailer = require('nodemailer');
 require('dotenv').config();
 
+router.get('/emails', async (req, res) => {
+
+    try {
+        const allEmails =  await Mailer.find();
+        res.json(allEmails);
+
+    }
+    catch(err) {
+        res.json({ message: err })
+    }
+
+});
+
 router.post('/sendemail', async (req, res) => {
     const mail = req.body.email;
     const mailer = new Mailer({
@@ -29,7 +42,7 @@ router.post('/sendemail', async (req, res) => {
         text: "Toute l'équipe Crink vous souhaite la bienvenue !",
         html: "<div style='color: #282727; margin: 0 auto; width: 27rem; border: 1px solid lightgrey; border-radius: 3px;'>" +
         "<div style='display: flex; background-color: #BD6D5C; padding-top: 2rem; padding-bottom: 2rem; justify-content: center; align-items: center; width: 100.5%; border-top-left-radius: 3px; border-top-right-radius: 3px;'>" +
-        // "<img src='cid:logo' alt='Crink' height='40' style='display: flex; margin-left: auto; margin-right: auto'></div>" +
+        //"<img src='cid:logo' alt='Crink' height='40' style='display: flex; margin-left: auto; margin-right: auto'></div>" +
         "<div style='width: 100%; padding-top: 3rem; padding-bottom: 3rem; background-color: #FDFAF5; line-height: 1.4rem;'>" +
         "<h3 style='text-align: center; margin-bottom: 4rem; font-weight: 600;'>Merci pour votre inscription <span style='margin-left: 0.6rem;'>🎉</span></h3>" +
         "<div style='padding-left: 2rem; padding-right: 2rem;'>" +
@@ -42,7 +55,7 @@ router.post('/sendemail', async (req, res) => {
         "<a href='https://www.instagram.com/crinkappli/' target='blank' style='text-decoration: none;'><img src='https://image.flaticon.com/icons/png/512/174/174855.png' alt='Instagram' height='30'></a>" +
         "<a href='https://www.linkedin.com/company/42421692' target='blank' style='margin-left: 0.6rem; text-decoration: none;'><img src='https://image.flaticon.com/icons/png/512/174/174857.png' alt='Linkedin' height='30'></a>" +
         "</div></div></div></div>",
-    }
+    };
 
     transporter.sendMail(mailOptions, (err, data) => {
         if (err) {

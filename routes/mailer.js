@@ -4,7 +4,7 @@ const Mailer = require('../sequelize');
 const nodemailer = require('nodemailer');
 require('dotenv').config();
 
-router.post('/', async (req, res) => {
+router.post('/sendemail', async (req, res) => {
     const mail = req.body.email;
     const mailer = new Mailer({
         email: mail

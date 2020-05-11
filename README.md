@@ -26,4 +26,4 @@ And that's it !
 The server will run in port **3000** 🎉
 
 ## License
-[MIT](https://choosealicense.com/licenses/mit/)
+[MIT](https://github.com/crinkapp/crink_api/blob/master/LICENSE)

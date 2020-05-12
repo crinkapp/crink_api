@@ -4,40 +4,68 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crink - Newsletter</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <style>
+        * { font-family: 'Lato', sans-serif; color: #323232; }
+        body { background-color: #F7F7F7; }
+        .mt-top { margin-top: 4rem; }
+        p { font-size: 18px ; }
+        .btn-crink {
+            background-color: #BD6D5C;
+            color: #fff;
+            border: none;
+        }
+        .text-sm { font-size: 0.7rem; }
+    </style>
 </head>
 <body>
-    <div style="font-family: 'Lato', sans-serif; color: #282727; margin-left: auto; margin-right: auto; flex-direction: column; width: 27rem; justify-content: center; align-items: center; border: 1px solid lightgrey; border-radius: 3px;">
-        <div style="display: flex; background-color: #BD6D5C; padding-top: 2rem; padding-bottom: 2rem; justify-content: center; align-items: center; width: 100.5%; border-top-left-radius: 3px; border-top-right-radius: 3px;">
-            <img src="img/crink-logo-white.png" alt="Crink" height="40">
+    <div class="container bg-white my-5 rounded shadow-sm">
+        <div class="py-5 text-center">
+            <img src="img/crink-icon-brown.svg" alt="Crink" height="50">
         </div>
-        <div style="width: 100%; padding-top: 3rem; padding-bottom: 3rem; background-color: #FDFAF5; line-height: 1.4rem;">
-            <h3 style="text-align: center; margin-bottom: 4rem; font-weight: 600;">Merci pour votre inscription John Doe <span style="margin-left: 0.6rem;">🎉</span></h3>
-            <div style="padding-left: 2rem; padding-right: 2rem;">
-                <p style="font-weight: 300;">
-                    Toute l'équipe Crink vous souhaite la bienvenue ! 
-                </p>
-                <p style="font-weight: 300;">
-                    Le projet est encore en développement et nous vous prions de bien vouloir patienter avant le jour de lancement. Nous comptons sur vous
-                    pour en parler à vos amis qui pourraient être intérressés.
-                </p>
-                <p style="font-weight: 300;">
-                    Comme promis, nous vous enverrons un petit message pour vous tenir informé de notre progression. En attendant, n'hésitez pas à faire un tour sur nos réseaux sociaux !
-                </p>
-                </p>
-                <p style="font-weight: 300; margin-top: 3rem; margin-bottom: 0;">
-                    Prenez soins de vous et à bientôt !
-                </p>
-                <span style="font-weight: 700;">L'équipe Crink</span>
-                <div style="margin: 2rem 0 0;">
-                    <a href="https://www.instagram.com/crinkappli/" target="blank" style="text-decoration: none;">
-                        <img src="https://image.flaticon.com/icons/png/512/174/174855.png" alt="Instagram" height="30">
-                    </a>
-                    <a href="https://www.linkedin.com/company/42421692" target="blank" style="margin-left: 0.6rem; text-decoration: none;">
-                        <img src="https://image.flaticon.com/icons/png/512/174/174857.png" alt="Linkedin" height="30">
-                    </a>
+        <hr class="mt-0">
+        <div class="p-lg-5 p-3">
+            <h3 class="font-weight-light text-center p-lg-0 pt-4 px-4 pb-2 mb-0">Nous avons bien reçu votre inscription !</h3>
+            <div class="d-flex mt-top">
+                <button class="mx-auto p-3 rounded w-75 btn-crink">
+                    <p class="text-white mb-0">Accéder au site</p>
+                </button>
+            </div>
+            <div class="mt-top">
+                <div class="row mx-0">
+                    <div class="col-lg-10 offset-lg-1 col-12">
+                        <p class="font-weight-light">
+                            Toute l'équipe Crink vous souhaite la bienvenue !
+                        </p>
+                        <p class="font-weight-light my-4">
+                            Le projet est encore en développement et nous vous prions de bien vouloir patienter avant
+                            le jour de lancement. Nous comptons sur vous pour en parler à vos amis qui pourraient être intérressés.
+                        </p>
+                        <p class="font-weight-light my-4">
+                            Comme promis, nous vous enverrons un petit message pour vous tenir informé de notre progression.
+                            En attendant, n'hésitez pas à faire un tour sur nos réseaux sociaux.
+                        </p>
+                        <p class="font-weight-light mt-top mb-0">Prenez soin de vous et à bientôt,</p>
+                        <p>L'équipe Crink</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    <div class="mb-4 d-flex justify-content-center align-items-center">
+        <a href="https://www.instagram.com/crinkappli/" target="_blank" class="mx-1 text-decoration-none">
+            <img src="img/instagram.svg" alt="Instagram" height="30">
+        </a>
+        <a href="https://www.linkedin.com/company/42421692" target="_blank" class="mx-1 text-decoration-none">
+            <img src="img/linkedin.svg" alt="Linkedin" height="30" class="mx-3">
+        </a>
+    </div>
+    <div class="text-center my-5">
+        <a href="#" class="text-muted font-weight-light">Se désabonner de la newsletter</a>
+    </div>
+    <div class="d-flex mx-auto">
+        <hr class="my-0 w-50">
+    </div>
+    <p class="text-muted text-sm text-center my-3">Copyright © Crink 2020</p>
 </body>
 </html>

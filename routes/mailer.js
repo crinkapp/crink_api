@@ -20,7 +20,8 @@ router.get('/emails', async (req, res) => {
 router.post('/sendemail', async (req, res) => {
     const mail = req.body.email;
     const mailer = new Mailer({
-        email: mail
+        email: mail,
+        activate: 1
     });
 
     let transporter = nodemailer.createTransport({

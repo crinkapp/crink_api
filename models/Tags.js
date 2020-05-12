@@ -1,14 +1,11 @@
+
 module.exports = (sequelize, type) => {
-    return sequelize.define('newsletters', {
+    return sequelize.define('tags',{
         id: {
             type: type.INTEGER,
             primaryKey: true,
             autoIncrement: true,
         },
-        email: type.STRING,
-        activate:{
-            type: type.INTEGER,
-
-        },
+        tag_name: type.STRING,
     })
 };

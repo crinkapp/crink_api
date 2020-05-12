@@ -11,7 +11,7 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
     define: {
         // The `timestamps` field specify whether or not the `createdAt` and `updatedAt` fields will be created.
         // This was true by default, but now is false by default
-        timestamps: false
+        timestamps: true
     }
 
 });
@@ -32,7 +32,7 @@ Tag.belongsToMany(Blog, { through: BlogTag, unique: false })
 Blog.belongsTo(User);*/
 
 // synchro with db
-sequelize.sync({ force: false })
+sequelize.sync({ force: true })
     .then(() => {
         console.log(`Database & tables created!`)
     });

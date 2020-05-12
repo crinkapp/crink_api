@@ -1,4 +1,3 @@
-
 const Tags = (sequelize, type) => {
     return sequelize.define('tags',{
         id: {

@@ -14,7 +14,7 @@ const Newsletters = (sequelize, type) => {
             notEmpty: true,
         },
 
-        newsletters_activate:{
+        newsletter_activate:{
             type: type.INTEGER,
 
         },

@@ -1,13 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const Mailer = require('../sequelize');
+const Newsletters = require('../sequelize');
 const nodemailer = require('nodemailer');
 require('dotenv').config();
 
 router.get('/emails', async (req, res) => {
 
     try {
-        const allEmails =  await Mailer.find();
+        const allEmails =  await Newsletters.find();
         res.json(allEmails);
 
     }
@@ -19,7 +19,7 @@ router.get('/emails', async (req, res) => {
 
 router.post('/sendemail', async (req, res) => {
     const mail = req.body.email;
-    const mailer = new Mailer({
+    const newsletters = new Newsletters({
         email: mail,
         activate: 1
     });
@@ -66,7 +66,7 @@ router.post('/sendemail', async (req, res) => {
         }
     });
 
-    mailer
+    newsletters
     .save()
     .then(data => {
         res.json(data)

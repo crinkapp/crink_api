@@ -1,5 +1,5 @@
 
-module.exports = (sequelize, type) => {
+const Tags = (sequelize, type) => {
     return sequelize.define('tags',{
         id: {
             type: type.INTEGER,
@@ -9,3 +9,4 @@ module.exports = (sequelize, type) => {
         tag_name: type.STRING,
     })
 };
+module.exports = Tags;

@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const MailerModel = require('./models/mailer');
+const MailerModel = require('./models/Newsletters');
 require('mysql2');
 require('dotenv/config');
 

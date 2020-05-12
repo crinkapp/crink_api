@@ -8,7 +8,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Import Routes
-const sendemailRoute = require('./routes/mailer');
+const sendemailRoute = require('./routes/newsletters');
 app.use('/', sendemailRoute);
 
 

@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 const Newsletters = require('../sequelize');
 const nodemailer = require('nodemailer');
+const hbs = require('nodemailer-express-handlebars');
+const path = require('path')
+
 require('dotenv').config();
 
 router.get('/emails', async (req, res) => {
@@ -20,8 +23,8 @@ router.get('/emails', async (req, res) => {
 router.post('/sendemail', async (req, res) => {
     const mail = req.body.email;
     const newsletters = new Newsletters({
-        newsletter_email: mail,
-        newsletter_activate: 1
+        newsletters_email: mail,
+        newsletters_activate: 1
     });
 
     let transporter = nodemailer.createTransport({
@@ -35,31 +38,38 @@ router.post('/sendemail', async (req, res) => {
           pass: process.env.EMAIL_PASSWORD
         }
     });
+    
+    const handlebarOptions = {
+        viewEngine: {
+            extname: '.handlebars',
+            partialsDir: path.join(__dirname, '../views'),
+            layoutsDir: path.join(__dirname, '../views'),
+            defaultLayout: 'newsletter'
+        },
+        viewPath: path.join(__dirname, '../views'),
+        extName: '.handlebars',
+    }
+
+    transporter.use('compile', hbs(handlebarOptions));
 
     const mailOptions = {
         from: 'contact@crink.fr',
         to: mail,
         subject: "Merci pour votre inscription 🎉",
-        text: "Toute l'équipe Crink vous souhaite la bienvenue !",
-        html: { path: 'templates/newsletter.html' }
+        template: 'newsletter'
     };
 
     transporter.sendMail(mailOptions, (err, data) => {
-        if (err) {
-            res.json(err);
-        } else {
-            res.json('Email sent !');
+        if (err) {            
+            return res.json(err);
         }
+        newsletters.save().then(data => {
+            return res.json(data);
+        }).catch(err => {
+            console.log(err);
+            return;
+        })
     });
-
-    newsletters
-    .save()
-    .then(data => {
-        res.json(data)
-    })
-    .catch(err => {
-        res.json({message: err})
-    })
 });
 
 module.exports = router;

@@ -32,7 +32,7 @@ Tag.belongsToMany(Blog, { through: BlogTag, unique: false })
 Blog.belongsTo(User);*/
 
 // synchro with db
-sequelize.sync({ force: true })
+sequelize.sync({ force: false })
     .then(() => {
         console.log(`Database & tables created!`)
     });

@@ -6,7 +6,7 @@ const Newsletters = (sequelize, type) => {
             autoIncrement: true,
         },
 
-        newsletter_email: {
+        newsletters_email: {
             type: type.STRING,
             validate: {
                 isEmail: true,
@@ -14,7 +14,7 @@ const Newsletters = (sequelize, type) => {
             notEmpty: true,
         },
 
-        newsletter_activate:{
+        newsletters_activate:{
             type: type.INTEGER,
 
         },

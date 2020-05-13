@@ -1,26 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const  { Setting } = require('../sequelize');
+const  { addSetting } = require('../controllers/SettingController');
 
-router.post('/settings', async (req, res) => {
 
-    const theme_name= req.body.settings_theme_name;
-    const hexa_code= req.body.settings_hexa_code;
-
-    const setting = new Setting({
-        settings_theme_name: theme_name,
-        settings_hexa_code: hexa_code
-
-    });
-
-    setting
-        .save()
-        .then(data => {
-            res.json(data)
-        })
-        .catch(err => {
-            res.json({message: err})
-        })
-
-});
+router.post('/settings', addSetting );
 module.exports = router;

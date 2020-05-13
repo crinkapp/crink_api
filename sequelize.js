@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
-const NewslettersModel = require('./models/Newsletters');
-const SettingModel = require('./models/Setting');
+const NewslettersModel = require('./models/NewslettersModel');
+const SettingModel = require('./models/SettingModel');
 require('mysql2');
 require('dotenv/config');
 

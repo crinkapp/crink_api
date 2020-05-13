@@ -1,4 +1,4 @@
-const Tags = (sequelize, type) => {
+const TagsModel = (sequelize, type) => {
     return sequelize.define('tags',{
         id: {
             type: type.INTEGER,
@@ -8,4 +8,4 @@ const Tags = (sequelize, type) => {
         tag_name: type.STRING,
     })
 };
-module.exports = Tags;
+module.exports = TagsModel;

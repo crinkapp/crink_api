@@ -1,5 +1,5 @@
-const Settings = require('./Setting');
- const Users = (sequelize, type) => {
+const Settings = require('./SettingModel');
+ const UsersModel = (sequelize, type) => {
     return sequelize.define('users', {
             id: {
                 type: type.INTEGER,
@@ -62,7 +62,7 @@ const Settings = require('./Setting');
         },
     );
 };
-Users.hasOne(Settings);
-Settings.belongsTo(Users);
+UsersModel.hasOne(Settings);
+Settings.belongsTo(UsersModel);
 
-module.exports = Users;
+module.exports = UsersModel;

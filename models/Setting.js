@@ -1,4 +1,4 @@
-const Settings = (sequelize, type) => {
+module.exports = (sequelize, type) => {
     return sequelize.define('settings',{
         id: {
             type: type.INTEGER,
@@ -10,4 +10,3 @@ const Settings = (sequelize, type) => {
 
     })
 };
-module.exports = Settings;

@@ -53,6 +53,7 @@ const Settings = require('./Setting');
             id_settings: {
                 type: type.INTEGER,
                 defaultValue: 1,
+                allowNull: true,
                 references: {
                     model: 'settings',
                     key: 'id',

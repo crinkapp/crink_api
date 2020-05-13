@@ -61,20 +61,21 @@ router.post('/sendemail', async (req, res) => {
 
     transporter.sendMail(mailOptions, (err, data) => {
         if (err) {
-            res.json(err);
+             res.json(err);
         } else {
-            res.json('Email sent !');
+            newsletters
+                .save()
+                .then(data => {
+                    return res.json(data)
+                })
+                .catch(err => {
+                    res.json({message: err})
+                });
+             return res.json('Email sent !');
         }
     });
 
-    newsletters
-    .save()
-    .then(data => {
-        res.json(data)
-    })
-    .catch(err => {
-        res.json({message: err})
-    })
+
 });
 
 module.exports = router;

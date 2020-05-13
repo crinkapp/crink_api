@@ -1,5 +1,5 @@
 const Settings = require('./Setting');
- const Users = (sequelize, type) => {
+const Users = (sequelize, type) => {
     return sequelize.define('users', {
             id: {
                 type: type.INTEGER,

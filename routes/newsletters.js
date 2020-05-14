@@ -5,8 +5,8 @@ const router = express.Router();
 
 const  { getAllNewsletters, addNewsletter } = require('../controllers/NewslettersController');
 
-router.get('/emails', getAllNewsletters);
+router.get('/newsletters', getAllNewsletters);
 
-router.post('/sendemail', addNewsletter );
+router.post('/newsletter', addNewsletter );
 
 module.exports = router;

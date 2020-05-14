@@ -1,9 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const { Newsletters } = require('../sequelize');
-const nodemailer = require('nodemailer');
-require('dotenv').config();
 
+<<<<<<< HEAD
 /**
  * @swagger
  * /newsletters:
@@ -16,18 +14,15 @@ require('dotenv').config();
  *              description: Request went well
  */
 router.get('/newsletters', async (req, res) => {
+=======
+>>>>>>> develop
 
-    try {
-        const allEmails =  await Newsletters.find();
-        res.json(allEmails);
 
-    }
-    catch(err) {
-        res.json({ message: err })
-    }
+const  { getAllNewsletters, addNewsletter } = require('../controllers/NewslettersController');
 
-});
+router.get('/newsletters', getAllNewsletters);
 
+<<<<<<< HEAD
 router.post('/newsletter', async (req, res) => {
     const mail = req.body.newsletters_email;
 
@@ -88,5 +83,8 @@ router.post('/newsletter', async (req, res) => {
 
 
 });
+=======
+router.post('/newsletter', addNewsletter );
+>>>>>>> develop
 
 module.exports = router;

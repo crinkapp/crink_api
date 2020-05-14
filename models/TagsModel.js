@@ -1,11 +1,11 @@
-const Tags = (sequelize, type) => {
+const TagsModel = (sequelize, type) => {
     return sequelize.define('tags',{
         id: {
             type: type.INTEGER,
             primaryKey: true,
             autoIncrement: true,
         },
-        tag_name: type.STRING,
+        name_tag: type.STRING,
     })
 };
-module.exports = Tags;
+module.exports = TagsModel;

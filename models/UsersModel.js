@@ -1,21 +1,21 @@
-const Settings = require('./Setting');
-const Users = (sequelize, type) => {
+const Settings = require('./SettingModel');
+const UsersModel = (sequelize, type) => {
     return sequelize.define('users', {
             id: {
                 type: type.INTEGER,
                 primaryKey: true,
                 autoIncrement: true,
             },
-            user_first_name: {
+            first_name_user: {
                 type: type.STRING,
                 allowNull: false,
 
             },
-            gender: {
+            gender_user: {
                 type: type.ENUM('Man', 'Woman'),
                 allowNull: false,
             },
-            age: {
+            age_user: {
                 type: type.DATEONLY,
                 validate: {
                     customValidator(value) {
@@ -31,28 +31,29 @@ const Users = (sequelize, type) => {
                 }
             },
 
-            email: {
+            email_user: {
                 type: type.STRING,
                 allowNull: false,
                 validate: {
                     isEmail: true,
                 },
             },
-            username: {
+            username_user: {
                     type: type.STRING,
                     allowNull: false,
             },
-            password: {
+            password_user: {
                 type: type.STRING,
                 allowNull: false,
             },
-            path_profil_picture: {
+            path_profil_picture_user: {
                 type: type.STRING,
                 allowNull: true,
             },
-            id_settings: {
+            id_settings_user: {
                 type: type.INTEGER,
                 defaultValue: 1,
+                allowNull: true,
                 references: {
                     model: 'settings',
                     key: 'id',
@@ -61,7 +62,7 @@ const Users = (sequelize, type) => {
         },
     );
 };
-Users.hasOne(Settings);
-Settings.belongsTo(Users);
+UsersModel.hasOne(Settings);
+Settings.belongsTo(UsersModel);
 
-module.exports = Users;
+module.exports = UsersModel;

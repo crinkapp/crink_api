@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
-const MailerModel = require('./models/Newsletters');
+const NewslettersModel = require('./models/NewslettersModel');
+const SettingModel = require('./models/SettingModel');
 require('mysql2');
 require('dotenv/config');
 
@@ -24,7 +25,11 @@ sequelize
         console.error('Unable to connect to the database:', err);
     });
 
-const Mailer = MailerModel(sequelize, Sequelize);
+// ------- Imports of Models ------ //
+ const Newsletters = NewslettersModel(sequelize, Sequelize);
+ const Setting = SettingModel(sequelize, Sequelize);
+
+
 
 // Relationship example
 /*Blog.belongsToMany(Tag, { through: BlogTag, unique: false })
@@ -36,5 +41,11 @@ sequelize.sync({ force: false })
     .then(() => {
         console.log(`Database & tables created!`)
     });
-module.exports = Mailer;
+
+module.exports = {
+    Newsletters: Newsletters,
+    Setting: Setting,
+
+};
+
 

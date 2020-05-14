@@ -4,7 +4,18 @@ const { Newsletters } = require('../sequelize');
 const nodemailer = require('nodemailer');
 require('dotenv').config();
 
-router.get('/emails', async (req, res) => {
+/**
+ * @swagger
+ * /newsletters:
+ *  get:
+ *      description: All the emails from the newsletter table
+ *      produces:
+ *          - application/json
+ *      responses:
+ *          200:
+ *              description: Request went well
+ */
+router.get('/newsletters', async (req, res) => {
 
     try {
         const allEmails =  await Newsletters.find();
@@ -17,7 +28,7 @@ router.get('/emails', async (req, res) => {
 
 });
 
-router.post('/sendemail', async (req, res) => {
+router.post('/newsletter', async (req, res) => {
     const mail = req.body.newsletters_email;
 
    const newsletters = new Newsletters({

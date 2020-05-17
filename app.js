@@ -37,6 +37,8 @@ app.use(bodyParser.json());
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 app.use('/api/v1', router);
 
+app.get('/', (req, res) => res.send('Successful connection with the api!'));
+
 // Import Routes
 const newslettersRoute = require('./routes/newsletters');
 const settingRoute = require('./routes/setting');

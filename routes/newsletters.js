@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const  { getAllNewsletters, addNewsletter } = require('../controllers/NewslettersController');
+const  { getAllNewsletters, addNewsletter, unsubscribeUser } = require('../controllers/NewslettersController');
 
 /**
  * @swagger
@@ -12,9 +12,23 @@ const  { getAllNewsletters, addNewsletter } = require('../controllers/Newsletter
  *      responses:
  *          200:
  *              description: Request went well
+ *  post:
+ *      description: Send an email to the subscriber
+ *      produces:
+ *          - application/json
+ *      responses:
+ *          200:
+ *              description: Request went well
+ *  put:
+ *      description: Unsubscribe the user of the newsletter
+ *      produces:
+ *          - application/json
+ *      responses:
+ *          200:
+ *              description: Request went well
  */
 router.get('/', getAllNewsletters);
-
 router.post('/', addNewsletter );
+router.put('/', unsubscribeUser );
 
 module.exports = router;

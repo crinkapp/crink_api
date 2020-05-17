@@ -1,10 +1,19 @@
 const express = require('express');
 const router = express.Router();
 
-const  { getAllNewsletters, addNewsletter } = require('../controllers/NewslettersController');
+/**
+ * @swagger
+ * /newsletters:
+ *  get:
+ *      description: All the emails from the newsletter table
+ *      produces:
+ *          - application/json
+ *      responses:
+ *          200:
+ *              description: Request went well
+ */
+router.get('/newsletters', getAllNewsletters);
 
-router.get('/emails', getAllNewsletters);
-
-router.post('/sendemail', addNewsletter );
+router.post('/newsletter', addNewsletter );
 
 module.exports = router;

@@ -16,7 +16,7 @@ module.exports = (sequelize, type) => {
         },
 
         activate_newsletters:{
-            type: type.INTEGER,
+            type: type.BOOLEAN,
 
         },
     })

@@ -12,7 +12,7 @@ module.exports = (sequelize, type) => {
                 isEmail: true,
             },
             notEmpty: true,
-
+            unique: true
         },
 
         activate_newsletters:{

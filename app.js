@@ -38,12 +38,12 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 app.use('/api/v1', router);
 
 // Import Routes
-const sendemailRoute = require('./routes/newsletters');
-const setting = require('./routes/setting');
+const newslettersRoute = require('./routes/newsletters');
+const settingRoute = require('./routes/setting');
 
 // apply body parser to the data return by requests
-app.use('/', sendemailRoute);
-app.use('/', setting);
+app.use('/newsletters', newslettersRoute);
+app.use('/setting', settingRoute);
 
 
 // BOOT THE SERVER

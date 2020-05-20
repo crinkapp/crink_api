@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * { font-family: 'Lato', sans-serif; color: #323232; }
+        body { background-color: #F7F7F7; }
+        p { font-size: 18px ; }
+        hr {
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+            border: 0;
+            border-top: 1px solid rgba(0,0,0,.1);
+        }
+        .btn-crink {
+            background-color: #BD6D5C;
+            border: none;
+            transition: 0.3s;
+        }
+        .btn-crink:hover {
+            background-color: #AD6050;
+        }
+        .mt-top { margin-top: 4rem; }
+        .bg-white { background-color: #fff; }
+        .text-white { color: #fff; }
+        .text-muted { color: #6c757d!important; }
+        .rounded { border-radius: .25rem; }
+        .shadow-sm { box-shadow: 0 .125rem .25rem rgba(0,0,0,.075); }
+        .text-sm { font-size: 0.7rem; }
+        .container {
+            width: 100%;
+            padding-right: 15px;
+            padding-left: 15px;
+            margin-right: auto;
+            margin-left: auto;
+        }
+        .pointer { cursor: pointer; }
+        .w-75 { width: 75%; }
+        .w-50 { width: 50%; }
+        .font-weight-light { font-weight: 300; }
+        .text-center { text-align: center; }
+        .my-5 { margin-top: 3rem!important; margin-bottom: 3rem!important; }
+        .my-0 { margin-top: 0!important; margin-bottom: 0!important; }
+        .mx-auto { margin-left: auto; margin-right: auto; }
+        .mx-2 { margin-left: 0.5rem; margin-right: 0.5rem; }
+        .mb-4 { margin-bottom: 1.5rem; }
+        .mt-0 { margin-top: 0; }
+        .mb-0 { margin-bottom: 0; }
+        .py-5 { padding-top: 3rem; padding-bottom: 3rem; }
+        .py-3 { padding-top: 1rem; padding-bottom: 1rem; }
+        .pb-2 { padding-bottom: 0.5rem; }
+        .p-3 { padding: 1rem; }
+        .pt-4 { padding-top: 1.5rem; }
+        .px-4 { padding-left: 1.5rem; padding-right: 1.5rem; }
+        .d-flex { display: flex!important; }
+        .justify-content-center { justify-content: center!important; }
+        .align-items-center { align-items: center!important; }
+        .text-decoration-none { text-decoration: none; }
+        a { background-color: transparent; }
+        @media (min-width: 578px) {
+            .container { max-width: 540px;}
+        }
+        @media (min-width: 768px) {
+            .container { max-width: 720px; }
+        }
+        @media (min-width: 992px) {
+            .container { max-width: 960px;}
+            .p-lg-5 { padding: 3rem; }
+            .p-lg-0 { padding: 0; }
+        }
+        @media (min-width: 1200px) {
+            .container { max-width: 1140px; }
+        }
+    </style>
+</head>
+<body style="background-color: #F7F7F7;">
+    <div class="py-3"></div>
+    <div class="container bg-white my-5 rounded shadow-sm">
+        <div class="py-5 text-center">
+            <a href="https://crink.fr" target="_blank" title="Crink">
+                <img
+                src="https://crinkdev.s3.eu-west-3.amazonaws.com/mail/image/png/crink-icon-brown.png"
+                alt="Crink"
+                title="Crink"
+                height="50"
+                width="175">
+            </a>
+        </div>
+        <hr class="mt-0">
+        <div class="p-lg-5 p-3">
+            <h3 class="font-weight-light text-center p-lg-0 pt-4 px-4 pb-2 mb-0" style="font-size: 28px;">Nous avons bien reçu votre inscription !</h3>
+            <div class="mt-top mx-auto text-center">
+                <a href="https://crink.fr" target="_blank" title="Accès au site Crink">
+                    <button class="p-3 rounded w-75 btn-crink pointer">
+                        <p class="text-white mb-0 mt-0">Accéder au site</p>
+                    </button>
+                </a>
+            </div>
+            <div class="mt-top">
+                <div class="row mx-0">
+                    <div class="col-lg-10 offset-lg-1 col-12">
+                        <p class="font-weight-light">
+                            Toute l'équipe Crink vous souhaite la bienvenue !
+                        </p>
+                        <p class="font-weight-light my-4">
+                            Le projet est encore en développement et nous vous prions de bien vouloir patienter avant
+                            le jour de lancement. Nous comptons sur vous pour en parler à vos amis qui pourraient être intérressés.
+                        </p>
+                        <p class="font-weight-light my-4">
+                            Comme promis, nous vous enverrons un petit message pour vous tenir informé de notre progression.
+                            En attendant, n'hésitez pas à faire un tour sur nos réseaux sociaux.
+                        </p>
+                        <p class="font-weight-light mt-top mb-0">Prenez soin de vous et à bientôt,</p>
+                        <p class="mt-0">L'équipe Crink</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <p class="mb-4 text-center">
+        <a href="https://www.instagram.com/crinkappli/" target="_blank" class="mx-2 text-decoration-none">
+            <img
+            src="https://crinkdev.s3.eu-west-3.amazonaws.com/mail/image/png/instagram.png"
+            alt="Instagram"
+            title="Crink Instagram"
+            height="30"
+            width="30">
+        </a>
+        <a href="https://www.linkedin.com/company/42421692" target="_blank" class="mx-2 text-decoration-none">
+            <img
+            src="https://crinkdev.s3.eu-west-3.amazonaws.com/mail/image/png/linkedin.png"
+            alt="Linkedin"
+            title="Crink Linkedin"
+            height="30"
+            width="30">
+        </a>
+    </p>
+    <div class="text-center my-5">
+        <a href="https://crink.fr/#/unsubscribe-newsletter" target="_blank" class="text-muted font-weight-light">Se désabonner de la newsletter</a>
+    </div>
+    <div class="d-flex mx-auto">
+        <hr class="my-0 w-50">
+    </div>
+    <p class="text-muted text-sm text-center py-3">Copyright © Crink 2020</p>
+</body>
+</html>

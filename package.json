@@ -10,19 +10,10 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.0",
-    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "gitignore": "^0.6.0",
-    "install": "^0.13.0",
     "mysql2": "^2.1.0",
-    "nodemailer": "^6.4.6",
-    "nodemailer-express-handlebars": "^4.0.0",
     "nodemon": "^2.0.3",
-    "npm": "^6.14.5",
-    "path": "^0.12.7",
-    "sequelize": "^5.21.8",
-    "swagger-jsdoc": "^4.0.0",
-    "swagger-ui-express": "^4.1.4"
+    "sequelize": "^5.21.8"
   }
 }

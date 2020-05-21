@@ -19,7 +19,7 @@ const  { getAllNewsletters, addNewsletter, unsubscribeUser } = require('../contr
  *      responses:
  *          200:
  *              description: Request went well
- *  delete:
+ *  put:
  *      description: Unsubscribe the user of the newsletter by deleting the row in database
  *      produces:
  *          - application/json
@@ -29,6 +29,6 @@ const  { getAllNewsletters, addNewsletter, unsubscribeUser } = require('../contr
  */
 router.get('/', getAllNewsletters);
 router.post('/', addNewsletter );
-router.delete('/', unsubscribeUser );
+router.put('/', unsubscribeUser );
 
 module.exports = router;

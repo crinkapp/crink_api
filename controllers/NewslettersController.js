@@ -52,7 +52,10 @@ async function addNewsletter(req, res ) {
             from: process.env.EMAIL_ADDRESS,
             to: mail,
             subject: "Merci pour votre inscription 🎉",
-            template: 'newsletter'
+            template: 'newsletter',
+            context: {
+                email: mail
+            }
         };
         transporter.sendMail(mailOptions, (err, data) => {
             if (err) {

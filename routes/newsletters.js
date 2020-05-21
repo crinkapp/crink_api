@@ -20,7 +20,7 @@ const  { getAllNewsletters, addNewsletter, unsubscribeUser } = require('../contr
  *          200:
  *              description: Request went well
  *  put:
- *      description: Unsubscribe the user of the newsletter
+ *      description: Unsubscribe the user of the newsletter by deleting the row in database
  *      produces:
  *          - application/json
  *      responses:

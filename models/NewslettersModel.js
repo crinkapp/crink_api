@@ -5,7 +5,6 @@ module.exports = (sequelize, type) => {
             primaryKey: true,
             autoIncrement: true,
         },
-
         email_newsletters: {
             type: type.STRING,
             validate: {
@@ -13,11 +12,6 @@ module.exports = (sequelize, type) => {
             },
             notEmpty: true,
             unique: true
-        },
-
-        activate_newsletters:{
-            type: type.BOOLEAN,
-
-        },
+        }
     })
 };

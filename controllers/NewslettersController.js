@@ -20,22 +20,11 @@ async function addNewsletter(req, res ) {
     .then((email) => {
       if(email !== null) {
         // if already exist
-        try {
-            Newsletters.update({activate_newsletters: true}, {
-                where: {
-                    email_newsletters: email
-                }
-            });
-            return res.json('success')
-    
-        } catch (err) {
-            return res.json(err)
-        }
+        return res.json('Vous êtes déjà inscrit !');
       } else {
         // if doesn't exist
         const newsletters = new Newsletters({
             email_newsletters: mail,
-            activate_newsletters: 1
         });
         let transporter = nodemailer.createTransport({
             host: 'smtp.ionos.fr',
@@ -63,7 +52,10 @@ async function addNewsletter(req, res ) {
             from: process.env.EMAIL_ADDRESS,
             to: mail,
             subject: "Merci pour votre inscription 🎉",
-            template: 'newsletter'
+            template: 'newsletter',
+            context: {
+                email: mail
+            }
         };
         transporter.sendMail(mailOptions, (err, data) => {
             if (err) {
@@ -72,8 +64,7 @@ async function addNewsletter(req, res ) {
             newsletters.save().then(data => {
                 return res.json(data);
             }).catch(err => {
-                console.log(err);
-                return;
+                return res.json(err);
             })
         });
       }
@@ -83,7 +74,7 @@ async function addNewsletter(req, res ) {
 async function unsubscribeUser(req, res) {
     const userEmail = req.body.email_newsletters;
     try {
-        await Newsletters.update({activate_newsletters: false}, {
+        await Newsletters.destroy({
             where: {
                 email_newsletters: userEmail
             }

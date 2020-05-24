@@ -8,7 +8,7 @@ const swaggerJsDoc = require('swagger-jsdoc');
 const router = express.Router();
 require('dotenv').config();
 
-const hostname = process.env.HOST;
+const hostname = process.env.HOSTNAME;
 const port = process.env.PORT;
 
 //swagger
@@ -53,6 +53,6 @@ app.use('/', userRoute);
 // BOOT THE SERVER
 app.listen(port, hostname, () => {
     console.log(`Server running at http://${hostname}:${port}/`);
-  });
+});
 
 

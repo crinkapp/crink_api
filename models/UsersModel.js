@@ -55,15 +55,15 @@ const UsersModel = (sequelize, type) => {
                 type: type.STRING,
                 allowNull: true,
             },
-            id_settings_user: {
-                type: type.INTEGER,
-                defaultValue: 1,
-                allowNull: true,
-                references: {
-                    model: 'settings',
-                    key: 'id',
-                }
-            }
+            // id_settings_user: {
+            //     type: type.INTEGER,
+            //     defaultValue: 1,
+            //     allowNull: true,
+            //     references: {
+            //         model: 'settings',
+            //         key: 'id',
+            //     }
+            // }
         },
     );
 };

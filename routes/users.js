@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const  { getAllUsers } = require('../controllers/UsersController');
+const  { getAllUsers, addUser } = require('../controllers/UsersController');
 
 /**
  * @swagger
@@ -14,5 +14,6 @@ const  { getAllUsers } = require('../controllers/UsersController');
  *              description: Request went well
  */
 router.get('/users', getAllUsers);
+router.post('/user', addUser);
 
 module.exports = router;

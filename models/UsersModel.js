@@ -8,12 +8,17 @@ const UsersModel = (sequelize, type) => {
             },
             first_name_user: {
                 type: type.STRING,
-                allowNull: false,
+                allowNull: true,
+
+            },
+            last_name_user: {
+                type: type.STRING,
+                allowNull: true,
 
             },
             gender_user: {
                 type: type.ENUM('Man', 'Woman'),
-                allowNull: false,
+                allowNull: true,
             },
             age_user: {
                 type: type.DATEONLY,
@@ -27,7 +32,7 @@ const UsersModel = (sequelize, type) => {
                             throw new Error("Vous n'avez pas l'age requis");
                         }
                     },
-                    allowNull: false,
+                    allowNull: true,
                 }
             },
 

@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize');
 const NewslettersModel = require('./models/NewslettersModel');
 const SettingModel = require('./models/SettingModel');
+const UsersModel = require('./models/UsersModel');
 require('mysql2');
 require('dotenv/config');
 
@@ -28,8 +29,7 @@ sequelize
 // ------- Imports of Models ------ //
  const Newsletters = NewslettersModel(sequelize, Sequelize);
  const Setting = SettingModel(sequelize, Sequelize);
-
-
+ const User = UsersModel(sequelize, Sequelize);
 
 // Relationship example
 /*Blog.belongsToMany(Tag, { through: BlogTag, unique: false })
@@ -45,7 +45,7 @@ sequelize.sync({ force: false})
 module.exports = {
     Newsletters: Newsletters,
     Setting: Setting,
-
+    User: User
 };
 
 

@@ -6,7 +6,10 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 const swaggerJsDoc = require('swagger-jsdoc');
 const router = express.Router();
+require('dotenv').config();
 
+const hostname = process.env.HOST;
+const port = process.env.PORT;
 
 //swagger
 
@@ -22,7 +25,7 @@ const swaggerOptions = {
                 name: "Crink support",
                 email: "contact@crink.fr"
             },
-            servers: ["http://localhost:3000"]
+            servers: [hostname + ':' + port]
         },
     },
     apis: ["./routes/*.js"]
@@ -49,6 +52,8 @@ app.use('/setting', settingRoute);
 
 
 // BOOT THE SERVER
-app.listen(3000);
+app.listen(port, hostname, () => {
+    console.log(`Server running at http://${hostname}:${port}/`);
+  });
 
 

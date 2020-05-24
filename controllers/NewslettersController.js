@@ -16,7 +16,7 @@ async function getAllNewsletters(req, res) {
 
 async function addNewsletter(req, res ) {
     const mail = req.body.email_newsletters;
-    Newsletters.findOne({ where: { email_newsletters: mail } })
+    await Newsletters.findOne({ where: { email_newsletters: mail } })
     .then((email) => {
       if(email !== null) {
         // if already exist

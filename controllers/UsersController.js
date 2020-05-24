@@ -14,8 +14,8 @@ async function getAllUsers(req, res) {
 async function addUser(req, res) {
     try {
         const user = await User.build({
-            username_user: req.body.username_user,
             email_user: req.body.email_user,
+            username_user: req.body.username_user,
             password_user: req.body.password_user
         })
         await user.save();

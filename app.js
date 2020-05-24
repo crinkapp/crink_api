@@ -12,7 +12,6 @@ const hostname = process.env.HOST;
 const port = process.env.PORT;
 
 //swagger
-
 const swaggerOptions = {
     swaggerDefinition: {
         info: {
@@ -33,7 +32,6 @@ const swaggerOptions = {
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
-
 //Middleweares
 app.use(cors());
 app.use(bodyParser.json());
@@ -45,11 +43,12 @@ app.get('/', (req, res) => res.send('Successful connection with the api!'));
 // Import Routes
 const newslettersRoute = require('./routes/newsletters');
 const settingRoute = require('./routes/setting');
+const userRoute = require('./routes/users');
 
 // apply body parser to the data return by requests
 app.use('/newsletters', newslettersRoute);
 app.use('/setting', settingRoute);
-
+app.use('/', userRoute);
 
 // BOOT THE SERVER
 app.listen(port, hostname, () => {

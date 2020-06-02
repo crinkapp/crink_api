@@ -62,7 +62,7 @@ const UsersModel = (sequelize, type) => {
         },
     );
 };
-UsersModel.hasOne(Settings);
-Settings.belongsTo(UsersModel);
 
 module.exports = UsersModel;
+
+UsersModel.hasOne(Settings);

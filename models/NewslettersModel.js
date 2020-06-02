@@ -1,4 +1,4 @@
-module.exports = (sequelize, type) => {
+const NewsletterModel = (sequelize, type) => {
     return sequelize.define('newsletter', {
         id_newsletter: {
             type: type.INTEGER,
@@ -14,4 +14,6 @@ module.exports = (sequelize, type) => {
             unique: true
         }
     })
-};
+}
+
+module.exports = NewsletterModel;

@@ -1,4 +1,4 @@
-const Settings = require('./SettingModel');
+const Setting = require('./SettingModel');
 const UsersModel = (sequelize, type) => {
     return sequelize.define('user', {
             id_user: {
@@ -62,6 +62,7 @@ const UsersModel = (sequelize, type) => {
         },
     );
 };
-UsersModel.hasOne(Settings);
+
+UsersModel.hasOne(Setting);
 
 module.exports = UsersModel;

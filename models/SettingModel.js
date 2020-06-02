@@ -1,4 +1,4 @@
-module.exports = (sequelize, type) => {
+const SettingModel = (sequelize, type) => {
     return sequelize.define('setting',{
         id_setting: {
             type: type.INTEGER,
@@ -11,4 +11,4 @@ module.exports = (sequelize, type) => {
     })
 };
 
-Settings.belongsTo(UsersModel);
+module.exports = SettingModel;

@@ -31,6 +31,7 @@ sequelize
 
 
 
+
 // Relationship example
 /*Blog.belongsToMany(Tag, { through: BlogTag, unique: false })
 Tag.belongsToMany(Blog, { through: BlogTag, unique: false })

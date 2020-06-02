@@ -63,6 +63,6 @@ const UsersModel = (sequelize, type) => {
     );
 };
 
-UsersModel.hasOne(Setting);
+UsersModel.hasOne(Setting)
 
 module.exports = UsersModel;

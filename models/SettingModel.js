@@ -1,6 +1,6 @@
 module.exports = (sequelize, type) => {
-    return sequelize.define('settings',{
-        id: {
+    return sequelize.define('setting',{
+        id_setting: {
             type: type.INTEGER,
             primaryKey: true,
             autoIncrement: true,
@@ -10,3 +10,5 @@ module.exports = (sequelize, type) => {
 
     })
 };
+
+Settings.belongsTo(UsersModel);

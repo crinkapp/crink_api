@@ -6,8 +6,8 @@ async function addSetting ( req, res ) {
     const hexa_code= req.body.settings_hexa_code;
 
     const setting = new Setting({
-        theme_name_settings: theme_name,
-        hexa_code_settings: hexa_code
+        theme_name_setting: theme_name,
+        hexa_code_setting: hexa_code
 
     });
 

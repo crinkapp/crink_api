@@ -9,5 +9,5 @@ const LikeUserModel = (sequelize, type) => {
     })
 };
 LikeUserModel.belongsTo(user);
-LikeUserModel.hasMany(PublicationModel);
+LikeUserModel.hasMany(publication);
 

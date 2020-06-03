@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const NewslettersModel = require('./models/NewslettersModel');
+const NewsletterModel = require('./models/NewslettersModel');
 const SettingModel = require('./models/SettingModel');
 require('mysql2');
 require('dotenv/config');
@@ -26,8 +26,9 @@ sequelize
     });
 
 // ------- Imports of Models ------ //
- const Newsletters = NewslettersModel(sequelize, Sequelize);
+ const Newsletters = NewsletterModel(sequelize, Sequelize);
  const Setting = SettingModel(sequelize, Sequelize);
+
 
 
 

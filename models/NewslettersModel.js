@@ -1,6 +1,6 @@
 const NewsletterModel = (sequelize, type) => {
     return sequelize.define('newsletter', {
-        id_newsletter: {
+        id: {
             type: type.INTEGER,
             primaryKey: true,
             autoIncrement: true,

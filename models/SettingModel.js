@@ -1,6 +1,6 @@
 const SettingModel = (sequelize, type) => {
     return sequelize.define('setting',{
-        id_setting: {
+        id: {
             type: type.INTEGER,
             primaryKey: true,
             autoIncrement: true,

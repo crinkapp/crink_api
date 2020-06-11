@@ -34,7 +34,6 @@ const UsersModel = (sequelize, type) => {
                     allowNull: true,
                 }
             },
-
             email_user: {
                 type: type.STRING,
                 allowNull: false,
@@ -55,15 +54,6 @@ const UsersModel = (sequelize, type) => {
                 type: type.STRING,
                 allowNull: true,
             },
-            // id_settings_user: {
-            //     type: type.INTEGER,
-            //     defaultValue: 1,
-            //     allowNull: true,
-            //     references: {
-            //         model: 'settings',
-            //         key: 'id',
-            //     }
-            // }
         },
     );
 };

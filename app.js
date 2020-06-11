@@ -8,7 +8,7 @@ const swaggerJsDoc = require('swagger-jsdoc');
 const router = express.Router();
 require('dotenv').config();
 
-const hostname = process.env.HOST;
+const hostname = process.env.HOSTNAME;
 const port = process.env.PORT;
 
 //swagger

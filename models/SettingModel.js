@@ -1,6 +1,6 @@
-module.exports = (sequelize, type) => {
-    return sequelize.define('settings',{
-        id: {
+const SettingModel = (sequelize, type) => {
+    return sequelize.define('setting',{
+        id_setting: {
             type: type.INTEGER,
             primaryKey: true,
             autoIncrement: true,
@@ -10,3 +10,5 @@ module.exports = (sequelize, type) => {
 
     })
 };
+
+module.exports = SettingModel;

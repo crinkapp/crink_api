@@ -16,7 +16,7 @@ async function getAllNewsletters(req, res) {
 
 async function addNewsletter(req, res ) {
     const mail = req.body.email_newsletters;
-    await Newsletters.findOne({ where: { email_newsletters: mail } })
+    await Newsletters.findOne({ where: { email_newsletter: mail } })
     .then((email) => {
       if(email !== null) {
         // if already exist
@@ -24,7 +24,7 @@ async function addNewsletter(req, res ) {
       } else {
         // if doesn't exist
         const newsletters = new Newsletters({
-            email_newsletters: mail,
+            email_newsletter: mail,
         });
         let transporter = nodemailer.createTransport({
             host: 'smtp.ionos.fr',
@@ -76,7 +76,7 @@ async function unsubscribeUser(req, res) {
     try {
         await Newsletters.destroy({
             where: {
-                email_newsletters: userEmail
+                email_newsletter: userEmail
             }
         });
         return res.json('Successfully unsubscribed')

@@ -1,5 +1,5 @@
 const TagsModel = (sequelize, type) => {
-    return sequelize.define('tags',{
+    return sequelize.define('tag',{
         id: {
             type: type.INTEGER,
             primaryKey: true,

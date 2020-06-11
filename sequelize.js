@@ -1,6 +1,11 @@
 const Sequelize = require('sequelize');
-const NewslettersModel = require('./models/NewslettersModel');
+const NewsletterModel = require('./models/NewslettersModel');
 const SettingModel = require('./models/SettingModel');
+const UsersModel = require('./models/UsersModel');
+const DiagnosticModel = require('./models/DiagnosticModel');
+const TagModel = require('./models/TagsModel');
+const CommentModel = require('./models/CommentModel');
+const PublicationModel = require('./models/PublicationModel');
 require('mysql2');
 require('dotenv/config');
 
@@ -26,18 +31,31 @@ sequelize
     });
 
 // ------- Imports of Models ------ //
- const Newsletters = NewslettersModel(sequelize, Sequelize);
+ const Newsletters = NewsletterModel(sequelize, Sequelize);
  const Setting = SettingModel(sequelize, Sequelize);
-
+ const User = UsersModel(sequelize, Sequelize);
+ const Diagnostic = DiagnosticModel(sequelize, Sequelize);
+ const Tag = TagModel(sequelize, Sequelize);
+ const Publication = PublicationModel(sequelize, Sequelize);
+//  const Comment = CommentModel(sequelize, Sequelize);
 
 
 // Relationship example
-/*Blog.belongsToMany(Tag, { through: BlogTag, unique: false })
-Tag.belongsToMany(Blog, { through: BlogTag, unique: false })
-Blog.belongsTo(User);*/
+
+User.belongsTo(Setting);
+Setting.hasOne(User);
+
+User.belongsTo(Diagnostic);
+Diagnostic.hasOne(User);
+
+Publication.belongsTo(User);
+User.hasMany(Publication);
+
+// CommentModel.belongsTo(User); 
+// CommentModel.belongsTo(Publication); 
 
 // synchro with db
-sequelize.sync({ force: false})
+sequelize.sync({ force: true})
     .then(() => {
         console.log(`Database & tables created!`)
     });
@@ -45,6 +63,11 @@ sequelize.sync({ force: false})
 module.exports = {
     Newsletters: Newsletters,
     Setting: Setting,
+    User: User,
+    Diagnostic: Diagnostic,
+    Tag: Tag,
+    Publication: Publication,
+    // Comment: Comment,
 
 };
 

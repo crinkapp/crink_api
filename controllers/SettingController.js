@@ -6,18 +6,18 @@ async function addSetting ( req, res ) {
     const hexa_code= req.body.settings_hexa_code;
 
     const setting = new Setting({
-        theme_name_settings: theme_name,
-        hexa_code_settings: hexa_code
+        theme_name_setting: theme_name,
+        hexa_code_setting: hexa_code
 
     });
 
     setting
         .save()
         .then(data => {
-            res.json(data)
+            return res.json(data)
         })
         .catch(err => {
-            res.json({message: err})
+            return res.json({message: err})
         })
 }
 

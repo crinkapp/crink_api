@@ -1,6 +1,5 @@
-const Settings = require('./SettingModel');
 const UsersModel = (sequelize, type) => {
-    return sequelize.define('users', {
+    return sequelize.define('user', {
             id: {
                 type: type.INTEGER,
                 primaryKey: true,
@@ -8,12 +7,17 @@ const UsersModel = (sequelize, type) => {
             },
             first_name_user: {
                 type: type.STRING,
-                allowNull: false,
+                allowNull: true,
+
+            },
+            last_name_user: {
+                type: type.STRING,
+                allowNull: true,
 
             },
             gender_user: {
                 type: type.ENUM('Man', 'Woman'),
-                allowNull: false,
+                allowNull: true,
             },
             age_user: {
                 type: type.DATEONLY,
@@ -27,10 +31,9 @@ const UsersModel = (sequelize, type) => {
                             throw new Error("Vous n'avez pas l'age requis");
                         }
                     },
-                    allowNull: false,
+                    allowNull: true,
                 }
             },
-
             email_user: {
                 type: type.STRING,
                 allowNull: false,
@@ -50,19 +53,8 @@ const UsersModel = (sequelize, type) => {
                 type: type.STRING,
                 allowNull: true,
             },
-            id_settings_user: {
-                type: type.INTEGER,
-                defaultValue: 1,
-                allowNull: true,
-                references: {
-                    model: 'settings',
-                    key: 'id',
-                }
-            }
         },
     );
 };
-UsersModel.hasOne(Settings);
-Settings.belongsTo(UsersModel);
 
 module.exports = UsersModel;

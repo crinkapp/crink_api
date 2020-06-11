@@ -1,6 +1,6 @@
 const TagsModel = (sequelize, type) => {
     return sequelize.define('tag',{
-        id_tag: {
+        id: {
             type: type.INTEGER,
             primaryKey: true,
             autoIncrement: true,

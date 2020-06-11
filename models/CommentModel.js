@@ -1,8 +1,6 @@
-const User = require('./UsersModel');
-const Publication = require('./PublicationModel');
 const CommentModel = (sequelize, type) => {
     return sequelize.define('comment',{
-        id_comment: {
+        id: {
             type: type.INTEGER,
             primaryKey: true,
             autoIncrement: true,
@@ -19,5 +17,5 @@ const CommentModel = (sequelize, type) => {
 
     })
 };
-CommentModel.belongsTo(User); // will add a userId attribute to CommentModel to hold the primary key value
-CommentModel.belongsTo(Publication); // will add a publicationId attribute to CommentModel to hold the primary key value
+
+module.exports = CommentModel;

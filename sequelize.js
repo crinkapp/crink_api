@@ -44,8 +44,7 @@ sequelize
  const Comment = CommentModel(sequelize, Sequelize);
 
 
-// Relationship example
-
+// Relationship
 User.belongsTo(Setting);
 Setting.hasOne(User);
 
@@ -53,16 +52,25 @@ User.belongsTo(Diagnostic);
 Diagnostic.hasOne(User);
 
 LikeUser.belongsTo(User);
-LikeUser.hasMany(Publication);
+User.hasMany(LikeUser);
 
-Favoris.belongToMany(User);
-Favoris.belongTo(Publication)
+LikeUser.belongsTo(Publication);
+Publication.hasMany(LikeUser);
+
+Favoris.belongsTo(User);
+User.hasMany(Favoris);
+
+Favoris.belongsTo(Publication);
+Publication.hasMany(Favoris);
 
 Publication.belongsTo(User);
 User.hasMany(Publication);
 
-CommentModel.belongsTo(User); 
-CommentModel.belongsTo(Publication); 
+Comment.belongsTo(User);
+User.hasMany(Comment);
+
+Comment.belongsTo(Publication);
+Publication.hasMany(Comment);
 
 // synchro with db
 sequelize.sync({ force: true})

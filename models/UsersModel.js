@@ -40,6 +40,7 @@ const UsersModel = (sequelize, type) => {
                 validate: {
                     isEmail: true,
                 },
+                unique: true
             },
             username_user: {
                     type: type.STRING,

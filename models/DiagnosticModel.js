@@ -1,4 +1,3 @@
-const user = require('./UsersModel');
 const DiagnosticModel = (sequelize, type) => {
     return sequelize.define('diagnostic',{
         id: {

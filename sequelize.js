@@ -7,6 +7,7 @@ const TagModel = require('./models/TagsModel');
 const CommentModel = require('./models/CommentModel');
 const LikeUserModel = require('./models/LikeUserModel');
 const FavorisModel = require('./models/FavorisModel');
+const PublicationModel = require('./models/PublicationModel');
 require('mysql2');
 require('dotenv/config');
 
@@ -39,7 +40,8 @@ sequelize
  const Tag = TagModel(sequelize, Sequelize);
  const LikeUser = LikeUserModel(sequelize, Sequelize);
  const Favoris = FavorisModel(sequelize, Sequelize);
-//  const Comment = CommentModel(sequelize, Sequelize);
+ const Publication = PublicationModel(sequelize, Sequelize);
+ const Comment = CommentModel(sequelize, Sequelize);
 
 
 // Relationship example
@@ -51,13 +53,16 @@ User.belongsTo(Diagnostic);
 Diagnostic.hasOne(User);
 
 LikeUser.belongsTo(User);
-//LikeUser.hasMany(Publication);
+LikeUser.hasMany(Publication);
 
 Favoris.belongToMany(User);
-//Favoris.belongTo(Publication)
+Favoris.belongTo(Publication)
 
-// CommentModel.belongsTo(User); 
-// CommentModel.belongsTo(Publication); 
+Publication.belongsTo(User);
+User.hasMany(Publication);
+
+CommentModel.belongsTo(User); 
+CommentModel.belongsTo(Publication); 
 
 // synchro with db
 sequelize.sync({ force: true})
@@ -71,8 +76,9 @@ module.exports = {
     User: User,
     Diagnostic: Diagnostic,
     Tag: Tag,
-    // Comment: Comment,
-
+    Publication: Publication,
+    Comment: Comment,
+    Favoris: Favoris
 };
 
 

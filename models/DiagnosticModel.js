@@ -1,18 +1,10 @@
-module.exports = (sequelize, type) => {
+const user = require('./UsersModel');
+const DiagnosticModel = (sequelize, type) => {
     return sequelize.define('diagnostic',{
-        id_diagnostic: {
+        id: {
             type: type.INTEGER,
             primaryKey: true,
             autoIncrement: true,
-        },
-        id_user: {
-            type: type.INTEGER,
-            defaultValue: 1,
-            allowNull: true,
-            references: {
-                model: 'user',
-                key: 'id',
-            }
         },
         locks_diagnostic: {
             type: type.BOOLEAN,
@@ -42,6 +34,7 @@ module.exports = (sequelize, type) => {
             type: type.ENUM('loose', 'medium', 'tight', 'very_tight'),
             allowNull: true,
         },
-
     })
 };
+
+module.exports = DiagnosticModel;

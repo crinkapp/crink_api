@@ -5,6 +5,7 @@ const UsersModel = require('./models/UsersModel');
 const DiagnosticModel = require('./models/DiagnosticModel');
 const TagModel = require('./models/TagsModel');
 const CommentModel = require('./models/CommentModel');
+const PublicationModel = require('./models/PublicationModel');
 require('mysql2');
 require('dotenv/config');
 
@@ -35,6 +36,7 @@ sequelize
  const User = UsersModel(sequelize, Sequelize);
  const Diagnostic = DiagnosticModel(sequelize, Sequelize);
  const Tag = TagModel(sequelize, Sequelize);
+ const Publication = PublicationModel(sequelize, Sequelize);
 //  const Comment = CommentModel(sequelize, Sequelize);
 
 
@@ -45,6 +47,9 @@ Setting.hasOne(User);
 
 User.belongsTo(Diagnostic);
 Diagnostic.hasOne(User);
+
+Publication.belongsTo(User);
+User.hasMany(Publication);
 
 // CommentModel.belongsTo(User); 
 // CommentModel.belongsTo(Publication); 
@@ -61,6 +66,7 @@ module.exports = {
     User: User,
     Diagnostic: Diagnostic,
     Tag: Tag,
+    Publication: Publication,
     // Comment: Comment,
 
 };

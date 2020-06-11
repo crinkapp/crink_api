@@ -1,8 +1,6 @@
-const Users = require('./UsersModel');
-
 const PublicationModel = (sequelize, type) => {
     return sequelize.define('publication',{
-        id_publication: {
+        id: {
             type: type.INTEGER,
             primaryKey: true,
             autoIncrement: true,
@@ -30,6 +28,4 @@ const PublicationModel = (sequelize, type) => {
     })    
 };
 
-PublicationModel.HasMany(Users, { as: "user_id" });
-PublicationModel.HasMany(Tags, { as: "tags_id" });
 module.exports = PublicationModel;

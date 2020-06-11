@@ -5,6 +5,8 @@ const UsersModel = require('./models/UsersModel');
 const DiagnosticModel = require('./models/DiagnosticModel');
 const TagModel = require('./models/TagsModel');
 const CommentModel = require('./models/CommentModel');
+const LikeUserModel = require('./models/LikeUserModel');
+const FavorisModel = require('./models/FavorisModel');
 require('mysql2');
 require('dotenv/config');
 
@@ -35,6 +37,8 @@ sequelize
  const User = UsersModel(sequelize, Sequelize);
  const Diagnostic = DiagnosticModel(sequelize, Sequelize);
  const Tag = TagModel(sequelize, Sequelize);
+ const LikeUser = LikeUserModel(sequelize, Sequelize);
+ const Favoris = FavorisModel(sequelize, Sequelize);
 //  const Comment = CommentModel(sequelize, Sequelize);
 
 
@@ -45,6 +49,12 @@ Setting.hasOne(User);
 
 User.belongsTo(Diagnostic);
 Diagnostic.hasOne(User);
+
+LikeUser.belongsTo(User);
+//LikeUser.hasMany(Publication);
+
+Favoris.belongToMany(User);
+//Favoris.belongTo(Publication)
 
 // CommentModel.belongsTo(User); 
 // CommentModel.belongsTo(Publication); 

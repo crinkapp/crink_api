@@ -1,7 +1,7 @@
 const user = require('./UsersModel');
 //const publication = require('./PublicationModel');
-const LikeUserModel = (sequelize, type) => {
-    return sequelize.define('like_user',{
+const FavorisModel = (sequelize, type) => {
+    return sequelize.define('favoris',{
         id: {
             primaryKey: true,
             type: type.INTEGER
@@ -10,4 +10,4 @@ const LikeUserModel = (sequelize, type) => {
     })
 };
 
-module.exports = LikeUserModel;
+module.exports = FavorisModel;

@@ -6,7 +6,7 @@ const CommentModel = (sequelize, type) => {
             autoIncrement: true,
         },
         content_comment: {
-            type: type.text,
+            type: type.TEXT,
             allowNull: false
 
         },

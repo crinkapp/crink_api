@@ -5,6 +5,8 @@ const UsersModel = require('./models/UsersModel');
 const DiagnosticModel = require('./models/DiagnosticModel');
 const TagModel = require('./models/TagsModel');
 const CommentModel = require('./models/CommentModel');
+const LikeUserModel = require('./models/LikeUserModel');
+const FavorisModel = require('./models/FavorisModel');
 const PublicationModel = require('./models/PublicationModel');
 require('mysql2');
 require('dotenv/config');
@@ -36,26 +38,42 @@ sequelize
  const User = UsersModel(sequelize, Sequelize);
  const Diagnostic = DiagnosticModel(sequelize, Sequelize);
  const Tag = TagModel(sequelize, Sequelize);
+ const LikeUser = LikeUserModel(sequelize, Sequelize);
+ const Favoris = FavorisModel(sequelize, Sequelize);
  const Publication = PublicationModel(sequelize, Sequelize);
-//  const Comment = CommentModel(sequelize, Sequelize);
+ const Comment = CommentModel(sequelize, Sequelize);
 
 
-// Relationship example
-
+// Relationship
 User.belongsTo(Setting);
 Setting.hasOne(User);
 
 User.belongsTo(Diagnostic);
 Diagnostic.hasOne(User);
 
+LikeUser.belongsTo(User);
+User.hasMany(LikeUser);
+
+LikeUser.belongsTo(Publication);
+Publication.hasMany(LikeUser);
+
+Favoris.belongsTo(User);
+User.hasMany(Favoris);
+
+Favoris.belongsTo(Publication);
+Publication.hasMany(Favoris);
+
 Publication.belongsTo(User);
 User.hasMany(Publication);
 
-// CommentModel.belongsTo(User); 
-// CommentModel.belongsTo(Publication); 
+Comment.belongsTo(User);
+User.hasMany(Comment);
+
+Comment.belongsTo(Publication);
+Publication.hasMany(Comment);
 
 // synchro with db
-sequelize.sync({ force: false})
+sequelize.sync({ force: true})
     .then(() => {
         console.log(`Database & tables created!`)
     });
@@ -67,8 +85,8 @@ module.exports = {
     Diagnostic: Diagnostic,
     Tag: Tag,
     Publication: Publication,
-    // Comment: Comment,
-
+    Comment: Comment,
+    Favoris: Favoris
 };
 
 

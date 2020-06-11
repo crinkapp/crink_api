@@ -1,7 +1,7 @@
 const user = require('./UsersModel');
 const DiagnosticModel = (sequelize, type) => {
     return sequelize.define('diagnostic',{
-        id_diagnostic: {
+        id: {
             type: type.INTEGER,
             primaryKey: true,
             autoIncrement: true,
@@ -38,4 +38,3 @@ const DiagnosticModel = (sequelize, type) => {
 };
 
 module.exports = DiagnosticModel;
-DiagnosticModel.belongsTo(user);

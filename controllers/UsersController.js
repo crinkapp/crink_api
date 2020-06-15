@@ -46,9 +46,26 @@ async function removeUser(req, res) {
     }
 }
 
+async function getUser(req, res) {
+    const email = req.body.email_user;
+    const password = req.body.password_user;
+    try {
+        const user = await User.findAll({
+            where: {
+                email_user: email,
+                password_user: password
+            }
+        });
+        return res.json(user);
+    } catch(err) {
+        return res.json(err);
+    }
+}
+
 module.exports = {
     getAllUsers,
     addUser,
-    removeUser
+    removeUser,
+    getUser
 };
 

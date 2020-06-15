@@ -13,6 +13,7 @@ const  { getAllUsers, addUser, removeUser, getUser } = require('../controllers/U
  *          200:
  *              description: Request went well
  * 
+ * /user:
  *  post:
  *      description: Add a new User from Sign Up
  *      produces:
@@ -27,6 +28,8 @@ const  { getAllUsers, addUser, removeUser, getUser } = require('../controllers/U
  *      responses:
  *          200:
  *              description: Request went well
+ * 
+ * /getuser:
  *  post:
  *      description: Get a user from User table using email & password
  *      produces:

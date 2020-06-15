@@ -8,6 +8,7 @@ const CommentModel = require('./models/CommentModel');
 const LikeUserModel = require('./models/LikeUserModel');
 const FavorisModel = require('./models/FavorisModel');
 const PublicationModel = require('./models/PublicationModel');
+const SignaledModel = require('./models/SignaledModel');
 require('mysql2');
 require('dotenv/config');
 
@@ -42,6 +43,7 @@ sequelize
  const Favoris = FavorisModel(sequelize, Sequelize);
  const Publication = PublicationModel(sequelize, Sequelize);
  const Comment = CommentModel(sequelize, Sequelize);
+ const Signaled = SignaledModel(sequelize, Sequelize);
 
 
 // Relationship
@@ -71,6 +73,18 @@ User.hasMany(Comment);
 
 Comment.belongsTo(Publication);
 Publication.hasMany(Comment);
+
+Signaled.belongsTo(User);
+User.hasOne(Signaled);
+
+Signaled.belongsTo(Comment);
+Comment.hasOne(Signaled);
+
+Signaled.belongsTo(Publication);
+Publication.hasOne(Signaled);
+
+Signaled.belongsTo(Publication);
+Publication.hasOne(Signaled);
 
 // synchro with db
 sequelize.sync({ force: true})

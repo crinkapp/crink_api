@@ -17,7 +17,7 @@ async function addUser(req, res) {
         email_user: req.body.email_user,
         username_user: req.body.username_user,
         password_user: req.body.password_user
-    })
+    });
     user.save();
     if (req.body.newsletter_user) {
         const mail = req.body.email_user;

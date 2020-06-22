@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const  { getAllUsers, addUser, removeUser, getUser } = require('../controllers/UsersController');
+const  { getAllUsers, addUser, removeUser, getUser, resetPasswordUser } = require('../controllers/UsersController');
 
 /**
  * @swagger
@@ -37,10 +37,20 @@ const  { getAllUsers, addUser, removeUser, getUser } = require('../controllers/U
  *      responses:
  *          200:
  *              description: Request went well
+ * 
+ * /resetPwd:
+ *  post:
+ *      description: Send a email with link to reset password
+ *      produces:
+ *          - application/json
+ *      responses:
+ *          200:
+ *              description: Request went well
  */
 router.get('/users', getAllUsers);
 router.post('/user', addUser);
 router.put('/user', removeUser);
 router.post('/getuser', getUser);
+router.post('/resetPwd', resetPasswordUser);
 
 module.exports = router;

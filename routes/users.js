@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const  { getAllUsers, addUser, removeUser, getUser, resetPasswordUser } = require('../controllers/UsersController');
+const  { getAllUsers, addUser, removeUser, getUser, sendResetPasswordEmail } = require('../controllers/UsersController');
 
 /**
  * @swagger
@@ -38,7 +38,7 @@ const  { getAllUsers, addUser, removeUser, getUser, resetPasswordUser } = requir
  *          200:
  *              description: Request went well
  * 
- * /resetPwd:
+ * /sendresetpwd:
  *  post:
  *      description: Send a email with link to reset password
  *      produces:
@@ -51,6 +51,6 @@ router.get('/users', getAllUsers);
 router.post('/user', addUser);
 router.put('/user', removeUser);
 router.post('/getuser', getUser);
-router.post('/resetPwd', resetPasswordUser);
+router.post('/sendresetpwd', sendResetPasswordEmail);
 
 module.exports = router;

@@ -1,6 +1,16 @@
 const  { Setting } = require('../sequelize');
 
-async function addSetting ( req, res ) {
+async function getSettings(req, res) {
+    try {
+        const settings =  await Setting.findAll({raw: true});
+        return res.json(settings);
+    }
+    catch(err) {
+        return res.json(err)
+    }
+}
+
+async function addSetting(req, res) {
 
     const theme_name= req.body.settings_theme_name;
     const hexa_code= req.body.settings_hexa_code;
@@ -23,4 +33,5 @@ async function addSetting ( req, res ) {
 
 module.exports = {
     addSetting,
+    getSettings
 };

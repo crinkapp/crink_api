@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const  { getAllUsers, addUser, removeUser, getUser, sendResetPasswordEmail } = require('../controllers/UsersController');
+const  { getAllUsers, addUser, removeUser, getUser, sendResetPasswordEmail, login } = require('../controllers/UsersController');
 
 /**
  * @swagger
@@ -52,5 +52,6 @@ router.post('/user', addUser);
 router.put('/user', removeUser);
 router.post('/getuser', getUser);
 router.post('/sendresetpwd', sendResetPasswordEmail);
+router.post('/login', login);
 
 module.exports = router;

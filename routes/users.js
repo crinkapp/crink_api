@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const  { getAllUsers, addUser, removeUser, getUser, sendResetPasswordEmail, login } = require('../controllers/UsersController');
-
+const verifyToken = require('../token/verifyToken');
 /**
  * @swagger
  * /users:
@@ -47,10 +47,10 @@ const  { getAllUsers, addUser, removeUser, getUser, sendResetPasswordEmail, logi
  *          200:
  *              description: Request went well
  */
-router.get('/users', getAllUsers);
+router.get('/users',verifyToken, getAllUsers);
+router.get('/user',verifyToken, getUser);
 router.post('/user', addUser);
-router.put('/user', removeUser);
-router.post('/getuser', getUser);
+router.put('/user',verifyToken, removeUser);
 router.post('/sendresetpwd', sendResetPasswordEmail);
 router.post('/login', login);
 

@@ -1,8 +1,9 @@
 const { User } = require('../sequelize');
 const { sendEmail } = require('../controllers/NewslettersController');
 require('dotenv').config();
-const { addUserValidation, loginValidation } = require('../validation');
+const { addUserValidation, loginValidation } = require('../joi/validation');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 async function getAllUsers(req, res) {
     try {
@@ -74,7 +75,7 @@ async function removeUser(req, res) {
 }
 
 async function getUser(req, res) {
-    const email = req.body.email_user;
+    /*const email = req.body.email_user;
     const password = req.body.password_user;
     try {
         const user = await User.findAll({
@@ -86,7 +87,11 @@ async function getUser(req, res) {
         return res.json(user);
     } catch(err) {
         return res.json(err);
-    }
+    }*/
+
+    res.send(req.user);
+    const user = User.findOne({where: {id: req.user}});
+    return res.json(user);
 }
 
 async function sendResetPasswordEmail(req, res) {
@@ -124,7 +129,10 @@ async function login(req, res) {
     const validPass = await bcrypt.compare(password, user.password_user);
     if(!validPass) return res.status(400).send('Mot de passe incorrect');
 
-    res.send('Connecté !');
+    // create and assign a token to a user
+    const token = jwt.sign({_id: user.id}, process.env.TOKEN_SECRET)
+    res.header('auth-token', token).send(token);
+
 
 
 

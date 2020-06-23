@@ -1,8 +1,5 @@
 const { User } = require('../sequelize');
-const  { sendEmail } = require('../controllers/NewslettersController');
-const nodemailer = require('nodemailer');
-const hbs = require('nodemailer-express-handlebars');
-const path = require('path');
+const { sendEmail } = require('../controllers/NewslettersController');
 require('dotenv').config();
 
 async function getAllUsers(req, res) {

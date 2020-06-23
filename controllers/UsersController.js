@@ -130,7 +130,10 @@ async function login(req, res) {
     if(!validPass) return res.status(400).send('Mot de passe incorrect');
 
     // create and assign a token to a user
-    const token = jwt.sign({_id: user.id}, process.env.TOKEN_SECRET)
+    const jwtExpirySeconds = '1h';
+    const token = jwt.sign({_id: user.id}, process.env.TOKEN_SECRET, {
+        expiresIn: jwtExpirySeconds,
+    });
     res.header('auth-token', token).send(token);
 
 

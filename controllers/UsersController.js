@@ -4,6 +4,7 @@ require('dotenv').config();
 const { addUserValidation, loginValidation } = require('../joi/validation');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const Cookies = require('cookies');
 
 async function getAllUsers(req, res) {
     try {
@@ -130,14 +131,23 @@ async function login(req, res) {
     if(!validPass) return res.status(400).send('Mot de passe incorrect');
 
     // create and assign a token to a user
-    const jwtExpirySeconds = '1h';
-    const token = jwt.sign({_id: user.id}, process.env.TOKEN_SECRET, {
-        expiresIn: jwtExpirySeconds,
-    });
-    res.header('auth-token', token).send(token);
+    const token = jwt.sign({_id: user.id}, process.env.TOKEN_SECRET);
 
+    // Create a cookie to store the token and send it to the front
+    try {
+       new Cookies(req,res).set('access_token',token , {
+            httpOnly: true,
+            secure: false
+        });
 
+        res.status(200).send({
+            message: 'Voici ton token',
+            xsrfToken : token.xsrfToken
+        });
 
+    } catch(err) {
+        return res.json(err);
+    }
 
 }
 

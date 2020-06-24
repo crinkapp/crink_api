@@ -51,7 +51,7 @@ router.get('/users',verifyToken, getAllUsers);
 router.get('/user',verifyToken, getUser);
 router.post('/user', addUser);
 router.put('/user',verifyToken, removeUser);
-router.post('/sendresetpwd', sendResetPasswordEmail);
+router.post('/sendresetpwd', verifyToken, sendResetPasswordEmail);
 router.post('/login', login);
 
 module.exports = router;

@@ -1,14 +1,13 @@
 const jwt = require('jsonwebtoken');
 
 // create a middleware function to pass to route to verify the user's token
- module.exports = function (req, res, next){
-    const token = req.header('auth-token');
+ module.exports =  async function (req, res, next){
+    const token = req.header('Cookie');
     if(!token) return res.status(401).send('Accès interdit');
 
     try{
-        const verified = jwt.verify(token, process.env.TOKEN_SECRET);
-        req.user = verified;
-        //if verified, return id
+        await jwt.verify(token, process.env.TOKEN_SECRET, (error, decoded) => { console.log(decoded) });
+
         next();
 
     }catch(err){

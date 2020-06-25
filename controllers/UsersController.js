@@ -91,7 +91,7 @@ async function getUser(req, res) {
     }*/
 
     res.send(req.user);
-    const user = User.findOne({where: {id: req.user}});
+    const  user =  await User.findOne({where: {id: req.user}});
     return res.json(user);
 }
 

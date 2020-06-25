@@ -47,7 +47,7 @@ const verifyToken = require('../token/verifyToken');
  *          200:
  *              description: Request went well
  */
-router.get('/users',verifyToken, getAllUsers);
+router.get('/users', getAllUsers);
 router.get('/user',verifyToken, getUser);
 router.post('/user', addUser);
 router.put('/user',verifyToken, removeUser);

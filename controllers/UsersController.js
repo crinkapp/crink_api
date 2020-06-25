@@ -24,10 +24,10 @@ async function addUser(req, res) {
 
     // Checking if the user is already in the database
 
-     const email_user = req.body.email_user;
-     const username_user = req.body.username_user;
-     const password_user = req.body.password_user;
-     const gender_user = req.body.gender_user;
+    const email_user = req.body.email_user;
+    const username_user = req.body.username_user;
+    const password_user = req.body.password_user;
+    const gender_user = req.body.gender_user;
 
     console.log(req.body);
     const emailExist = await User.findOne({where: {email_user: email_user}});

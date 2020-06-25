@@ -16,8 +16,38 @@ async function getAllUsers(req, res) {
     }
 }
 
-async function addUser(req, res) {
+async function getUser(req, res) {
+    const user_id = res.locals.id_user;
+    if (user_id) {
+        try {
+            const user =  await User.findOne({
+                where: {id: user_id}
+            });
+            return res.json(user);
+        }
+        catch(err) {
+            return res.status(400).send("Can't find the user");
+        }
+    } else {
+        return res.status(400).send("Unknow user id");
+    }
+}
 
+async function removeUser(req, res) {
+    const idUser = req.body.id_user;
+    try {
+        await User.destroy({
+            where: {
+                id: idUser
+            }
+        });
+        return res.json('Successfully removed user')
+    } catch (err) {
+        return res.json(err)
+    }
+}
+
+async function register(req, res) {
     //Validate the data before we make a user
     const { error } = addUserValidation(req.body);
     if(error) return res.status(400).send(error.details[0].message);
@@ -36,7 +66,6 @@ async function addUser(req, res) {
     // Hash the password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password_user, salt);
-
 
     // Create a new user
     const user = await User.build({
@@ -61,59 +90,7 @@ async function addUser(req, res) {
     }
 }
 
-async function removeUser(req, res) {
-    const idUser = req.body.id_user;
-    try {
-        await User.destroy({
-            where: {
-                id: idUser
-            }
-        });
-        return res.json('Successfully removed user')
-    } catch (err) {
-        return res.json(err)
-    }
-}
-
-async function getUser(req, res) {
-    /*const email = req.body.email_user;
-    const password = req.body.password_user;
-    try {
-        const user = await User.findAll({
-            where: {
-                email_user: email,
-                password_user: password
-            }
-        });
-        return res.json(user);
-    } catch(err) {
-        return res.json(err);
-    }*/
-
-    res.send(req.user);
-    const  user =  await User.findOne({where: {id: req.user}});
-    return res.json(user);
-}
-
-async function sendResetPasswordEmail(req, res) {
-    const mail = req.body.email_user;
-    const subject = 'Réinitialisation du mot de passe';
-    const template = 'reset-password';
-    const isNewsletter = false;
-    await User.findOne({ where: { email_user: mail } })
-    .then((email) => {
-      if(email !== null) {
-        // if already exist
-        sendEmail(mail, subject, template, isNewsletter, res);
-    } else {
-        // if doesn't exist
-        return res.json('Email not found in database, try again.');
-      }
-    });
-}
-
 async function login(req, res) {
-
     const email = req.body.email_user;
     const password = req.body.password_user;
 
@@ -140,25 +117,38 @@ async function login(req, res) {
             httpOnly: true,
             secure: false
         });
-
-
         res.status(200).send({
             message: 'Voici ton token',
-            xsrfToken : token.xsrfToken
+            xsrfToken: token.xsrfToken
         });
-
     } catch(err) {
         return res.json(err);
     }
+}
 
+async function sendResetPasswordEmail(req, res) {
+    const mail = req.body.email_user;
+    const subject = 'Réinitialisation du mot de passe';
+    const template = 'reset-password';
+    const isNewsletter = false;
+    await User.findOne({ where: { email_user: mail } })
+    .then((email) => {
+      if(email !== null) {
+        // if already exist
+        sendEmail(mail, subject, template, isNewsletter, res);
+    } else {
+        // if doesn't exist
+        return res.json('Email not found in database, try again.');
+      }
+    });
 }
 
 module.exports = {
     getAllUsers,
-    addUser,
-    removeUser,
     getUser,
+    removeUser,
     sendResetPasswordEmail,
+    register,
     login,
 };
 

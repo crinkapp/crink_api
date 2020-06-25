@@ -76,7 +76,6 @@ async function register(req, res) {
     const password_user = req.body.password_user;
     const gender_user = req.body.gender_user;
 
-    console.log(req.body);
     const emailExist = await User.findOne({where: {email_user: email_user}});
     if(emailExist) return res.status(400).send('Cet email existe déjà, veuillez vérifier l\'orthographe ou vous connectez s\'il s\'agit de votre compte');
 
@@ -116,7 +115,6 @@ async function login(req, res) {
     if(error) return res.status(400).send(error.details[0].message);
 
     // Checking the email exist
-    console.log(req.body);
     const user = await User.findOne({where: {email_user: email}});
     if(!user) return res.status(400).send('Identifiants inconnus, veillez-vous inscrire');
 

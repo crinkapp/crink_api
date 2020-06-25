@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const  { getAllUsers, getUser, removeUser, sendResetPasswordEmail, register, login } = require('../controllers/UsersController');
+const  { getAllUsers, getUser, removeUser, sendResetPasswordEmail, register, login, logout } = require('../controllers/UsersController');
 const verifyToken = require('../token/verifyToken');
 /**
  * @swagger
@@ -63,6 +63,15 @@ const verifyToken = require('../token/verifyToken');
  *          200:
  *              description: Request went well
  * 
+ * /logout:
+ *  get:
+ *      description: Disconnect user by removing cookie in the http only
+ *      produces:
+ *          - application/json
+ *      responses:
+ *          200:
+ *              description: Request went well
+ * 
  */
 
  // GET User(s) and REMOVE
@@ -76,5 +85,6 @@ router.post('/sendresetpwd', verifyToken, sendResetPasswordEmail);
 // Register & Login
 router.post('/register', register);
 router.post('/login', login);
+router.get('/logout', logout);
 
 module.exports = router;

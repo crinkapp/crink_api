@@ -77,7 +77,7 @@ async function register(req, res) {
     const gender_user = req.body.gender_user;
 
     const emailExist = await User.findOne({where: {email_user: email_user}});
-    if(emailExist) return res.status(400).send('Cet email existe déjà, veuillez vérifier l\'orthographe ou vous connectez s\'il s\'agit de votre compte');
+    if(emailExist) return res.status(400).send("Email already exist, please login or use another email.");
 
     // Hash the password
     const salt = await bcrypt.genSalt(10);
@@ -99,7 +99,7 @@ async function register(req, res) {
         try {
             sendEmail(mail, subject, template, isNewsletter, res);
         } catch(err) {
-            return res.json('Vous êtes déjà inscrit à la newsletter…');
+            return res.json('You already subscribed to the newsletter');
         }
     } else {
         return res.json(user);
@@ -116,11 +116,11 @@ async function login(req, res) {
 
     // Checking the email exist
     const user = await User.findOne({where: {email_user: email}});
-    if(!user) return res.status(400).send('Identifiants inconnus, veillez-vous inscrire');
+    if(!user) return res.status(400).send('Unknow user, please register');
 
     // check if password is correct
     const validPass = await bcrypt.compare(password, user.password_user);
-    if(!validPass) return res.status(400).send('Mot de passe incorrect');
+    if(!validPass) return res.status(400).send('Incorrect password');
 
     // create and assign a token to a user
     const token = jwt.sign({_id: user.id}, process.env.TOKEN_SECRET);
@@ -133,7 +133,7 @@ async function login(req, res) {
             secure: false
         });
         res.status(200).send({
-            message: 'Voici ton token',
+            message: "Here's your token:",
             xsrfToken: token.xsrfToken
         });
     } catch(err) {
@@ -143,7 +143,7 @@ async function login(req, res) {
 
 async function logout(req, res) {
     res.clearCookie('access_token');
-    res.send('Cookie access_token cleared');
+    res.json('Logout success and token successfully cleared !');
 }
 
 module.exports = {

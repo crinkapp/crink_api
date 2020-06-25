@@ -47,6 +47,23 @@ async function removeUser(req, res) {
     }
 }
 
+async function sendResetPasswordEmail(req, res) {
+    const mail = req.body.email_user;
+    const subject = 'Réinitialisation du mot de passe';
+    const template = 'reset-password';
+    const isNewsletter = false;
+    await User.findOne({ where: { email_user: mail } })
+    .then((email) => {
+      if(email !== null) {
+        // if already exist
+        sendEmail(mail, subject, template, isNewsletter, res);
+    } else {
+        // if doesn't exist
+        return res.json('Email not found in database, try again.');
+      }
+    });
+}
+
 async function register(req, res) {
     //Validate the data before we make a user
     const { error } = addUserValidation(req.body);
@@ -126,21 +143,9 @@ async function login(req, res) {
     }
 }
 
-async function sendResetPasswordEmail(req, res) {
-    const mail = req.body.email_user;
-    const subject = 'Réinitialisation du mot de passe';
-    const template = 'reset-password';
-    const isNewsletter = false;
-    await User.findOne({ where: { email_user: mail } })
-    .then((email) => {
-      if(email !== null) {
-        // if already exist
-        sendEmail(mail, subject, template, isNewsletter, res);
-    } else {
-        // if doesn't exist
-        return res.json('Email not found in database, try again.');
-      }
-    });
+async function logout(req, res) {
+    res.clearCookie('access_token');
+    res.send('Cookie access_token cleared');
 }
 
 module.exports = {
@@ -150,5 +155,6 @@ module.exports = {
     sendResetPasswordEmail,
     register,
     login,
+    logout
 };
 

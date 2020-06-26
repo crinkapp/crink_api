@@ -9,6 +9,8 @@ const LikeUserModel = require('./models/LikeUserModel');
 const FavorisModel = require('./models/FavorisModel');
 const PublicationModel = require('./models/PublicationModel');
 const SignaledModel = require('./models/SignaledModel');
+const UserTagModel = require('./models/UserTagModel');
+const PublicationTagModel = require('./models/PublicationTagModel');
 require('mysql2');
 require('dotenv/config');
 
@@ -22,7 +24,6 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
         // This was true by default, but now is false by default
         timestamps: true
     }
-
 });
 sequelize
     .authenticate()
@@ -44,7 +45,8 @@ sequelize
  const Publication = PublicationModel(sequelize, Sequelize);
  const Comment = CommentModel(sequelize, Sequelize);
  const Signaled = SignaledModel(sequelize, Sequelize);
-
+ const UserTag = UserTagModel(sequelize, Sequelize);
+ const PublicationTag = PublicationTagModel(sequelize, Sequelize);
 
 // Relationship
 User.belongsTo(Setting);
@@ -85,6 +87,18 @@ Publication.hasOne(Signaled);
 
 Signaled.belongsTo(Publication);
 Publication.hasOne(Signaled);
+
+UserTag.belongsTo(User);
+User.hasMany(UserTag);
+
+UserTag.belongsTo(Tag);
+Tag.hasMany(UserTag);
+
+PublicationTag.belongsTo(Publication);
+Publication.hasMany(PublicationTag);
+
+PublicationTag.belongsTo(Tag);
+Tag.hasMany(PublicationTag);
 
 // synchro with db
 sequelize.sync({ force: false})

@@ -19,20 +19,10 @@ const UsersModel = (sequelize, type) => {
                 type: type.ENUM('Man', 'Woman'),
                 allowNull: true,
             },
-            age_user: {
+            birthday_date_user: {
                 type: type.DATEONLY,
-                validate: {
-                    customValidator(value) {
-                        let today = new Date();
-                        let currentDate = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-                        let user_age = currentDate - value;
-                        console.log(currentDate, " ", user_age);
-                        if (user_age < 10) {
-                            throw new Error("Vous n'avez pas l'age requis");
-                        }
-                    },
-                    allowNull: true,
-                }
+                allowNull: true,
+
             },
             email_user: {
                 type: type.STRING,

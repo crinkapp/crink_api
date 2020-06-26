@@ -1,7 +1,7 @@
 const { User } = require('../sequelize');
 const { sendEmail } = require('../controllers/NewslettersController');
 require('dotenv').config();
-const { addUserValidation, loginValidation } = require('../joi/validation');
+const { addUserValidation, loginValidation, updateUserValidation } = require('../joi/validation');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const Cookies = require('cookies');
@@ -31,6 +31,34 @@ async function getUser(req, res) {
     } else {
         return res.status(400).send("Unknow user id");
     }
+}
+
+async function updateUser(req, res){
+
+    const user_id = res.locals.id_user;
+    if (user_id) {
+        try {
+            const user = await User.build({
+                first_name_user: req.body.first_name,
+                last_name_user: req.body.last_name,
+                email_user: req.body.email,
+                username_user: req.body.username,
+                birthday_date_user: req.body.birthday_date,
+                password_user: req.body.password,
+                gender_user: req.body.gender,
+                path_profil_picture_user: req.body.picture
+            },
+                {where: {id: user_id}},
+                { isNewRecord: false});
+            user.save();
+        }
+        catch(err) {
+            return res.status(400).send("Can't find the user id");
+        }
+    } else {
+        return res.status(400).send("Unknow user id");
+    }
+
 }
 
 async function removeUser(req, res) {
@@ -185,6 +213,7 @@ module.exports = {
     register,
     login,
     logout,
-    updateUserPwd
+    updateUserPwd,
+    updateUser
 };
 

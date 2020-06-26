@@ -79,6 +79,9 @@ router.get('/users', getAllUsers);
 router.get('/user', verifyToken, getUser);
 router.delete('/user',verifyToken, removeUser);
 
+// Show and update user data
+router.put('user', verifyToken, updateUser)
+
 // POST Email for forgotten password
 router.post('/sendresetpwd', verifyToken, sendResetPasswordEmail);
 

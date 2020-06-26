@@ -5,6 +5,7 @@ const { addUserValidation, loginValidation, updateUserValidation } = require('..
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const Cookies = require('cookies');
+const { CP932_JAPANESE_CI } = require('mysql2/lib/constants/charsets');
 
 async function getAllUsers(req, res) {
     try {
@@ -34,31 +35,16 @@ async function getUser(req, res) {
 }
 
 async function updateUser(req, res){
-
     const user_id = res.locals.id_user;
-    if (user_id) {
-        try {
-            const user = await User.build({
-                first_name_user: req.body.first_name,
-                last_name_user: req.body.last_name,
-                email_user: req.body.email,
-                username_user: req.body.username,
-                birthday_date_user: req.body.birthday_date,
-                password_user: req.body.password,
-                gender_user: req.body.gender,
-                path_profil_picture_user: req.body.picture
-            },
-                {where: {id: user_id}},
-                { isNewRecord: false});
-            user.save();
-        }
-        catch(err) {
-            return res.status(400).send("Can't find the user id");
-        }
-    } else {
-        return res.status(400).send("Unknow user id");
+    const new_values = req.body;
+    if(req.body) {
+        await User.update(
+            new_values, {
+            where: {id: user_id}
+        });
+        return res.json('Success update');
     }
-
+    return res.json('Nothing to update.');
 }
 
 async function removeUser(req, res) {
@@ -124,6 +110,7 @@ async function updateUserPwd(req, res){
 }
 
 async function register(req, res) {
+    console.log("\n\n\n\n\n\n");
     //Validate the data before we make a user
     const { error } = addUserValidation(req.body);
     if(error) return res.status(400).send(error.details[0].message);

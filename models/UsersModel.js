@@ -19,7 +19,7 @@ const UsersModel = (sequelize, type) => {
                 type: type.ENUM('Man', 'Woman'),
                 allowNull: true,
             },
-            birthday_date_user: {
+            birthdate_user: {
                 type: type.DATEONLY,
                 allowNull: true,
 
@@ -33,8 +33,8 @@ const UsersModel = (sequelize, type) => {
                 unique: true
             },
             username_user: {
-                    type: type.STRING,
-                    allowNull: false,
+                type: type.STRING,
+                allowNull: false,
             },
             password_user: {
                 type: type.STRING,

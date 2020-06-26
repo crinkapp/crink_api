@@ -80,7 +80,7 @@ async function updateUserPwd(req, res){
     const hashedNewPassword = await bcrypt.hash(newPwd, salt);
 
     // update user password in db
-    
+
 };
 
 async function register(req, res) {

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const  { getAllUsers, getUser, removeUser, sendResetPasswordEmail, register, login, logout } = require('../controllers/UsersController');
+const  { getAllUsers, getUser, removeUser, sendResetPasswordEmail, register, login, logout, updateUserPwd } = require('../controllers/UsersController');
 const verifyToken = require('../token/verifyToken');
 /**
  * @swagger
@@ -84,6 +84,8 @@ router.put('user', verifyToken, updateUser)
 
 // POST Email for forgotten password
 router.post('/sendresetpwd', verifyToken, sendResetPasswordEmail);
+router.post('/updateuserpwd', updateUserPwd);
+
 
 // Register & Login
 router.post('/register', register);

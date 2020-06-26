@@ -54,5 +54,3 @@ app.use('/', userRoute);
 app.listen(port, hostname, () => {
     console.log(`Server running at ${hostname}:${port}/`);
 });
-
-

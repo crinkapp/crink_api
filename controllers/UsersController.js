@@ -64,6 +64,37 @@ async function sendResetPasswordEmail(req, res) {
     });
 }
 
+async function updateUserPwd(req, res){
+
+    const user_id = req.body.id;
+    const newPwd = req.body.new_password;
+
+    // check if password is not null
+    if(!newPwd){
+        return res.status(400).send("please enter a new password")
+    }
+    try{
+        // hash the pwd
+        const salt = await bcrypt.genSalt(10);
+        const hashedNewPassword = await bcrypt.hash(newPwd, salt);
+
+        // update user password in db
+        const updatePwdinDb = await User.build({
+            id: user_id,
+            password_user: hashedNewPassword},
+            {isNewRecord: false});
+
+        // save the password in db
+        updatePwdinDb.save();
+        return res.json(updatePwdinDb)
+
+    }catch(err){
+        res.json(err)
+
+    }
+
+}
+
 async function register(req, res) {
     //Validate the data before we make a user
     const { error } = addUserValidation(req.body);
@@ -153,6 +184,7 @@ module.exports = {
     sendResetPasswordEmail,
     register,
     login,
-    logout
+    logout,
+    updateUserPwd
 };
 

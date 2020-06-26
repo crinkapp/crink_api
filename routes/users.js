@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const  { getAllUsers, getUser, removeUser, sendResetPasswordEmail, register, login, logout } = require('../controllers/UsersController');
+const  { getAllUsers, getUser, removeUser, sendResetPasswordEmail, register, login, logout, updateUserPwd } = require('../controllers/UsersController');
 const verifyToken = require('../token/verifyToken');
 /**
  * @swagger
@@ -36,9 +36,18 @@ const verifyToken = require('../token/verifyToken');
  *          200:
  *              description: Request went well
  *
- * /sendresetpwd:
+ * /send-resetpwd:
  *  post:
  *      description: Send a email with link to reset password
+ *      produces:
+ *          - application/json
+ *      responses:
+ *          200:
+ *              description: Request went well
+ * 
+ * /update-user-pwd:
+ *  post:
+ *      description: Update actual password of uesr
  *      produces:
  *          - application/json
  *      responses:
@@ -80,7 +89,9 @@ router.get('/user', verifyToken, getUser);
 router.delete('/user',verifyToken, removeUser);
 
 // POST Email for forgotten password
-router.post('/sendresetpwd', verifyToken, sendResetPasswordEmail);
+router.post('/send-reset-pwd', verifyToken, sendResetPasswordEmail);
+router.post('/update-user-pwd', updateUserPwd);
+
 
 // Register & Login
 router.post('/register', register);

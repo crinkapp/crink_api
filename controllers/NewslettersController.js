@@ -16,6 +16,9 @@ async function getAllNewsletters(req, res) {
 
 async function addNewsletter(req, res ) {
     const mail = req.body.email_newsletters;
+    const subject = 'Merci pour votre inscription 🎉';
+    const template = 'newsletter';
+    const isNewsletter = true;
     await Newsletters.findOne({ where: { email_newsletter: mail } })
     .then((email) => {
       if(email !== null) {
@@ -23,7 +26,7 @@ async function addNewsletter(req, res ) {
         return res.json('Vous êtes déjà inscrit !');
       } else {
         // if doesn't exist
-        sendEmail(mail, res);
+        sendEmail(mail, subject, template, isNewsletter, res);
       }
     });
 }
@@ -43,10 +46,13 @@ async function unsubscribeUser(req, res) {
     }
 }
 
-function sendEmail(mail, res) {
-    const newsletters = new Newsletters({
-        email_newsletter: mail,
-    });
+function sendEmail(mail, subject, template, isNewsletter, res) {
+    let newsletters;
+    if (isNewsletter) {
+        newsletters = new Newsletters({
+            email_newsletter: mail,
+        });
+    }
     let transporter = nodemailer.createTransport({
         host: 'smtp.ionos.fr',
         port: '465',
@@ -63,7 +69,7 @@ function sendEmail(mail, res) {
             extname: '.handlebars',
             partialsDir: path.join(__dirname, '../views'),
             layoutsDir: path.join(__dirname, '../views'),
-            defaultLayout: 'newsletter'
+            defaultLayout: template
         },
         viewPath: path.join(__dirname, '../views'),
         extName: '.handlebars',
@@ -72,8 +78,8 @@ function sendEmail(mail, res) {
     const mailOptions = {
         from: process.env.EMAIL_ADDRESS,
         to: mail,
-        subject: "Merci pour votre inscription 🎉",
-        template: 'newsletter',
+        subject: subject,
+        template: template,
         context: {
             email: mail
         }
@@ -82,11 +88,15 @@ function sendEmail(mail, res) {
         if (err) {
             return res.json(err);
         }
-        newsletters.save().then(data => {
-            return res.json(data);
-        }).catch(err => {
-            return res.json(err);
-        })
+        if(isNewsletter) {
+            newsletters.save().then(data => {
+                return res.json(data);
+            }).catch(err => {
+                return res.json(err);
+            })
+        } else {
+            return res.json('Reset password email sent !');
+        }
     });
 }
 

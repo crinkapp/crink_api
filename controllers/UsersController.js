@@ -64,6 +64,25 @@ async function sendResetPasswordEmail(req, res) {
     });
 }
 
+async function updateUserPwd(req, res){
+    const user_id = req.id;
+    const newPwd = req.body.new_password;
+    const confirmNewPwd = req.body.confirm_new_password;
+
+    const emailExist = await User.findOne({where: {id: user_id}});
+
+    if( !emailExist || newPwd !== confirmNewPwd){
+        return res.status(400).send("user not found or password and confirm password not identical")
+    }
+
+    // hash the pwd
+    const salt = await bcrypt.genSalt(10);
+    const hashedNewPassword = await bcrypt.hash(newPwd, salt);
+
+    // update user password in db
+    
+};
+
 async function register(req, res) {
     //Validate the data before we make a user
     const { error } = addUserValidation(req.body);

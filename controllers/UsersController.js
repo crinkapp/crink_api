@@ -1,10 +1,11 @@
 const { User } = require('../sequelize');
 const { sendEmail } = require('../controllers/NewslettersController');
 require('dotenv').config();
-const { addUserValidation, loginValidation } = require('../joi/validation');
+const { addUserValidation, loginValidation, updateUserValidation } = require('../joi/validation');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const Cookies = require('cookies');
+const { CP932_JAPANESE_CI } = require('mysql2/lib/constants/charsets');
 
 async function getAllUsers(req, res) {
     try {
@@ -31,6 +32,19 @@ async function getUser(req, res) {
     } else {
         return res.status(400).send("Unknow user id");
     }
+}
+
+async function updateUser(req, res){
+    const user_id = res.locals.id_user;
+    const new_values = req.body;
+    if(req.body) {
+        await User.update(
+            new_values, {
+            where: {id: user_id}
+        });
+        return res.json('Success update');
+    }
+    return res.json('Nothing to update.');
 }
 
 async function removeUser(req, res) {
@@ -96,6 +110,7 @@ async function updateUserPwd(req, res){
 }
 
 async function register(req, res) {
+    console.log("\n\n\n\n\n\n");
     //Validate the data before we make a user
     const { error } = addUserValidation(req.body);
     if(error) return res.status(400).send(error.details[0].message);
@@ -185,6 +200,7 @@ module.exports = {
     register,
     login,
     logout,
-    updateUserPwd
+    updateUserPwd,
+    updateUser
 };
 

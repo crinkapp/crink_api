@@ -26,8 +26,29 @@ const loginValidation = (data) => {
     return schema.validate(data);
 
 };
+
+/*const updateUserValidation = (data) => {
+    const schema = joi.object(
+        {
+            first_name_user: joi.string(),
+            last_name_user: joi.string(),
+            email_user: joi.string().min(6).email(),
+            username_user: joi.string().min(2),
+            birthday_date_user: joi.string()
+                .pattern(new RegExp('^([0-2][0-9]|(3)[0-1])(\\/)(((0)[0-9])|((1)[0-2]))(\\/)\\d{4}$')),
+            password_user: joi.string().min(6),
+            gender_user: joi.string(),
+            path_profil_picture_user: joi.string()
+
+        }
+    );
+    return schema.validate(data);
+
+
+};*/
 module.exports = {
     addUserValidation,
-    loginValidation
+    loginValidation,
+
 };
 

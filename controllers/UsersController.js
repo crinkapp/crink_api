@@ -110,7 +110,6 @@ async function updateUserPwd(req, res){
 }
 
 async function register(req, res) {
-    console.log("\n\n\n\n\n\n");
     //Validate the data before we make a user
     const { error } = addUserValidation(req.body);
     if(error) return res.status(400).send(error.details[0].message);

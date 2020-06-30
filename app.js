@@ -43,11 +43,13 @@ app.get('/', (req, res) => res.send('Successful connection with the api!'));
 // Import Routes
 const newslettersRoute = require('./routes/newsletters');
 const settingRoute = require('./routes/setting');
+const diagnosticRoute = require('./routes/diagnostic');
 const userRoute = require('./routes/users');
 
 // apply body parser to the data return by requests
 app.use('/newsletters', newslettersRoute);
 app.use('/setting', settingRoute);
+app.use('/diagnostic', diagnosticRoute);
 app.use('/', userRoute);
 
 // BOOT THE SERVER

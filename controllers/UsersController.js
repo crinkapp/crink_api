@@ -4,8 +4,6 @@ require('dotenv').config();
 const { addUserValidation, loginValidation, updateUserValidation } = require('../joi/validation');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const Cookies = require('cookies');
-const { CP932_JAPANESE_CI } = require('mysql2/lib/constants/charsets');
 
 async function getAllUsers(req, res) {
     try {
@@ -173,14 +171,10 @@ async function login(req, res) {
 
     // Create a cookie to store the token and send it to the front
     try {
-        new Cookies(req,res).set('access_token' ,token , {
+        res.cookie('access_token', token, {
             httpOnly: true,
             secure: false
-        });
-        res.status(200).send({
-            message: "Here's your token:",
-            xsrfToken: token.xsrfToken
-        });
+        }).json("You are now logged in !");
     } catch(err) {
         return res.json(err);
     }

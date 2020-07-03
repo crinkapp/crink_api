@@ -1,4 +1,3 @@
-const Sequelize = require('sequelize');
 const { UserTag } = require('../sequelize');
 
 async function userAddTags(req, res) {

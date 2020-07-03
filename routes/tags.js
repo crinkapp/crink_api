@@ -7,7 +7,7 @@ const verifyToken = require('../token/verifyToken');
  *
  * /tag:
  * post:
- *      description: Add a new User from Sign Up
+ *      description: Add a new Tags. Admin acces only for now
  *      produces:
  *          - application/json
  *      responses:

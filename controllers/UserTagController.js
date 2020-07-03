@@ -1,7 +1,5 @@
 const Sequelize = require('sequelize');
 const { UserTag } = require('../sequelize');
-const { in: opIn } = Sequelize.Op;
-
 
 async function userAddTags(req, res) {
 
@@ -47,7 +45,32 @@ async function getTagsByUser(req, res) {
         }
 
     }
+
+async function deleteUserTagById(req, res){
+
+    const user_id = res.locals.id_user;
+    const tagId = req.body.tagId;
+    if(user_id) {
+        try {
+            if(UserTag.findOne({where: {tagId: tagId}})) {
+                await UserTag.destroy({
+                    where: {
+                        userId: user_id,
+                        tagId: tagId // tagId sent by front-end
+                    }
+                });
+                return res.json('Deleted');
+            }
+            }catch (err) {
+                return res.status(400).send("Something went wrong");
+            }
+    }else {
+        return res.status(400).send("Unknow user id");
+    }
+
+}
 module.exports= {
     getTagsByUser,
-    userAddTags
+    userAddTags,
+    deleteUserTagById
 };

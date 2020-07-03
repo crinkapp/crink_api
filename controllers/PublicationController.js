@@ -2,16 +2,16 @@ const { Publication, User } = require('../sequelize');
 
 async function addPublication(req, res) {
 
-    const user_id = req.locals.id_user;
+    const user_id = res.locals.id_user;
 
-    const title = req.body.title_publication;
-    const content = req.body.content_publication;
-    const media = req.body.path_media_publication;
+    const title = req.body.title;
+    const content = req.body.content;
+    const media = req.body.media;
     const status = 'active';
 
         try{
-            if(User.findOne({where: {id: user_id}})) {
-                const publication = Publication.create({
+            if(user_id) {
+                const publication =  await Publication.create({
                     title_publication: title,
                     content_publication: content,
                     path_media_publication: media,
@@ -20,16 +20,15 @@ async function addPublication(req, res) {
 
                 });
                 publication.save;
+                return res.json("Publication successuflly added")
 
-                return res.json("Publication successuflly added"+" "+ publication)
             }else{
                 return res.json("can't find user")
             }
             }catch(err){
-            return res.json("Something went wrong")
+                return res.status(400).send("Something went wrong")
         }
 }
-
 module.exports= {
     addPublication,
-}
+};

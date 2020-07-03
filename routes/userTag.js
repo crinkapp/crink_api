@@ -16,7 +16,7 @@ const verifyToken = require('../token/verifyToken');
  *          200:
  *              description: Request went well
  *
- *  get:
+ * get:
  *      description: Get all user's tags
  *      produces:
  *          - application/json

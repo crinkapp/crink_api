@@ -54,6 +54,7 @@ const diagnosticRoute = require('./routes/diagnostic');
 const userRoute = require('./routes/users');
 const tagRoute = require('./routes/tags');
 const userTagRoute = require('./routes/userTag');
+const publicationRoute = require('./routes/publications');
 
 // apply body parser to the data return by requests
 app.use('/newsletters', newslettersRoute);
@@ -62,6 +63,7 @@ app.use('/diagnostic', diagnosticRoute);
 app.use('/', userRoute);
 app.use('/', tagRoute);
 app.use('/', userTagRoute);
+app.use('/', publicationRoute);
 
 // BOOT THE SERVER
 app.listen(port, hostname, () => {

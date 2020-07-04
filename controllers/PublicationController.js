@@ -1,4 +1,4 @@
-const { Publication, User } = require('../sequelize');
+const { Publication } = require('../sequelize');
 
 async function addPublication(req, res) {
 
@@ -29,6 +29,23 @@ async function addPublication(req, res) {
                 return res.status(400).send("Something went wrong")
         }
 }
+
+async function updatePublication(req, res){
+
+        const publicationExist = await Publication.findOne({where: {id: req.body.id}});
+        const new_values = req.body;
+        if(publicationExist && req.body) {
+            await Publication.update(
+                new_values, {
+                    where: {id: req.body.id}
+                });
+            return res.json('Success update');
+        }else{
+            return res.json('Unknown id or no data sent to update');
+
+        }
+}
 module.exports= {
     addPublication,
+    updatePublication
 };

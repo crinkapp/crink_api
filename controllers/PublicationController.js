@@ -45,7 +45,26 @@ async function updatePublication(req, res){
 
         }
 }
+
+async function deletePublication(req, res){
+
+    const user_id = res.locals.id_user;
+
+    const findPublication = await Publication.findOne({where: {id: req.body.id}});
+    if(user_id && findPublication ){
+        try{
+            await Publication.destroy({where: {id: req.body.id}});
+            return res.json(' Publication Successfully removed');
+
+        }catch (err) {
+            return res.status(400).send('bad request')
+        }
+    }else{
+        return res.status(400).send("Can't find publication")
+    }
+}
 module.exports= {
     addPublication,
-    updatePublication
+    updatePublication,
+    deletePublication
 };

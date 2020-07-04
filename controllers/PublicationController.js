@@ -1,5 +1,61 @@
 const { Publication } = require('../sequelize');
 
+async function getAllPublications(req, res){
+
+    try {
+        const allUPublications =  await Publication.findAll({raw: true});
+        return res.json(allUPublications);
+    }
+    catch(err) {
+        return res.status(400).send('No publications found');
+    }
+}
+
+async function getAllPublicationByUser(req, res){
+
+    const user_id = res.locals.id_user;
+    if(user_id){
+        try {
+            const user_publications = await Publication.findAll({
+                where: {userId: user_id}
+            });
+            return res.json(user_publications);
+
+        } catch(err) {
+            return res.status(400).send("Can't find user's publications");
+        }
+
+    } else {
+        return res.status(400).send("Unknow user id");
+
+    }
+}
+
+async function getUserPublicationById(req, res){
+
+    const user_id = res.locals.id_user;
+    const pub_id = req.body.id;
+
+    if(user_id && pub_id){
+        try {
+            const user_publication = await Publication.findOne({
+                where: {userId: user_id, id: pub_id}
+            });
+            return res.json(user_publication);
+
+        } catch(err) {
+            return res.status(400).send("Can't find user's publications");
+        }
+
+    } else {
+        return res.status(400).send("Unknow user id or id publication");
+
+    }
+
+
+
+}
+
 async function addPublication(req, res) {
 
     const user_id = res.locals.id_user;
@@ -66,5 +122,8 @@ async function deletePublication(req, res){
 module.exports= {
     addPublication,
     updatePublication,
-    deletePublication
+    deletePublication,
+    getAllPublicationByUser,
+    getAllPublications,
+    getUserPublicationById
 };

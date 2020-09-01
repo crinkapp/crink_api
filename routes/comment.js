@@ -7,6 +7,6 @@ const verifyToken = require('../token/verifyToken');
 router.get('/comments', getAllCommentByPublication );
 router.post('/comment', verifyToken, addComment );
 router.put('/comment', verifyToken, updateComment);
-router.deleteComment('/comment', verifyToken, deleteComment);
+router.delete('/comment', verifyToken, deleteComment);
 
 module.exports = router;

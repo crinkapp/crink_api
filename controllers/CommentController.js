@@ -24,6 +24,7 @@ async function getAllCommentByPublication(req, res) {
 
 async function addComment(req, res) {
 
+    const user_id = res.locals.id_user;
     const publication_id = req.body.publication_id;
 
     if(publication_id){
@@ -32,6 +33,7 @@ async function addComment(req, res) {
 
             const new_comment = await Comment.create({
                 publicationId: publication_id,
+                userId: user_id,
                 content_comment: req.body.content,
                 status_comment: true
             });
@@ -49,12 +51,14 @@ async function addComment(req, res) {
 
 async function updateComment(req, res) {
 
+    const user_id = res.locals.id_user;
     const commentExist = await Comment.findOne({where: {id: req.body.id}});
     const new_values = req.body;
     if (commentExist && new_values) {
         await Comment.update(
-            new_values, {
-                where: {id: req.body.id}
+            new_values,
+            {
+                where: {id: req.body.id, userId: user_id}
             });
         return res.json('Success update');
     } else {
@@ -70,7 +74,7 @@ async function deleteComment(req, res) {
     const findComment = await Comment.findOne({where: {id: req.body.id}});
     if (user_id && findComment) {
         try {
-            await Comment.destroy({where: {id: req.body.id}});
+            await Comment.destroy({where: {id: req.body.id, userId: user_id}});
             return res.json(' Comment Successfully removed');
 
         } catch (err) {

@@ -156,15 +156,15 @@ async function login(req, res) {
 
     //Validate the data before login a user
     const { error } = loginValidation(req.body);
-    if(error) return res.status(400).send(error.details[0].message);
+    if(error) return res.status(401).send(error.details[0].message);
 
     // Checking the email exist
     const user = await User.findOne({where: {email_user: email}});
-    if(!user) return res.status(400).send('Unknow user, please register');
+    if(!user) return res.status(401).send('Unknow user, please register');
 
     // check if password is correct
     const validPass = await bcrypt.compare(password, user.password_user);
-    if(!validPass) return res.status(400).send('Incorrect password');
+    if(!validPass) return res.status(401).send('Incorrect password');
 
     // create and assign a token to a user
     const token = jwt.sign({_id: user.id}, process.env.TOKEN_SECRET);

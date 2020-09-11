@@ -10,7 +10,7 @@ const PublicationModel = (sequelize, type) => {
             allowNull: false,
         },
         content_publication: {
-            type: type.STRING,
+            type: type.TEXT,
             allowNull: false,
         },
         path_media_publication: {

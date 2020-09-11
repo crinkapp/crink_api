@@ -67,11 +67,6 @@ async function addFavoris(req, res) {
 
     // If not favoris is created
     try {
-      const exist = Favoris.findOne({
-        where: {
-          id: publication_id,
-        },
-      });
 
       const new_favoris = await Favoris.create({
         publicationId: publication_id,
@@ -87,42 +82,8 @@ async function addFavoris(req, res) {
   } else {
     return res.status(400).send("publication user not found");
   }
+
 }
-
-//  afficher tous les favoris d'une publication
-/*async function getAllFavorisByPublicationId(req, res){
-
-    const publication_id = req.body.publication_id;
-
-    if (publication_id) {
-        try {
-            const publicationFavoris = await Favoris.findAll({
-                where: {publicationId: publication_id}
-
-            });
-
-            for(let i = 0; i < allFavoris.length; i++) {
-                const publications = await Publication.findOne({
-                    where: {id: allFavoris.publicationId,}
-                });
-                console.log(publications);
-                return res.json(publications);
-            }
-            return res.json(publicationFavoris);
-
-        } catch (err) {
-            return res.status(400).send("Can't find publication's favoris");
-        }
-
-    } else {
-        return res.status(400).send("Unknow publication id");
-
-    }
-}
-
-async function getUserFavorisById(req, res){
-
-}*/
 
 async function deleteFavoris(req, res) {
   console.log(`Je récupère ça : ${req.body.id}`);
@@ -143,7 +104,5 @@ async function deleteFavoris(req, res) {
 module.exports = {
   getAllUserFavoris,
   addFavoris,
-  //getAllFavorisByPublicationId,
-  //getUserFavorisById,
   deleteFavoris,
 };

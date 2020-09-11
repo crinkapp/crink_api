@@ -17,7 +17,6 @@ async function getAllUsers(req, res) {
 
 async function getUser(req, res) {
     const user_id = res.locals.id_user;
-    console.log(user_id);
     if (user_id) {
         try {
             const user =  await User.findOne({

@@ -6,7 +6,7 @@ async function getDiagnostic(req, res) {
         return res.json(diagnostic);
     }
     catch(err) {
-        return res.json(err);
+        return res.json(err)
     }
 }
 
@@ -17,7 +17,7 @@ async function addDiagnostic(req, res) {
     const porosity= req.body.porosity_diagnostic;
     const density= req.body.density_diagnostic;
     const thickness= req.body.thickness_diagnostic;
-    const curl_pattern= req.body.curl_pattern_diagnostic;
+    const curl_pattern= req.body.curl_pattern_diagnostic
     const distance_between_curls= req.body.distance_between_curls_diagnostic;
 
     const diagnostic = new Diagnostic({
@@ -34,10 +34,10 @@ async function addDiagnostic(req, res) {
     diagnostic
         .save()
         .then(data => {
-            return res.json(data);
+            return res.json(data)
         })
         .catch(err => {
-            return res.json({message: err});
+            return res.json({message: err})
         })
 }
 

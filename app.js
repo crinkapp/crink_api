@@ -1,5 +1,5 @@
 const express = require('express');
-const cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser');
 const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -36,7 +36,7 @@ const swaggerDocs = swaggerJsDoc(swaggerOptions);
 const corsOption = {
     origin: 'http://localhost:4200',
     credentials: true
-}
+};
 
 //Middleweares
 app.use(cors(corsOption));
@@ -52,12 +52,22 @@ const newslettersRoute = require('./routes/newsletters');
 const settingRoute = require('./routes/setting');
 const diagnosticRoute = require('./routes/diagnostic');
 const userRoute = require('./routes/users');
+const tagRoute = require('./routes/tags');
+const userTagRoute = require('./routes/userTag');
+const publicationRoute = require('./routes/publications');
+const commentRoute = require('./routes/comment');
+const favorisRoute = require('./routes/favoris');
 
 // apply body parser to the data return by requests
 app.use('/newsletters', newslettersRoute);
 app.use('/setting', settingRoute);
 app.use('/diagnostic', diagnosticRoute);
 app.use('/', userRoute);
+app.use('/', tagRoute);
+app.use('/', userTagRoute);
+app.use('/', publicationRoute);
+app.use('/', commentRoute);
+app.use('/', favorisRoute);
 
 // BOOT THE SERVER
 app.listen(port, hostname, () => {

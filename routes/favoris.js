@@ -7,7 +7,7 @@ const {getUserFavorisById, getAllUserFavoris, addFavoris, deleteFavoris, getAllF
 router.get('/all-user-favoris', verifyToken, getAllUserFavoris );
 //router.get('/all-publication-favoris', getAllFavorisByPublicationId);
 router.post('/favoris', verifyToken, addFavoris );
-//router.delete('/favoris', verifyToken, deleteFavoris);
+router.delete('/favoris', verifyToken, deleteFavoris);
 
 
 module.exports = router;

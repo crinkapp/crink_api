@@ -203,6 +203,7 @@ async function logout(req, res) {
 module.exports = {
   getAllUsers,
   getUser,
+  getUserById,
   removeUser,
   sendResetPasswordEmail,
   register,

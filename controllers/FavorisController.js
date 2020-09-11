@@ -10,19 +10,20 @@ async function getAllUserFavoris(req, res) {
 
             // on récupère tableau d'objet des favoris d'un user
             const allFavoris = await Favoris.findAll({
+                attributes: ['publicationId'],
                 where: {userId: user_id}
             });
             console.log(allFavoris);
 
             //on affiche chaque publication à partir de son id
-           for (let i = 0; i < allFavoris.length; i++) {
+           // for (let i = 0; i < allFavoris.length; i++) {
                 const publications = await Publication.findOne({ where: {
-                    id: allFavoris.favoris.dataValues.publicationId
+                    id: allFavoris[0].id
                     }});
 
                 console.log(publications);
                 return res.json(publications);
-            }
+           // }
 
         } catch (err) {
             return res.status(400).send("Can't find user's favoris");

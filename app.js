@@ -56,6 +56,7 @@ const tagRoute = require('./routes/tags');
 const userTagRoute = require('./routes/userTag');
 const publicationRoute = require('./routes/publications');
 const commentRoute = require('./routes/comment');
+const favorisRoute = require('./routes/favoris');
 
 // apply body parser to the data return by requests
 app.use('/newsletters', newslettersRoute);
@@ -66,6 +67,7 @@ app.use('/', tagRoute);
 app.use('/', userTagRoute);
 app.use('/', publicationRoute);
 app.use('/', commentRoute);
+app.use('/', favorisRoute);
 
 // BOOT THE SERVER
 app.listen(port, hostname, () => {

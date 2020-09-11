@@ -91,7 +91,6 @@ async function addPublication(req, res) {
                     publicationId: publicationId,
                     tagId: hashtags[i].tagId
                 });
-                console.log(tags);
                 tags.save()
             }
             return res.json("success")

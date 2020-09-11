@@ -114,7 +114,9 @@ module.exports = {
     Tag: Tag,
     Publication: Publication,
     Comment: Comment,
-    Favoris: Favoris
+    Favoris: Favoris,
+    UserTag: UserTag,
+    PublicationTag: PublicationTag
 };
 
 

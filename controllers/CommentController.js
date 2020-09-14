@@ -10,6 +10,7 @@ async function getAllCommentByPublication(req, res) {
                 where: {publicationId: publication_id}
 
             });
+
             return res.json(publicationComment);
 
         } catch (err) {
@@ -46,6 +47,28 @@ async function addComment(req, res) {
         }
     }else{
         return res.status(400).send("id publication not found");
+    }
+}
+
+async function nbCommentsByPublicationId(req, res) {
+    const id = req.body.id;
+
+    if (id) {
+
+        try {
+            return await Comment.count({
+                where: { publicationId: id },
+            }).then((count)=>{
+                return res.json(count)
+            });
+
+        } catch(err){
+            return res.status(400).send("Bad request");
+
+        }
+    }else{
+        return res.status(400).send("Unknow publication id ");
+
     }
 }
 
@@ -88,7 +111,8 @@ module.exports = {
     getAllCommentByPublication,
     addComment,
     updateComment,
-    deleteComment
+    deleteComment,
+    nbCommentsByPublicationId
 
 
 };

@@ -50,6 +50,28 @@ async function addComment(req, res) {
     }
 }
 
+async function nbCommentsByPublicationId(req, res) {
+    const id = req.body.id;
+
+    if (id) {
+
+        try {
+            return await Comment.count({
+                where: { publicationId: id },
+            }).then((count)=>{
+                return res.json(count)
+            });
+
+        } catch(err){
+            return res.status(400).send("Bad request");
+
+        }
+    }else{
+        return res.status(400).send("Unknow publication id ");
+
+    }
+}
+
 async function updateComment(req, res) {
 
     const user_id = res.locals.id_user;
@@ -89,7 +111,8 @@ module.exports = {
     getAllCommentByPublication,
     addComment,
     updateComment,
-    deleteComment
+    deleteComment,
+    nbCommentsByPublicationId
 
 
 };

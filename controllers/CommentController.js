@@ -10,6 +10,7 @@ async function getAllCommentByPublication(req, res) {
                 where: {publicationId: publication_id}
 
             });
+
             return res.json(publicationComment);
 
         } catch (err) {

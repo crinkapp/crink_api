@@ -1,4 +1,4 @@
-const { Publication, PublicationTag, User, LikeUser } = require("../sequelize");
+const { Publication, PublicationTag, User, LikeUser, Comment } = require("../sequelize");
 
 
 async function getAllPublications(req, res) {
@@ -11,6 +11,22 @@ async function getAllPublications(req, res) {
         },
         attributes: { exclude: ["password_user", "birthday_user"] },
       });
+      // afficher le nombre de likes par publication
+        LikeUser.count({
+        where: {publicationId: allUPublications[i].id}
+      }).then((result)=>{
+        result >0 ? allUPublications[i].nbLikes= result : allUPublications[i].nbLikes= 0
+
+        });
+
+        // afficher le nombre de commentaires par publication
+        Comment.count({
+          where: {publicationId: allUPublications[i].id}
+        }).then((result)=>{
+          result >0 ? allUPublications[i].nbComments= result : allUPublications[i].nbComments= 0
+
+      });
+      allUPublications[i].toto = 'toto';
     }
     return res.json(allUPublications);
   } catch (err) {

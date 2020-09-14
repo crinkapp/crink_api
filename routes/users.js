@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const  { getAllUsers, getUser, removeUser, sendResetPasswordEmail, register, login, logout, updateUserPwd, updateUser } = require('../controllers/UsersController');
+const  { getAllUsers, getUser, getUserById, removeUser, sendResetPasswordEmail, register, login, logout, updateUserPwd, updateUser } = require('../controllers/UsersController');
 const verifyToken = require('../token/verifyToken');
 /**
  * @swagger
@@ -86,6 +86,7 @@ const verifyToken = require('../token/verifyToken');
  // GET User(s) and REMOVE
 router.get('/users', getAllUsers);
 router.get('/user', verifyToken, getUser);
+router.get('/user-by-id', getUserById);
 router.delete('/user',verifyToken, removeUser);
 
 // Show and update user data

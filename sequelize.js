@@ -101,7 +101,7 @@ PublicationTag.belongsTo(Tag);
 Tag.hasMany(PublicationTag);
 
 // synchro with db
-sequelize.sync({ force: true })
+sequelize.sync({ force: false })
     .then(() => {
         console.log(`Database & tables created!`)
     });

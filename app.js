@@ -1,5 +1,5 @@
 const express = require('express');
-const cookieParser = require('cookie-parser');
+const cookieParser = require('cookie-parser')
 const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -36,7 +36,7 @@ const swaggerDocs = swaggerJsDoc(swaggerOptions);
 const corsOption = {
     origin: 'http://localhost:4200',
     credentials: true
-};
+}
 
 //Middleweares
 app.use(cors(corsOption));

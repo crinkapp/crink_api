@@ -13,7 +13,7 @@ const UserTagModel = require('./models/UserTagModel');
 const PublicationTagModel = require('./models/PublicationTagModel');
 require('mysql2');
 require('dotenv/config');
-const dbConfig = require("../config/db.config.js")
+const dbConfig = require("./config/db.config.js")
 
 // CONNECT DATABASE WITH SEQUILIZE
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {

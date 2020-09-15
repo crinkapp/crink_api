@@ -10,7 +10,7 @@ const router = express.Router();
 require('dotenv').config();
 
 const hostname = process.env.HOSTNAME;
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
 
 //swagger
 const swaggerOptions = {

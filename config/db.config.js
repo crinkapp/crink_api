@@ -3,7 +3,7 @@ module.exports = {
     USER: "bbcbb93c286f10",
     PASSWORD: "f99dd40d",
     DB: "heroku_726f51a979c2863x",
-    PORT: 3307
+    PORT: 3306
   };
 
 

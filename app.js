@@ -34,7 +34,7 @@ const swaggerOptions = {
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
 const corsOption = {
-    origin: 'http://localhost:4200',
+    origin: hostname,
     credentials: true
 };
 

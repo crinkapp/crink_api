@@ -13,11 +13,12 @@ const UserTagModel = require('./models/UserTagModel');
 const PublicationTagModel = require('./models/PublicationTagModel');
 require('mysql2');
 require('dotenv/config');
+const dbConfig = require("../config/db.config.js")
 
 // CONNECT DATABASE WITH SEQUILIZE
-const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
+const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
+    host: dbConfig.HOST,
+    // port: dbConfig.DB_PORT,
     dialect: 'mysql',
     define: {
         // The `timestamps` field specify whether or not the `createdAt` and `updatedAt` fields will be created.
@@ -101,7 +102,7 @@ PublicationTag.belongsTo(Tag);
 Tag.hasMany(PublicationTag);
 
 // synchro with db
-sequelize.sync({ force: false })
+sequelize.sync({ force: true })
     .then(() => {
         console.log(`Database & tables created!`)
     });

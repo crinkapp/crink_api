@@ -1,5 +1,48 @@
 const {LikeUser} = require('../sequelize');
 
+async function getAllUserLikes(req, res) {
+    const user_id = res.locals.id_user;
+
+    if (user_id) {
+        try {
+            // on récupère les ids des plublications qu'un user a liké
+            const allLikes = await LikeUser.findAll({
+                attributes: { exclude: ["id", "createdAt", "updatedAt", "userId"]  },
+                where: { userId: user_id },
+            });
+
+            return res.json(allLikes);
+        } catch (err) {
+            return res.status(400).send("Can't find user's likes");
+        }
+    } else {
+        return res.status(400).send("Unknow user id");
+    }
+}
+
+async function getAllLikeByPublicationId (req, res) {
+
+    const id = req.body.publication_id;
+
+    if (id) {
+
+        try {
+            const allPublicationLikes = await LikeUser.findAll({
+                where: { publicationId: id },
+            });
+            return res.json(allPublicationLikes);
+
+        } catch(err){
+            return res.status(400).send("Bad request");
+
+        }
+    }else{
+        return res.status(400).send("Unknow publication id ");
+
+    }
+
+}
+
 async function nbLikesByPublicationId(req, res) {
     const id = req.body.publication_id;
 
@@ -78,6 +121,8 @@ async function addLike(req, res) {
 
     module.exports= {
         nbLikesByPublicationId,
-        addLike
+        addLike,
+        getAllUserLikes,
+        getAllLikeByPublicationId
     };
 

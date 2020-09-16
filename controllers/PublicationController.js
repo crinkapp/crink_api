@@ -5,6 +5,7 @@ const {
   User,
   LikeUser,
   Comment,
+  UserTag,
 } = require("../sequelize");
 
 // Get all publication of the application
@@ -57,13 +58,65 @@ async function getAllPublications(req, res) {
   }
 }
 
+// Return an array of Tag ID based of User Tags
+async function getTagIdsByUserTags(userId) {
+  const tags = await UserTag.findAll({
+    where: { userId },
+    attributes: ["tagId"],
+  });
+
+  // map the array to return only id and not the whole object
+  const tagIds = tags.map((tag) => tag.tagId);
+  return tagIds;
+}
+
+// Take an array in parameter and return an array of publication ids
+async function getPublicationIdsByTagIds(tagId) {
+  let publications = [];
+  // id_tags verification array
+  if (tagId.length === 0) {
+    return new Error("Empty array…");
+  }
+
+  try {
+    const publicationIds = await PublicationTag.findAll({
+      where: { tagId },
+      attributes: ["publicationId"],
+    });
+
+    publicationIds.map((pub) => {
+      publications.push(pub.publicationId);
+    });
+    return publications;
+  } catch (err) {
+    return new Error(err);
+  }
+}
+
+async function getPublicationByUserTags(req, res) {
+  const user_id = res.locals.id_user;
+  try {
+    getTagIdsByUserTags(user_id).then((tagIds) => {
+      getPublicationIdsByTagIds(tagIds).then((id) => {
+        Publication.findAll({
+          where: { id },
+        }).then((publications) => {
+          return res.json(publications);
+        });
+      });
+    });
+  } catch (err) {
+    return res.error(err);
+  }
+}
+
 // Get all publication written by the actual user
 async function getAllPublicationByUser(req, res) {
-  const user_id = res.locals.id_user;
+  const userId = res.locals.id_user;
   if (user_id) {
     try {
       const user_publications = await Publication.findAll({
-        where: { userId: user_id },
+        where: { userId },
       });
       return res.json(user_publications);
     } catch (err) {
@@ -185,4 +238,5 @@ module.exports = {
   getAllPublicationByUser,
   getAllPublications,
   getUserPublicationById,
+  getPublicationByUserTags,
 };

@@ -14,11 +14,11 @@ const PublicationTagModel = require('./models/PublicationTagModel');
 const SubscriptionModel = require('./models/SubscriptionModel');
 require('mysql2');
 require('dotenv/config');
-const dbConfig = require("./config/db.config.js")
+const dbConfig = require("./config/db.config.js");
 
 // CONNECT DATABASE WITH SEQUILIZE
-const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
-    host: dbConfig.HOST,
+const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
+    host: process.env.DB_HOST,
     // port: dbConfig.PORT,
     dialect: 'mysql',
     define: {

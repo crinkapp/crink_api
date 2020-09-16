@@ -55,6 +55,7 @@ const userRoute = require('./routes/users');
 const tagRoute = require('./routes/tags');
 const userTagRoute = require('./routes/userTag');
 const publicationRoute = require('./routes/publications');
+const publicationTagRoute = require('./routes/publicationTag');
 const commentRoute = require('./routes/comment');
 const likeUserRoute = require('./routes/likeUser');
 const favorisRoute = require('./routes/favoris');
@@ -72,6 +73,7 @@ app.use('/', commentRoute);
 app.use('/', likeUserRoute);
 app.use('/', favorisRoute);
 app.use('/', subscriptionRoute);
+app.use('/', publicationTagRoute);
 
 // BOOT THE SERVER
 app.listen(port, hostname, () => {

@@ -1,3 +1,4 @@
+const LikeUserModel = require("../models/LikeUserModel");
 const {
   Publication,
   PublicationTag,
@@ -24,6 +25,21 @@ async function getAllPublications(req, res) {
           ? (allUPublications[i].nbLikes = result)
           : (allUPublications[i].nbLikes = 0);
       });
+
+      const user_id = res.locals.id_user;
+
+      await LikeUser.findOne({
+        where: {
+          userId: user_id,
+          publicationId: allUPublications[i].id,
+        },
+      })
+        .then((res) => {
+          res !== null
+            ? (allUPublications[i].likedByActualUser = true)
+            : (allUPublications[i].likedByActualUser = false);
+        })
+        .catch((err) => console.log(err));
 
       // afficher le nombre de commentaires par publication
       await Comment.count({

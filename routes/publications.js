@@ -4,7 +4,7 @@ const { addPublication, updatePublication, deletePublication, getAllPublicationB
 const verifyToken = require('../token/verifyToken');
 
 router.get('/user-publication', verifyToken, getUserPublicationById);
-router.get('/all-publications', getAllPublications);
+router.get('/all-publications', verifyToken, getAllPublications);
 router.get('/all-user-publications', verifyToken, getAllPublicationByUser);
 router.post('/add-publication', verifyToken, addPublication);
 router.put('/update-publication', verifyToken, updatePublication);

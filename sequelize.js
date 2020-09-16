@@ -11,6 +11,7 @@ const PublicationModel = require('./models/PublicationModel');
 const SignaledModel = require('./models/SignaledModel');
 const UserTagModel = require('./models/UserTagModel');
 const PublicationTagModel = require('./models/PublicationTagModel');
+const SubscriptionModel = require('./models/SubscriptionModel');
 require('mysql2');
 require('dotenv/config');
 
@@ -47,6 +48,7 @@ sequelize
  const Signaled = SignaledModel(sequelize, Sequelize);
  const UserTag = UserTagModel(sequelize, Sequelize);
  const PublicationTag = PublicationTagModel(sequelize, Sequelize);
+ const Subscription = SubscriptionModel(sequelize, Sequelize);
 
 // Relationship
 User.belongsTo(Setting);
@@ -100,6 +102,9 @@ Publication.hasMany(PublicationTag);
 PublicationTag.belongsTo(Tag);
 Tag.hasMany(PublicationTag);
 
+Subscription.belongsTo(User);
+User.hasMany(Subscription);
+
 // synchro with db
 sequelize.sync({ force: false })
     .then(() => {
@@ -117,7 +122,8 @@ module.exports = {
     Favoris: Favoris,
     UserTag: UserTag,
     PublicationTag: PublicationTag,
-    LikeUser: LikeUser
+    LikeUser: LikeUser,
+    Subscription: Subscription
 };
 
 

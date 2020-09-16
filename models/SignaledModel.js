@@ -1,4 +1,4 @@
-const sequelize = require("../sequelize");
+const SubscriptionModel = require("../sequelize");
 
 const SignaledModel = (sequelize, type) => {
     return sequelize.define('signaled',{

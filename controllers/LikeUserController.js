@@ -7,7 +7,7 @@ async function getAllUserLikes(req, res) {
         try {
             // on récupère les ids des plublications qu'un user a liké
             const allLikes = await LikeUser.findAll({
-                attributes: { exclude: ["id", "createdAt", "updatedAt", "userId"]  },
+                attributes: ["publicationId"],
                 where: { userId: user_id },
             });
 

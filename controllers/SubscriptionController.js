@@ -119,8 +119,55 @@ async function getAllSubscribersByUser(req, res) {
     }
 }
 
+async function nbSubscriptionsByUserId(req, res) {
+    const user_id = res.locals.id_user;
+
+    if (user_id) {
+
+        try {
+            return await Subscription.count({
+                where: { userId: user_id },
+            }).then((count)=>{
+                return res.json(count)
+            });
+
+        } catch(err){
+            return res.status(400).send("Bad request");
+
+        }
+    }else{
+        return res.status(400).send("Unknow user id ");
+
+    }
+}
+
+
+async function nbSubscribersByUserId(req, res) {
+
+    const user_id = res.locals.id_user;
+
+    if (user_id) {
+
+        try {
+            return await Subscription.count({
+                where: { user_subscription: user_id },
+            }).then((count)=>{
+                return res.json(count)
+            });
+
+        } catch(err){
+            return res.status(400).send("Bad request");
+
+        }
+    }else{
+        return res.status(400).send("Unknow user id ");
+
+    }
+}
 module.exports = {
     addSubscribe,
     getAllSubscriptionByUser,
     getAllSubscribersByUser,
+    nbSubscriptionsByUserId,
+    nbSubscribersByUserId
 };

@@ -10,7 +10,7 @@ async function userAddTags(req, res) {
         userId: user_id,
         tagId: data[i],
       });
-      await user_tag.save();
+      await user_tag.save;
     }
     return res.json("successfully added");
   } else {

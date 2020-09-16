@@ -7,6 +7,7 @@ const {
   Comment,
 } = require("../sequelize");
 
+// Get all publication of the application
 async function getAllPublications(req, res) {
   try {
     const allUPublications = await Publication.findAll({ raw: true });
@@ -56,6 +57,7 @@ async function getAllPublications(req, res) {
   }
 }
 
+// Get all publication written by the actual user
 async function getAllPublicationByUser(req, res) {
   const user_id = res.locals.id_user;
   if (user_id) {
@@ -72,6 +74,7 @@ async function getAllPublicationByUser(req, res) {
   }
 }
 
+// Not in use for the moment
 async function getUserPublicationById(req, res) {
   const user_id = res.locals.id_user;
   const pub_id = req.body.id;
@@ -90,6 +93,7 @@ async function getUserPublicationById(req, res) {
   }
 }
 
+// Add a publication
 async function addPublication(req, res) {
   const user_id = res.locals.id_user;
 
@@ -139,6 +143,7 @@ async function addPublication(req, res) {
   }
 }
 
+// Update a publication
 async function updatePublication(req, res) {
   const publicationExist = await Publication.findOne({
     where: { id: req.body.id },
@@ -154,6 +159,7 @@ async function updatePublication(req, res) {
   }
 }
 
+// Delete a publication
 async function deletePublication(req, res) {
   const user_id = res.locals.id_user;
 

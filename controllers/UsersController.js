@@ -259,4 +259,5 @@ module.exports = {
   logout,
   updateUserPwd,
   updateUser,
+  nbPublicationbyUser
 };

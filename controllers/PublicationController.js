@@ -8,67 +8,81 @@ const {
   UserTag,
   Tag,
 } = require("../sequelize");
+const {
+  nbSubscriptionsByUserId,
+  nbSubscribersByUserId,
+} = require("./SubscriptionController");
 
-// Get all publication of the application
-async function getAllPublications(req, res) {
-  try {
-    const allPublications = await Publication.findAll({ raw: true });
-    for (let i = 0; i < allPublications.length; i++) {
-      allPublications[i].user = await User.findOne({
-        where: {
-          id: allPublications[i].userId,
-        },
-        attributes: { exclude: ["password_user", "birthday_user"] },
-      });
-      // afficher le nombre de likes par publication
-      await LikeUser.count({
-        where: { publicationId: allPublications[i].id },
-      }).then((result) => {
-        result > 0
-          ? (allPublications[i].nbLikes = result)
-          : (allPublications[i].nbLikes = 0);
-      });
+// Get the author of the publication
+const getAuthorPublication = async (publication) => {
+  const user = await User.findOne({
+    where: {
+      id: publication.userId,
+    },
+    attributes: { exclude: ["password_user", "birthday_user"] },
+  });
 
-      const user_id = res.locals.id_user;
+  // Get subscribers / subscriptions of user
+  await nbSubscriptionsByUserId(user.id).then(
+    (total) => (user.dataValues.nbSubscription = total)
+  );
+  await nbSubscribersByUserId(user.id).then(
+    (total) => (user.dataValues.nbSubscribers = total)
+  );
+  return user;
+};
 
-      await LikeUser.findOne({
-        where: {
-          userId: user_id,
-          publicationId: allPublications[i].id,
-        },
-      })
-        .then((res) => {
-          res !== null
-            ? (allPublications[i].likedByActualUser = true)
-            : (allPublications[i].likedByActualUser = false);
-        })
-        .catch((err) => console.log(err));
+// Get the numbers publication's like
+const getPublicationLikeNumber = async (publication) => {
+  let nbLikes;
+  await LikeUser.count({
+    where: { publicationId: publication.id },
+  }).then((result) => {
+    result > 0 ? (nbLikes = result) : (nbLikes = 0);
+  });
+  return nbLikes;
+};
 
-      // afficher le nombre de commentaires par publication
-      await Comment.count({
-        where: { publicationId: allPublications[i].id },
-      }).then((result) => {
-        result > 0
-          ? (allPublications[i].nbComments = result)
-          : (allPublications[i].nbComments = 0);
-      });
+// Get if local user likes it or not
+const likedByActualUser = async (publication, actualUser) => {
+  let userLiked;
+  await LikeUser.findOne({
+    where: {
+      userId: actualUser,
+      publicationId: publication.id,
+    },
+  }).then((res) => {
+    res !== null ? (userLiked = true) : (userLiked = false);
+  });
+  return userLiked;
+};
 
-      await PublicationTag.findAll({
-        where: { publicationId: allPublications[i].id },
-        attributes: ["tagId"],
-      })
-        .then(async (id) => {
-          allPublications[i].hashtags = await getTagNames(id);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-    return res.json(allPublications);
-  } catch (err) {
-    return res.status(400).send("No publications found");
-  }
-}
+// Get the numbers of publication's comment
+const getPublicationCommentNumber = async (publication) => {
+  let nbComments;
+  await Comment.count({
+    where: { publicationId: publication.id },
+  }).then((result) => {
+    result > 0 ? (nbComments = result) : (nbComments = 0);
+  });
+  return nbComments;
+};
+
+// Get all the publication's tags
+const getPublicationTags = async (publication) => {
+  let tags;
+  await PublicationTag.findAll({
+    where: { publicationId: publication.id },
+    attributes: ["tagId"],
+  })
+    .then(async (id) => {
+      tags = await getTagNames(id);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  return tags;
+};
 
 async function getTagNames(tagIds) {
   const ids = tagIds.map((tag) => tag.tagId);
@@ -89,6 +103,35 @@ async function getTagIdsByUserTags(userId) {
   // map the array to return only id and not the whole object
   const tagIds = tags.map((tag) => tag.tagId);
   return tagIds;
+}
+
+// Get all publication of the application
+async function getAllPublications(req, res) {
+  try {
+    const allPublications = await Publication.findAll({
+      raw: true,
+    });
+    for (let i = 0; i < allPublications.length; i++) {
+      await getAuthorPublication(allPublications[i]).then(
+        (user) => (allPublications[i].user = user)
+      );
+      await likedByActualUser(allPublications[i], res.locals.id_user).then(
+        (liked) => (allPublications[i].likedByActualUser = liked)
+      );
+      await getPublicationLikeNumber(allPublications[i]).then(
+        (total) => (allPublications[i].nbLikes = total)
+      );
+      await getPublicationCommentNumber(allPublications[i]).then(
+        (total) => (allPublications[i].nbComments = total)
+      );
+      await getPublicationTags(allPublications[i]).then(
+        (tags) => (allPublications[i].hashtags = tags)
+      );
+    }
+    return res.json(allPublications);
+  } catch (err) {
+    return res.status(400).send("No publications found");
+  }
 }
 
 // Take an array in parameter and return an array of publication ids
@@ -114,31 +157,68 @@ async function getPublicationIdsByTagIds(tagId) {
   }
 }
 
+// Get the publications that will appear in local user feed (based on his tags)
 async function getPublicationByUserTags(req, res) {
   const user_id = res.locals.id_user;
   try {
-    getTagIdsByUserTags(user_id).then((tagIds) => {
-      getPublicationIdsByTagIds(tagIds).then((id) => {
-        Publication.findAll({
+    let publicationsForUser;
+    await getTagIdsByUserTags(user_id).then(async (tagIds) => {
+      await getPublicationIdsByTagIds(tagIds).then(async (id) => {
+        await Publication.findAll({
           where: { id },
         }).then((publications) => {
-          return res.json(publications);
+          publicationsForUser = publications
         });
       });
     });
+    for (let i = 0; i < publicationsForUser.length; i++) {
+      await getAuthorPublication(publicationsForUser[i]).then(
+        (user) => (publicationsForUser[i].dataValues.user = user)
+      );
+      await likedByActualUser(publicationsForUser[i], user_id).then(
+        (liked) => (publicationsForUser[i].dataValues.likedByActualUser = liked)
+      );
+      await getPublicationLikeNumber(publicationsForUser[i]).then(
+        (total) => (publicationsForUser[i].dataValues.nbLikes = total)
+      );
+      await getPublicationCommentNumber(publicationsForUser[i]).then(
+        (total) => (publicationsForUser[i].dataValues.nbComments = total)
+      );
+      await getPublicationTags(publicationsForUser[i]).then(
+        (tags) => (publicationsForUser[i].hashtags = tags)
+      );
+    }
+    return res.json(publicationsForUser);
   } catch (err) {
-    return res.error(err);
+    return res.status(400).send(err);
   }
 }
 
 // Get all publication written by the actual user
 async function getAllPublicationByUser(req, res) {
   const userId = res.locals.id_user;
-  if (user_id) {
+  if (userId) {
     try {
       const user_publications = await Publication.findAll({
         where: { userId },
       });
+      for (let i = 0; i < user_publications.length; i++) {
+        await getAuthorPublication(user_publications[i]).then(
+          (user) => (user_publications[i].dataValues.user = user)
+        );
+        await likedByActualUser(user_publications[i], res.locals.id_user).then(
+          (liked) => (user_publications[i].dataValues.likedByActualUser = liked)
+        );
+        await getPublicationLikeNumber(user_publications[i]).then(
+          (total) => (user_publications[i].dataValues.nbLikes = total)
+        );
+        await getPublicationCommentNumber(user_publications[i]).then(
+          (total) => (user_publications[i].dataValues.nbComments = total)
+        );
+        await getPublicationTags(user_publications[i]).then(
+          (tags) => (user_publications[i].dataValues.hashtags = tags)
+        );
+      }
       return res.json(user_publications);
     } catch (err) {
       return res.status(400).send("Can't find user's publications");

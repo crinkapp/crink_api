@@ -1,5 +1,5 @@
 const { User } = require("../sequelize");
-const { sendEmail } = require("../controllers/NewslettersController");
+const { sendEmail } = require("./NewslettersController");
 require("dotenv").config();
 const {
   addUserValidation,
@@ -8,10 +8,24 @@ const {
 } = require("../joi/validation");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const {
+  nbSubscriptionsByUserId,
+  nbSubscribersByUserId,
+} = require("./SubscriptionController");
 
 async function getAllUsers(req, res) {
   try {
     const allUsers = await User.findAll({ raw: true });
+
+    // getting subscription / subscribers info
+    for (let i = 0; i < allUsers.length; i++) {
+      await nbSubscriptionsByUserId(allUsers[i].id).then(
+        (total) => (allUsers[i].nbSubscription = total)
+      );
+      await nbSubscribersByUserId(allUsers[i].id).then(
+        (total) => (allUsers[i].nbSubscribers = total)
+      );
+    }
     return res.json(allUsers);
   } catch (err) {
     return res.json(err);
@@ -25,6 +39,12 @@ async function getUser(req, res) {
       const user = await User.findOne({
         where: { id: user_id },
       });
+      await nbSubscriptionsByUserId(user_id).then(
+        (total) => (user.dataValues.nbSubscription = total)
+      );
+      await nbSubscribersByUserId(user_id).then(
+        (total) => (user.dataValues.nbSubscribers = total)
+      );
       return res.json(user);
     } catch (err) {
       return res.status(400).send("Can't find the user");
@@ -35,10 +55,17 @@ async function getUser(req, res) {
 }
 
 async function getUserById(req, res) {
+  const user_id = res.locals.id_user;
   try {
     const user = await User.findOne({
-      where: { id: req.body.id_user },
+      where: { id: user_id },
     });
+    await nbSubscriptionsByUserId(user_id).then(
+      (total) => (user.dataValues.nbSubscription = total)
+    );
+    await nbSubscribersByUserId(user_id).then(
+      (total) => (user.dataValues.nbSubscribers = total)
+    );
     return res.json(user);
   } catch (err) {
     return res.status(400).send("Can't find the user");

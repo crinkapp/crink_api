@@ -109,39 +109,27 @@ async function getAllSubscribersByUser(req, res) {
   }
 }
 
-async function nbSubscriptionsByUserId(req, res) {
-  const user_id = res.locals.id_user;
-
-  if (!user_id) {
-    return res.status(400).send("Unknow user id ");
-  }
-
+async function nbSubscriptionsByUserId(userId) {
   try {
     return await Subscription.count({
-      where: { userId: user_id },
+      where: { userId },
     }).then((count) => {
-      return res.json(count);
+      return count;
     });
   } catch (err) {
-    return res.status(400).send("Bad request");
+    return err;
   }
 }
 
-async function nbSubscribersByUserId(req, res) {
-  const user_id = res.locals.id_user;
-
-  if (!user_id) {
-    return res.status(400).send("Unknow user id ");
-  }
-
+async function nbSubscribersByUserId(user_subscription) {
   try {
     return await Subscription.count({
-      where: { user_subscription: user_id },
+      where: { user_subscription },
     }).then((count) => {
-      return res.json(count);
+      return count;
     });
   } catch (err) {
-    return res.status(400).send("Bad request");
+    return err;
   }
 }
 module.exports = {

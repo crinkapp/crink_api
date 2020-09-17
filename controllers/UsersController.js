@@ -1,4 +1,4 @@
-const { User } = require("../sequelize");
+const { User, Publication } = require("../sequelize");
 const { sendEmail } = require("./NewslettersController");
 require("dotenv").config();
 const {
@@ -13,6 +13,18 @@ const {
   nbSubscribersByUserId,
 } = require("./SubscriptionController");
 
+const nbPublicationbyUser = async (userId) => {
+  try {
+    return await Publication.count({
+      where: { userId },
+    }).then((count) => {
+      return count;
+    });
+  } catch (err) {
+    return err;
+  }
+}
+
 async function getAllUsers(req, res) {
   try {
     const allUsers = await User.findAll({ raw: true });
@@ -25,6 +37,9 @@ async function getAllUsers(req, res) {
       await nbSubscribersByUserId(allUsers[i].id).then(
         (total) => (allUsers[i].nbSubscribers = total)
       );
+      await nbPublicationbyUser(allUsers[i].id).then(
+        (total) => (allUsers[i].nbPublications = total)
+      )
     }
     return res.json(allUsers);
   } catch (err) {
@@ -45,6 +60,9 @@ async function getUser(req, res) {
       await nbSubscribersByUserId(user_id).then(
         (total) => (user.dataValues.nbSubscribers = total)
       );
+      await nbPublicationbyUser(user_id).then(
+        (total) => (user.dataValues.nbPublications = total)
+      )
       return res.json(user);
     } catch (err) {
       return res.status(400).send("Can't find the user");
@@ -55,7 +73,7 @@ async function getUser(req, res) {
 }
 
 async function getUserById(req, res) {
-  const user_id = res.locals.id_user;
+  const user_id = req.body.id_user;
   try {
     const user = await User.findOne({
       where: { id: user_id },
@@ -66,6 +84,9 @@ async function getUserById(req, res) {
     await nbSubscribersByUserId(user_id).then(
       (total) => (user.dataValues.nbSubscribers = total)
     );
+    await nbPublicationbyUser(user_id).then(
+      (total) => (user.dataValues.nbPublications = total)
+    )
     return res.json(user);
   } catch (err) {
     return res.status(400).send("Can't find the user");

@@ -4,8 +4,6 @@ const {
   addSubscribe,
   getAllSubscriptionByUser,
   getAllSubscribersByUser,
-  nbSubscriptionsByUserId,
-  nbSubscribersByUserId,
 } = require("../controllers/SubscriptionController");
 const VerifyToken = require("../token/verifyToken");
 

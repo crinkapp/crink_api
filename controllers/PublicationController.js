@@ -12,6 +12,7 @@ const {
   nbSubscriptionsByUserId,
   nbSubscribersByUserId,
 } = require("./SubscriptionController");
+const { nbPublicationbyUser } = require('./UsersController')
 
 // Get the author of the publication
 const getAuthorPublication = async (publication) => {
@@ -28,6 +29,9 @@ const getAuthorPublication = async (publication) => {
   );
   await nbSubscribersByUserId(user.id).then(
     (total) => (user.dataValues.nbSubscribers = total)
+  );
+  await nbPublicationbyUser(user.id).then(
+    (total) => (user.dataValues.nbPublications = total)
   );
   return user;
 };

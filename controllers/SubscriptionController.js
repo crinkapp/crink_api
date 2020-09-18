@@ -138,4 +138,5 @@ module.exports = {
   getAllSubscribersByUser,
   nbSubscriptionsByUserId,
   nbSubscribersByUserId,
+  isAlreadySubscribed
 };

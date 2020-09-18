@@ -11,6 +11,7 @@ const jwt = require("jsonwebtoken");
 const {
   nbSubscriptionsByUserId,
   nbSubscribersByUserId,
+  isAlreadySubscribed,
 } = require("./SubscriptionController");
 
 const nbPublicationbyUser = async (userId) => {
@@ -23,7 +24,7 @@ const nbPublicationbyUser = async (userId) => {
   } catch (err) {
     return err;
   }
-}
+};
 
 async function getAllUsers(req, res) {
   try {
@@ -39,7 +40,7 @@ async function getAllUsers(req, res) {
       );
       await nbPublicationbyUser(allUsers[i].id).then(
         (total) => (allUsers[i].nbPublications = total)
-      )
+      );
     }
     return res.json(allUsers);
   } catch (err) {
@@ -62,7 +63,7 @@ async function getUser(req, res) {
       );
       await nbPublicationbyUser(user_id).then(
         (total) => (user.dataValues.nbPublications = total)
-      )
+      );
       return res.json(user);
     } catch (err) {
       return res.status(400).send("Can't find the user");
@@ -73,6 +74,7 @@ async function getUser(req, res) {
 }
 
 async function getUserById(req, res) {
+  const actualUser = res.locals.id_user;
   const user_id = req.body.id_user;
   try {
     const user = await User.findOne({
@@ -86,9 +88,15 @@ async function getUserById(req, res) {
     );
     await nbPublicationbyUser(user_id).then(
       (total) => (user.dataValues.nbPublications = total)
-    )
+    );
+    await isAlreadySubscribed(user_id, actualUser).then((subscribed) =>
+      subscribed
+        ? (user.dataValues.alreadySubscribed = true)
+        : (user.dataValues.alreadySubscribed = false)
+    );
     return res.json(user);
   } catch (err) {
+    console.log(err);
     return res.status(400).send("Can't find the user");
   }
 }
@@ -259,5 +267,5 @@ module.exports = {
   logout,
   updateUserPwd,
   updateUser,
-  nbPublicationbyUser
+  nbPublicationbyUser,
 };

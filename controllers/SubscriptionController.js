@@ -18,8 +18,8 @@ async function addSubscribe(req, res) {
   const id = req.body.id; // id of user we want to susbscribe to
 
   // If empty, return error
-  if (!id) {
-    return res.status(400).send("user id not found");
+  if (!id || id === userId) {
+    return res.status(400).send("User id not found or you're trying to subscribe to yourself.");
   }
 
   isAlreadySubscribed(id, userId).then((exist) => {

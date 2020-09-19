@@ -32,7 +32,7 @@ const DiagnosticModel = (sequelize, type) => {
         distance_between_curls_diagnostic: {
             type: type.ENUM('distance_between_curls_loose', 'distance_between_curls_medium', 'distance_between_curls_tight', 'distance_between_curls_very_tight'),
             allowNull: true,
-        },
+        }
 
     })
 };

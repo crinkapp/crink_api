@@ -12,7 +12,7 @@ const {
   nbSubscriptionsByUserId,
   nbSubscribersByUserId,
 } = require("./SubscriptionController");
-const { nbPublicationbyUser } = require('./UsersController')
+const { nbPublicationbyUser } = require('./UsersController');
 
 // Get the author of the publication
 const getAuthorPublication = async (publication) => {

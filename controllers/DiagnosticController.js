@@ -60,7 +60,17 @@ async function addDiagnostic(req, res) {
         { where: { id: user_id } }
       );
 
-      // 2. Get all the ID tags from diagnostic answers
+      // 2. Remove old diagnostic tags value from User Tags
+      for (let i = 1; i < 21; i++) {
+        await UserTag.destroy({
+          where: {
+            userId: user_id,
+            tagId: i
+          }
+        })
+      }
+
+      // 3. Get all the ID tags from diagnostic answers
       // Remove useless values (id, createdAt and updatedAt)
       const filteredDiagnostic = diagnostic.dataValues;
       delete filteredDiagnostic.id;
@@ -76,7 +86,7 @@ async function addDiagnostic(req, res) {
             },
             attributes: ["id"],
           }).then(async (result) => {
-            // 3. Pass tag ID to USER TAG
+            // 4. Pass tag ID to USER TAG
             await UserTag.create({
               userId: user_id,
               tagId: result.dataValues.id,

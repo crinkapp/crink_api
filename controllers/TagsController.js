@@ -1,9 +1,9 @@
 const { Tag } = require("../sequelize");
 
 async function addTag(req, res) {
-  const name = req.body.name;
+  const name_tag = req.body.name_tag;
   const tag = new Tag({
-    name_tag: name,
+    name_tag,
   });
 
   tag

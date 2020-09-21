@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const  { addTag, getTags } = require('../controllers/TagsController');
+const  { addTag, getTags, getAllTagsSeen } = require('../controllers/TagsController');
 const verifyToken = require('../token/verifyToken');
 /**
  * @swagger
@@ -17,5 +17,6 @@ const verifyToken = require('../token/verifyToken');
  */
 router.post('/tag',verifyToken, addTag);
 router.get('/tags', getTags);
+router.get('/tags-seen',getAllTagsSeen);
 
 module.exports = router;

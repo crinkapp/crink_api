@@ -10,7 +10,7 @@ const router = express.Router();
 require('dotenv').config();
 
 const hostname = process.env.HOSTNAME;
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
 
 //swagger
 const swaggerOptions = {
@@ -34,7 +34,7 @@ const swaggerOptions = {
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
 const corsOption = {
-    origin: 'http://localhost:4200',
+    origin: hostname,
     credentials: true
 };
 
@@ -54,6 +54,12 @@ const diagnosticRoute = require('./routes/diagnostic');
 const userRoute = require('./routes/users');
 const tagRoute = require('./routes/tags');
 const userTagRoute = require('./routes/userTag');
+const publicationRoute = require('./routes/publications');
+const publicationTagRoute = require('./routes/publicationTag');
+const commentRoute = require('./routes/comment');
+const likeUserRoute = require('./routes/likeUser');
+const favorisRoute = require('./routes/favoris');
+const subscriptionRoute = require('./routes/subscription');
 
 // apply body parser to the data return by requests
 app.use('/newsletters', newslettersRoute);
@@ -62,6 +68,12 @@ app.use('/diagnostic', diagnosticRoute);
 app.use('/', userRoute);
 app.use('/', tagRoute);
 app.use('/', userTagRoute);
+app.use('/', publicationRoute);
+app.use('/', commentRoute);
+app.use('/', likeUserRoute);
+app.use('/', favorisRoute);
+app.use('/', subscriptionRoute);
+app.use('/', publicationTagRoute);
 
 // BOOT THE SERVER
 app.listen(port, hostname, () => {

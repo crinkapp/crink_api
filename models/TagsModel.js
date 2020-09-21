@@ -6,6 +6,11 @@ const TagsModel = (sequelize, type) => {
             autoIncrement: true,
         },
         name_tag: type.STRING,
+
+        isSeen: {
+            type: type.BOOLEAN,
+            default: true,
+        }
     })
 };
 module.exports = TagsModel;

@@ -11,13 +11,15 @@ const PublicationModel = require('./models/PublicationModel');
 const SignaledModel = require('./models/SignaledModel');
 const UserTagModel = require('./models/UserTagModel');
 const PublicationTagModel = require('./models/PublicationTagModel');
+const SubscriptionModel = require('./models/SubscriptionModel');
 require('mysql2');
 require('dotenv/config');
+const dbConfig = require("./config/db.config.js");
 
 // CONNECT DATABASE WITH SEQUILIZE
 const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
     host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
+    // port: dbConfig.PORT,
     dialect: 'mysql',
     define: {
         // The `timestamps` field specify whether or not the `createdAt` and `updatedAt` fields will be created.
@@ -47,6 +49,7 @@ sequelize
  const Signaled = SignaledModel(sequelize, Sequelize);
  const UserTag = UserTagModel(sequelize, Sequelize);
  const PublicationTag = PublicationTagModel(sequelize, Sequelize);
+ const Subscription = SubscriptionModel(sequelize, Sequelize);
 
 // Relationship
 User.belongsTo(Setting);
@@ -100,6 +103,9 @@ Publication.hasMany(PublicationTag);
 PublicationTag.belongsTo(Tag);
 Tag.hasMany(PublicationTag);
 
+Subscription.belongsTo(User);
+User.hasMany(Subscription);
+
 // synchro with db
 sequelize.sync({ force: false })
     .then(() => {
@@ -116,6 +122,9 @@ module.exports = {
     Comment: Comment,
     Favoris: Favoris,
     UserTag: UserTag,
+    PublicationTag: PublicationTag,
+    LikeUser: LikeUser,
+    Subscription: Subscription
 };
 
 

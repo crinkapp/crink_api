@@ -1,4 +1,4 @@
-const LikeUserModel = require("../models/LikeUserModel");
+const { uploadMedia } = require("../aws/aws-bucket-s3");
 const {
   Publication,
   PublicationTag,
@@ -254,17 +254,22 @@ async function getUserPublicationById(req, res) {
 // Add a publication
 async function addPublication(req, res) {
   const user_id = res.locals.id_user;
+  let media;
+  if (req.file) {
+
+    const fileName = req.file.originalname;
+    const fileContent = req.file.buffer;
+    const fileType = req.file.mimetype;
+
+    const fileMedia = uploadMedia(fileName, fileContent, fileType, user_id);
+    media = fileMedia.path;
+  }
 
   const title = req.body.title;
   const content = req.body.content;
-  const media = req.body.media; // array with : name, type, tmp_name, error, size
   const status = "active";
   const hashtags = req.body.hashtags;
-  //const nameImg =  media.tmp_name le tmp_name de l'image'
-  //const extensionImg = media.type  extension de l'image
-  //const path = "https://crink/publication/img/";
-  //const md5 = md5(nameImg);
-  //const lastPath = path+user_id+"/"+nameImg+"."+extensionImg;
+
   try {
     // check if user exist
     if (user_id) {

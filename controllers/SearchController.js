@@ -1,3 +1,4 @@
+const sequelize = require('sequelize');
 const {
     Publication,
     PublicationTag,
@@ -24,23 +25,23 @@ async function searchPublicationByTags(req, res) {
 }
 
 async function searchPublicationByAuthor(req, res){
-    const research_field = req.body.research_field;
-    const val = '%'+research_field+'%';
+    //const research_field = req.body.research_field;
+   // const val = '%'+research_field+'%';
+
     await User.findAll({where:
             {
-                username:
+                username_user:
                     {
-                        '$like': val
+                        [sequelize.Op.like]: '%' + req.body.research_field + '%'
                     }
             },
-            attributes: ["userId"]}).then(async(result)=>{
-                const userIds = result.map((res)=>res.userId);
+            attributes: ["id"]}).then(async(result)=>{
+                const userIds = result.map((res)=>res.id);
                 await Publication.findAll({where: {id: userIds}}).then((publications)=>{
                     return res.json(publications)
                 }).catch((err) =>{
                     return res.json(err)
                 })
-
     })
 }
 module.exports = {

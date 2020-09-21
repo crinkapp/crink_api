@@ -4,7 +4,7 @@ async function addTag(req, res) {
   const name = req.body.name;
   const tag = new Tag({
     name_tag: name,
-    isSeen: true
+    is_seen: true
   });
 
   tag
@@ -28,7 +28,7 @@ async function getTags(req, res) {
 
 async function getAllTagsSeen(req, res) {
   try {
-    const tagsSeen = await Tag.findAll( {where: {isSeen: true}});
+    const tagsSeen = await Tag.findAll( {where: {is_seen: true}});
     return res.json(tagsSeen);
   }catch (err) {
     return res.json(err)

@@ -24,18 +24,19 @@ async function searchPublicationByTags(req, res) {
         });
 }
 
-async function searchPublicationByAuthor(req, res){
+async function searchPublicationByAuthorOrTitle(req, res){
     //const research_field = req.body.research_field;
    // const val = '%'+research_field+'%';
 
-    await User.findAll({where:
+    await Publication.findAll({where:
             {
-                username_user:
+                title_publication:
                     {
                         [sequelize.Op.like]: '%' + req.body.research_field + '%'
                     }
             },
-            attributes: ["id"]}).then(async(result)=>{
+            attributes: ["id"],
+            include: [{model:User, attributes:['id']}]}).then(async(result)=>{
                 const userIds = result.map((res)=>res.id);
                 await Publication.findAll({where: {id: userIds}}).then((publications)=>{
                     return res.json(publications)
@@ -46,5 +47,5 @@ async function searchPublicationByAuthor(req, res){
 }
 module.exports = {
     searchPublicationByTags,
-    searchPublicationByAuthor
+    searchPublicationByAuthorOrTitle
 };

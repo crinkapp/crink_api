@@ -3,37 +3,29 @@ const crypto = require('crypto');
 
 //configuring the AWS environment
 AWS.config.update({
-    accessKeyId: process.env.AWS_ID,
-    secretAccessKey: process.env.AWS_KEY
-  });
+  accessKeyId: process.env.AWS_ID,
+  secretAccessKey: process.env.AWS_KEY
+});
 
-function uploadMedia(fileName, fileContent, fileType, user_id){
+function uploadMedia(fileName, fileContent, fileType, user_id) {
   const s3 = new AWS.S3();
   const type = fileType.split('/');
   const fileExtension = type[1];
-  //  console.log(fileExtension);
-   
   const hash = crypto.createHmac('sha256', fileName).digest('hex');
-  // console.log(hash);
-  const userFolder = "user"+user_id+"/";
-  // console.log(userFolder);
-  const key = Date.now()+hash+"."+fileExtension;
-  // console.log(key);
-
+  const userFolder = "user" + user_id + "/";
+  const key = Date.now() + hash + "." + fileExtension;
   const params = {
     Bucket: process.env.BUCKET_DEV,
-    Body : fileContent,
-    Key : "user/"+userFolder+key
+    Body: fileContent,
+    Key: "user/" + userFolder + key
     //'4
   };
-    // console.log(params);
-    
-s3.upload(params, function (err, data) {
+  s3.upload(params, function (err, data) {
     //handle error
     if (err) {
       console.log("Error", err);
     }
-  
+
     //success
     if (data) {
       console.log("Upload success !");
@@ -42,7 +34,7 @@ s3.upload(params, function (err, data) {
   });
 
   const tab = {
-    'path' : key,
+    'path': key,
   };
   return tab
 }

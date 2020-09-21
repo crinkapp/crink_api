@@ -7,9 +7,12 @@ const TagsModel = (sequelize, type) => {
         },
         name_tag: type.STRING,
 
-        isSeen: {
+        is_seen: {
             type: type.BOOLEAN,
             default: true,
+        },
+        path_image: {
+            type: type.STRING,
         }
     })
 };

@@ -19,7 +19,7 @@ const dbConfig = require("./config/db.config.js");
 // CONNECT DATABASE WITH SEQUILIZE
 const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
     host: process.env.DB_HOST,
-    // port: dbConfig.PORT,
+    port:process.env.DB_PORT,
     dialect: 'mysql',
     define: {
         // The `timestamps` field specify whether or not the `createdAt` and `updatedAt` fields will be created.

@@ -201,6 +201,7 @@ async function register(req, res) {
     username_user: username_user,
     password_user: hashedPassword,
     gender_user: gender_user,
+    path_profil_picture_user: "no_user.jpg"
   });
   user.save();
   if (req.body.newsletter_user) {

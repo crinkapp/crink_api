@@ -291,7 +291,7 @@ async function addPublication(req, res) {
       for (let i = 0; i < hashtags.length; i++) {
         const tags = await PublicationTag.create({
           publicationId: publicationId,
-          tagId: hashtags[i].tagId,
+          tagId: hashtags[i],
         });
         tags.save();
       }

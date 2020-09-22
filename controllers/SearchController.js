@@ -2,8 +2,7 @@ const sequelize = require('sequelize');
 const {
     Publication,
     PublicationTag,
-    User,
-    Tags
+    User
 } = require("../sequelize");
 
 async function searchPublicationByTags(req, res) {
@@ -14,7 +13,6 @@ async function searchPublicationByTags(req, res) {
     await PublicationTag.findAll({where: {tagId},
     attributes: ["publicationId"]})
         .then(async(result) =>{
-            // return publications from array of publicationIds
         const publicationIds = result.map((res)=>res.publicationId);
             await Publication.findAll({where: {id: publicationIds}}).then((publications)=>{
                 return res.json(publications)
@@ -25,8 +23,6 @@ async function searchPublicationByTags(req, res) {
 }
 
 async function searchPublicationByAuthorOrTitle(req, res){
-    //const research_field = req.body.research_field;
-   // const val = '%'+research_field+'%';
 
     await Publication.findAll({where:
             {

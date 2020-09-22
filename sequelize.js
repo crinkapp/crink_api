@@ -112,7 +112,7 @@ Subscription.belongsTo(User);
 User.hasMany(Subscription);
 
 // synchro with db
-sequelize.sync({ force: false }).then(() => {
+sequelize.sync({ force: true }).then(() => {
   console.log(`Database & tables created!`);
 });
 

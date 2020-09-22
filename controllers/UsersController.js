@@ -184,6 +184,7 @@ async function register(req, res) {
   const username_user = req.body.username_user;
   const password_user = req.body.password_user;
   const gender_user = req.body.gender_user;
+  const role_user = "User";
 
   const emailExist = await User.findOne({ where: { email_user: email_user } });
   if (emailExist)
@@ -201,7 +202,8 @@ async function register(req, res) {
     username_user: username_user,
     password_user: hashedPassword,
     gender_user: gender_user,
-    path_profil_picture_user: "no_user.jpg"
+    path_profil_picture_user: "no_user.jpg",
+    role_user: role_user
   });
   user.save();
   if (req.body.newsletter_user) {

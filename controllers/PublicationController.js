@@ -273,6 +273,13 @@ async function addPublication(req, res) {
   try {
     // check if user exist
     if (user_id) {
+
+      // checking the user role
+       const role = await User.findOne({where: {id: user_id}, attributes: ["role_user"]});
+
+       if(role.role_user === 'User'){
+         return res.status(401).send('Access denied');
+       }
       // create publication and save in db
       const publication = await Publication.create({
         title_publication: title,

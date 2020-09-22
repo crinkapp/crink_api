@@ -43,6 +43,8 @@ const UsersModel = (sequelize, type) => {
     },
     role_user: {
       type: type.ENUM("Admin", "Writter", "User"),
+      allowNull: false,
+      defaultValue: "User",
     },
   });
 };

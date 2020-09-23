@@ -25,7 +25,10 @@ async function searchPublicationByTags(req, res) {
           await getAuthorPublication(publications[i].dataValues).then(
             (user) => (publications[i].dataValues.user = user)
           );
-          await likedByActualUser(publications[i].dataValues, res.locals.id_user).then(
+          await likedByActualUser(
+            publications[i].dataValues,
+            res.locals.id_user
+          ).then(
             (liked) => (publications[i].dataValues.likedByActualUser = liked)
           );
           await getPublicationLikeNumber(publications[i].dataValues).then(
@@ -37,9 +40,10 @@ async function searchPublicationByTags(req, res) {
           await getPublicationTags(publications[i].dataValues).then(
             (tags) => (publications[i].dataValues.hashtags = tags)
           );
-          await favByActualUser(publications[i].dataValues, res.locals.id_user).then(
-            (isFav) => (publications[i].dataValues.favoris = isFav)
-          );
+          await favByActualUser(
+            publications[i].dataValues,
+            res.locals.id_user
+          ).then((isFav) => (publications[i].dataValues.favoris = isFav));
         }
         return res.json(publications);
       })
@@ -48,7 +52,6 @@ async function searchPublicationByTags(req, res) {
       });
   });
 }
-
 
 async function searchPublicationByTitle(req, res) {
   await Publication.findAll({
@@ -61,26 +64,28 @@ async function searchPublicationByTitle(req, res) {
     .then(async (publications) => {
       for (let i = 0; i < publications.length; i++) {
         await getAuthorPublication(publications[i].dataValues).then(
-            (user) => (publications[i].dataValues.user = user)
+          (user) => (publications[i].dataValues.user = user)
         );
-        await likedByActualUser(publications[i].dataValues, res.locals.id_user).then(
-            (liked) => (publications[i].dataValues.likedByActualUser = liked)
+        await likedByActualUser(
+          publications[i].dataValues,
+          res.locals.id_user
+        ).then(
+          (liked) => (publications[i].dataValues.likedByActualUser = liked)
         );
         await getPublicationLikeNumber(publications[i].dataValues).then(
-            (total) => (publications[i].dataValues.nbLikes = total)
+          (total) => (publications[i].dataValues.nbLikes = total)
         );
         await getPublicationCommentNumber(publications[i].dataValues).then(
-            (total) => (publications[i].dataValues.nbComments = total)
+          (total) => (publications[i].dataValues.nbComments = total)
         );
         await getPublicationTags(publications[i].dataValues).then(
-            (tags) => (publications[i].dataValues.hashtags = tags)
+          (tags) => (publications[i].dataValues.hashtags = tags)
         );
-        await favByActualUser(publications[i].dataValues, res.locals.id_user).then(
-            (isFav) => (publications[i].dataValues.favoris = isFav)
-        );
+        await favByActualUser(
+          publications[i].dataValues,
+          res.locals.id_user
+        ).then((isFav) => (publications[i].dataValues.favoris = isFav));
       }
-  })
-    .then((publications) => {
       return res.json(publications);
     })
     .catch((err) => {
@@ -90,5 +95,4 @@ async function searchPublicationByTitle(req, res) {
 module.exports = {
   searchPublicationByTags,
   searchPublicationByTitle,
-
 };

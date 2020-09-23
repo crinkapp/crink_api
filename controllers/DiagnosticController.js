@@ -74,11 +74,8 @@ async function addDiagnostic(req, res) {
    // delete filteredDiagnostic.createdAt;
     // delete filteredDiagnostic.updatedAt;
 
-    //switch case to register diagnostic result as corresponding tags in user-tags table
-    console.log(filteredDiagnostic);
 
     try{
-
         if(filteredDiagnostic.locks_diagnostic){
             await Tag.findOne({where: {name_tag: 'locks'}, attributes: ["id"]}).then(async (result) => {
                 console.log("log moi ça " + result);
@@ -90,6 +87,7 @@ async function addDiagnostic(req, res) {
                 tag_locks.save();
             });
         }
+        //switch case to register diagnostic result as corresponding tags in user-tags table
         switch (filteredDiagnostic.hair_texture_diagnostic) {
             case "hair_texture_curly":
                 await Tag.findOne({where: {name_tag: 'bouclé'}, attributes: ["id"]}).then(async (result) => {

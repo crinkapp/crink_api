@@ -7,6 +7,7 @@ const {
   Comment,
   UserTag,
   Tag,
+  Favoris,
 } = require("../sequelize");
 const {
   nbSubscriptionsByUserId,
@@ -109,6 +110,16 @@ async function getTagIdsByUserTags(userId) {
   return tagIds;
 }
 
+const favByActualUser = async (publication, userId) => {
+  let userFaved;
+  await Favoris.findOne({
+    where: { userId, publicationId: publication.id },
+  }).then((res) => {
+    res !== null ? (userFaved = true) : (userFaved = false);
+  });
+  return userFaved;
+};
+
 // Get all publication of the application
 async function getAllPublications(req, res) {
   try {
@@ -131,9 +142,13 @@ async function getAllPublications(req, res) {
       await getPublicationTags(allPublications[i]).then(
         (tags) => (allPublications[i].hashtags = tags)
       );
+      await favByActualUser(allPublications[i], res.locals.id_user).then(
+        (isFav) => (allPublications[i].favoris = isFav)
+      );
     }
     return res.json(allPublications);
   } catch (err) {
+    console.log(err);
     return res.status(400).send("No publications found");
   }
 }
@@ -191,6 +206,9 @@ async function getPublicationByUserTags(req, res) {
       await getPublicationTags(publicationsForUser[i]).then(
         (tags) => (publicationsForUser[i].hashtags = tags)
       );
+      await favByActualUser(publicationsForUser[i], user_id).then(
+        (isFav) => (publicationsForUser[i].favoris = isFav)
+      );
     }
     return res.json(publicationsForUser);
   } catch (err) {
@@ -210,7 +228,7 @@ async function getAllPublicationByUser(req, res) {
         await getAuthorPublication(user_publications[i]).then(
           (user) => (user_publications[i].dataValues.user = user)
         );
-        await likedByActualUser(user_publications[i], res.locals.id_user).then(
+        await likedByActualUser(user_publications[i], userId).then(
           (liked) => (user_publications[i].dataValues.likedByActualUser = liked)
         );
         await getPublicationLikeNumber(user_publications[i]).then(
@@ -221,6 +239,9 @@ async function getAllPublicationByUser(req, res) {
         );
         await getPublicationTags(user_publications[i]).then(
           (tags) => (user_publications[i].dataValues.hashtags = tags)
+        );
+        await favByActualUser(user_publications[i], userId).then(
+          (isFav) => (user_publications[i].dataValues.favoris = isFav)
         );
       }
       return res.json(user_publications);
@@ -256,7 +277,6 @@ async function addPublication(req, res) {
   const user_id = res.locals.id_user;
   let media;
   if (req.file) {
-
     const fileName = req.file.originalname;
     const fileContent = req.file.buffer;
     const fileType = req.file.mimetype;

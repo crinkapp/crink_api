@@ -369,4 +369,10 @@ module.exports = {
   getAllPublications,
   getUserPublicationById,
   getPublicationByUserTags,
+  getAuthorPublication,
+  getPublicationLikeNumber,
+  likedByActualUser,
+  getPublicationCommentNumber,
+  getPublicationTags,
+  favByActualUser,
 };

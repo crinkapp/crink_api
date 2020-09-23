@@ -49,14 +49,36 @@ async function searchPublicationByTags(req, res) {
   });
 }
 
-async function searchPublicationByAuthorOrTitle(req, res) {
+
+async function searchPublicationByTitle(req, res) {
   await Publication.findAll({
     where: {
       title_publication: {
         [sequelize.Op.like]: "%" + req.body.research_field + "%",
       },
     },
-    // include: [{ model: User, attributes: ["username_user"] }],
+  })
+    .then(async (publications) => {
+      for (let i = 0; i < publications.length; i++) {
+        await getAuthorPublication(publications[i].dataValues).then(
+            (user) => (publications[i].dataValues.user = user)
+        );
+        await likedByActualUser(publications[i].dataValues, res.locals.id_user).then(
+            (liked) => (publications[i].dataValues.likedByActualUser = liked)
+        );
+        await getPublicationLikeNumber(publications[i].dataValues).then(
+            (total) => (publications[i].dataValues.nbLikes = total)
+        );
+        await getPublicationCommentNumber(publications[i].dataValues).then(
+            (total) => (publications[i].dataValues.nbComments = total)
+        );
+        await getPublicationTags(publications[i].dataValues).then(
+            (tags) => (publications[i].dataValues.hashtags = tags)
+        );
+        await favByActualUser(publications[i].dataValues, res.locals.id_user).then(
+            (isFav) => (publications[i].dataValues.favoris = isFav)
+        );
+      }
   })
     .then((publications) => {
       return res.json(publications);
@@ -67,5 +89,6 @@ async function searchPublicationByAuthorOrTitle(req, res) {
 }
 module.exports = {
   searchPublicationByTags,
-  searchPublicationByAuthorOrTitle,
+  searchPublicationByTitle,
+
 };

@@ -5,6 +5,10 @@ const UserTagModel = (sequelize, type) => {
                 primaryKey: true,
                 autoIncrement: true,
             },
+            is_deletable: {
+                type: type.BOOLEAN,
+                defaultValue: true
+            }
         },
     );
 };

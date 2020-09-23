@@ -29,7 +29,6 @@ async function getUserDiagnostic(req, res) {
   }
 }
 
-async function getAllPublicationByDiagnosticResult(req, res) {}
 
 async function addDiagnostic(req, res) {
   const user_id = res.locals.id_user;

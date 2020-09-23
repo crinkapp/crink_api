@@ -70,101 +70,118 @@ async function addDiagnostic(req, res) {
     // 3. Get all the ID tags from diagnostic answers
     // Remove useless values (id, createdAt and updatedAt)
     const filteredDiagnostic = diagnostic.dataValues;
-    delete filteredDiagnostic.id;
-    delete filteredDiagnostic.createdAt;
-    delete filteredDiagnostic.updatedAt;
+    //delete filteredDiagnostic.id;
+   // delete filteredDiagnostic.createdAt;
+    // delete filteredDiagnostic.updatedAt;
 
     //switch case to register diagnostic result as corresponding tags in user-tags table
     console.log(filteredDiagnostic);
 
+    try{
 
-    if(filteredDiagnostic.locks_diagnostic){
-        await Tag.findOne({where: {name_tag: 'locks'}, attributes: ["id"]}).then(async (result) => {
-            console.log("log moi ça ");
-            await UserTag.create({
-                userId: user_id,
-                tagId: result,
-                is_deletable: false
-            })
-        }).save();
+        if(filteredDiagnostic.locks_diagnostic){
+            await Tag.findOne({where: {name_tag: 'locks'}, attributes: ["id"]}).then(async (result) => {
+                console.log("log moi ça " + result);
+                const tag_locks = await UserTag.create({
+                    userId: user_id,
+                    tagId: result.id,
+                    is_deletable: false
+                });
+                tag_locks.save();
+            });
+        }
+        switch (filteredDiagnostic.hair_texture_diagnostic) {
+            case "hair_texture_curly":
+                await Tag.findOne({where: {name_tag: 'bouclé'}, attributes: ["id"]}).then(async (result) => {
+                    const tag_curly = await UserTag.create({
+                        userId: user_id,
+                        tagId: result.id,
+                        is_deletable: false
+                    });
+                    tag_curly.save();
+                });
+                break;
+            case "hair_texture_frizz":
+                await Tag.findOne({where: {name_tag: 'frisé'}, attributes: ["id"]}).then(async (result) => {
+                    const tag_frizz = await UserTag.create({
+                        userId: user_id,
+                        tagId: result.id,
+                        is_deletable: false
+                    });
+                    tag_frizz.save();
+                });
+                break;
+            case "hair_texture_kinky" :
+                await Tag.findOne({where: {name_tag: 'crépus'}, attributes: ["id"]}).then(async (result) => {
+                    console.log("log moi ça " + filteredDiagnostic);
+                    const tag_kinky = await UserTag.create({
+                        userId: user_id,
+                        tagId: result.id,
+                        is_deletable: false
+                    });
+                    tag_kinky.save();
+                });
+                break;
+            default:
+                console.log(`${filteredDiagnostic.hair_texture_diagnostic} is empty.`);
+        }
+        switch (filteredDiagnostic.porosity_diagnostic) {
+            case "porosity_low":
+            case "porosity_normal":
+            case "porosity_high":
+                await Tag.findOne({where: {name_tag: 'porosité'}, attributes: ["id"]}).then(async (result) => {
+                    const tag_porosity = await UserTag.create({
+                        userId: user_id,
+                        tagId: result.id,
+                        is_deletable: false
+                    });
+                    tag_porosity.save();
+                });
+                break;
+            default:
+                console.log(`${filteredDiagnostic.porosity_diagnostic} is empty.`);
+        }
+        switch (filteredDiagnostic.density_diagnostic) {
+            case "density_low":
+            case "density_normal":
+            case "density_high":
+                await Tag.findOne({where: {name_tag: 'densité'}, attributes: ["id"]}).then(async (result) => {
+                    const tag_density= await UserTag.create({
+                        userId: user_id,
+                        tagId: result.id,
+                        is_deletable: false
+                    });
+                    tag_density.save();
+                });
+                break;
+            default:
+                console.log(`${filteredDiagnostic.density_diagnostic} is empty.`);
+        }
+        switch (filteredDiagnostic.thickness_diagnostic) {
+            case "thickness_light":
+            case "thickness_medium":
+            case "thickness_heavy":
+                await Tag.findOne({where: {name_tag: 'épaisseur'}, attributes: ["id"]}).then(async (result) => {
+                    const tag_thickness = await UserTag.create({
+                        userId: user_id,
+                        tagId: result.id,
+                        is_deletable: false
+                    });
+                    tag_thickness.save();
+                });
+                break;
+            default:
+                console.log(`${filteredDiagnostic.density_diagnostic} is empty.`);
+        }
+
+        return res.json('success');
+    }catch (err) {
+        return res.status(400).send('Not found');
+
     }
-    switch (filteredDiagnostic.hair_texture_diagnostic) {
-        case "hair_texture_curly":
-            await Tag.findOne({where: {name_tag: 'bouclé'}, attributes: ["id"]}).then(async (result) => {
-                await UserTag.create({
-                    userId: user_id,
-                    tagId: result,
-                    is_deletable: false
-                })
-            }).save();
-            break;
-        case "hair_texture_frizz":
-            await Tag.findOne({where: {name_tag: 'frisé'}, attributes: ["id"]}).then(async (result) => {
-                await UserTag.create({
-                    userId: user_id,
-                    tagId: result,
-                    is_deletable: false
-                })
-            }).save();
-            break;
-        case "hair_texture_kinky" :
-            await Tag.findOne({where: {name_tag: 'crépus'}, attributes: ["id"]}).then(async (result) => {
-                console.log("log moi ça " + filteredDiagnostic);
-                await UserTag.create({
-                    userId: user_id,
-                    tagId: result,
-                    is_deletable: false
-                })
-            }).save();
-            break;
-        default:
-            console.log(`${filteredDiagnostic.hair_texture_diagnostic} is empty.`);
-    }
-    switch (filteredDiagnostic.porosity_diagnostic) {
-        case "porosity_low":
-        case "porosity_normal":
-        case "porosity_high":
-            await Tag.findOne({where: {name_tag: 'porosité'}, attributes: ["id"]}).then(async (result) => {
-                await UserTag.create({
-                    userId: user_id,
-                    tagId: result,
-                    is_deletable: false
-                })
-            }).save();
-            break;
-        default:
-            console.log(`${filteredDiagnostic.porosity_diagnostic} is empty.`);
-    }
-    switch (filteredDiagnostic.density_diagnostic) {
-        case "density_low":
-        case "density_normal":
-        case "density_high":
-            await Tag.findOne({where: {name_tag: 'densité'}, attributes: ["id"]}).then(async (result) => {
-                await UserTag.create({
-                    userId: user_id,
-                    tagId: result,
-                    is_deletable: false
-                })
-            }).save();
-            break;
-        default:
-            console.log(`${filteredDiagnostic.density_diagnostic} is empty.`);
-    }
-    switch (filteredDiagnostic.thickness_diagnostic) {
-        case "thickness_light":
-        case "thickness_medium":
-        case "thickness_heavy":
-            await Tag.findOne({where: {name_tag: 'épaisseur'}, attributes: ["id"]}).then(async (result) => {
-                await UserTag.create({
-                    userId: user_id,
-                    tagId: result,
-                    is_deletable: false
-                })
-            }).save();
-            break;
-        default:
-            console.log(`${filteredDiagnostic.density_diagnostic} is empty.`);
-    }
+
+
+
 }
 
 module.exports = {

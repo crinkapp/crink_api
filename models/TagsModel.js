@@ -6,6 +6,9 @@ const TagsModel = (sequelize, type) => {
             autoIncrement: true,
         },
         name_tag: type.STRING,
+        path_image: {
+            type: type.STRING,
+        }
     })
 };
 module.exports = TagsModel;

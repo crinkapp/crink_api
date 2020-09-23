@@ -1,4 +1,4 @@
-const LikeUserModel = require("../models/LikeUserModel");
+const { uploadMedia } = require("../aws/aws-bucket-s3");
 const {
   Publication,
   PublicationTag,
@@ -7,12 +7,13 @@ const {
   Comment,
   UserTag,
   Tag,
+  Favoris,
 } = require("../sequelize");
 const {
   nbSubscriptionsByUserId,
   nbSubscribersByUserId,
 } = require("./SubscriptionController");
-const { nbPublicationbyUser } = require('./UsersController');
+const { nbPublicationbyUser } = require("./UsersController");
 
 // Get the author of the publication
 const getAuthorPublication = async (publication) => {
@@ -109,6 +110,16 @@ async function getTagIdsByUserTags(userId) {
   return tagIds;
 }
 
+const favByActualUser = async (publication, userId) => {
+  let userFaved;
+  await Favoris.findOne({
+    where: { userId, publicationId: publication.id },
+  }).then((res) => {
+    res !== null ? (userFaved = true) : (userFaved = false);
+  });
+  return userFaved;
+};
+
 // Get all publication of the application
 async function getAllPublications(req, res) {
   try {
@@ -131,9 +142,13 @@ async function getAllPublications(req, res) {
       await getPublicationTags(allPublications[i]).then(
         (tags) => (allPublications[i].hashtags = tags)
       );
+      await favByActualUser(allPublications[i], res.locals.id_user).then(
+        (isFav) => (allPublications[i].favoris = isFav)
+      );
     }
     return res.json(allPublications);
   } catch (err) {
+    console.log(err);
     return res.status(400).send("No publications found");
   }
 }
@@ -171,7 +186,7 @@ async function getPublicationByUserTags(req, res) {
         await Publication.findAll({
           where: { id },
         }).then((publications) => {
-          publicationsForUser = publications
+          publicationsForUser = publications;
         });
       });
     });
@@ -190,6 +205,9 @@ async function getPublicationByUserTags(req, res) {
       );
       await getPublicationTags(publicationsForUser[i]).then(
         (tags) => (publicationsForUser[i].hashtags = tags)
+      );
+      await favByActualUser(publicationsForUser[i], user_id).then(
+        (isFav) => (publicationsForUser[i].favoris = isFav)
       );
     }
     return res.json(publicationsForUser);
@@ -210,7 +228,7 @@ async function getAllPublicationByUser(req, res) {
         await getAuthorPublication(user_publications[i]).then(
           (user) => (user_publications[i].dataValues.user = user)
         );
-        await likedByActualUser(user_publications[i], res.locals.id_user).then(
+        await likedByActualUser(user_publications[i], userId).then(
           (liked) => (user_publications[i].dataValues.likedByActualUser = liked)
         );
         await getPublicationLikeNumber(user_publications[i]).then(
@@ -221,6 +239,9 @@ async function getAllPublicationByUser(req, res) {
         );
         await getPublicationTags(user_publications[i]).then(
           (tags) => (user_publications[i].dataValues.hashtags = tags)
+        );
+        await favByActualUser(user_publications[i], userId).then(
+          (isFav) => (user_publications[i].dataValues.favoris = isFav)
         );
       }
       return res.json(user_publications);
@@ -254,17 +275,21 @@ async function getUserPublicationById(req, res) {
 // Add a publication
 async function addPublication(req, res) {
   const user_id = res.locals.id_user;
+  let media;
+  if (req.file) {
+    const fileName = req.file.originalname;
+    const fileContent = req.file.buffer;
+    const fileType = req.file.mimetype;
+
+    const fileMedia = uploadMedia(fileName, fileContent, fileType, user_id);
+    media = fileMedia.path;
+  }
 
   const title = req.body.title;
   const content = req.body.content;
-  const media = req.body.media; // array with : name, type, tmp_name, error, size
   const status = "active";
   const hashtags = req.body.hashtags;
-  //const nameImg =  media.tmp_name le tmp_name de l'image'
-  //const extensionImg = media.type  extension de l'image
-  //const path = "https://crink/publication/img/";
-  //const md5 = md5(nameImg);
-  //const lastPath = path+user_id+"/"+nameImg+"."+extensionImg;
+
   try {
     // check if user exist
     if (user_id) {
@@ -286,7 +311,7 @@ async function addPublication(req, res) {
       for (let i = 0; i < hashtags.length; i++) {
         const tags = await PublicationTag.create({
           publicationId: publicationId,
-          tagId: hashtags[i].tagId,
+          tagId: hashtags[i],
         });
         tags.save();
       }

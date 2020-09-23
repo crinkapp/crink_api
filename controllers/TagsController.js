@@ -1,33 +1,39 @@
-const { Tag } = require('../sequelize');
+const { Tag } = require("../sequelize");
 
 async function addTag(req, res) {
+  const name_tag = req.body.name_tag;
+  const path_image = req.body.path_image;
+  const tag = new Tag({ name_tag, path_image });
 
-    const name = req.body.name;
-    const tag = new Tag({
-        name_tag: name
-
+  tag
+    .save()
+    .then((data) => {
+      return res.json(data);
+    })
+    .catch((err) => {
+      return res.json({ message: err });
     });
-
-    tag
-        .save()
-        .then(data => {
-            return res.json(data)
-        })
-        .catch(err => {
-            return res.json({message: err})
-        })
 }
 
 async function getTags(req, res) {
-    try {
-        const tags =  await Tag.findAll({raw: true});
-        return res.json(tags);
-    }
-    catch(err) {
-        return res.json(err)
-    }
+  try {
+    const tags = await Tag.findAll({ raw: true });
+    return res.json(tags);
+  } catch (err) {
+    return res.json(err);
+  }
 }
-module.exports= {
-    addTag,
-    getTags,
+
+async function getAllTagsSeen(req, res) {
+  try {
+    const tagsSeen = await Tag.findAll({ where: { isSeen: true } });
+    return res.json(tagsSeen);
+  } catch (err) {
+    return res.json(err);
+  }
+}
+module.exports = {
+  addTag,
+  getTags,
+  getAllTagsSeen,
 };

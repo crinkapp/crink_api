@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const  { searchPublicationByTags, searchPublicationByAuthorOrTitle } = require('../controllers/SearchController');
+const  { searchPublicationByTags, searchPublicationByTitle } = require('../controllers/SearchController');
+const VerifyToken = require("../token/verifyToken");
 
 module.exports = router;
 
-router.get('/search-publication-by-tag', searchPublicationByTags);
-router.get('/search-publication-by-author', searchPublicationByAuthorOrTitle);
+router.post('/search-publication-by-tag', VerifyToken, searchPublicationByTags);
+router.post('/search-publication-by-title', VerifyToken, searchPublicationByTitle);

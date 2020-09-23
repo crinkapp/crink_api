@@ -49,6 +49,7 @@ async function searchPublicationByTags(req, res) {
   });
 }
 
+
 async function searchPublicationByTitle(req, res) {
   await Publication.findAll({
     where: {
@@ -78,6 +79,8 @@ async function searchPublicationByTitle(req, res) {
             (isFav) => (publications[i].dataValues.favoris = isFav)
         );
       }
+  })
+    .then((publications) => {
       return res.json(publications);
     })
     .catch((err) => {
@@ -87,4 +90,5 @@ async function searchPublicationByTitle(req, res) {
 module.exports = {
   searchPublicationByTags,
   searchPublicationByTitle,
+
 };

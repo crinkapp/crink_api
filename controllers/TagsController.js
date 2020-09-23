@@ -1,11 +1,9 @@
 const { Tag } = require("../sequelize");
 
 async function addTag(req, res) {
-  const name = req.body.name;
-  const tag = new Tag({
-    name_tag: name,
-    is_seen: true
-  });
+  const name_tag = req.body.name_tag;
+  const path_image = req.body.path_image;
+  const tag = new Tag({ name_tag, path_image });
 
   tag
     .save()
@@ -28,12 +26,11 @@ async function getTags(req, res) {
 
 async function getAllTagsSeen(req, res) {
   try {
-    const tagsSeen = await Tag.findAll( {where: {is_seen: true}});
+    const tagsSeen = await Tag.findAll({ where: { isSeen: true } });
     return res.json(tagsSeen);
-  }catch (err) {
-    return res.json(err)
+  } catch (err) {
+    return res.json(err);
   }
-
 }
 module.exports = {
   addTag,

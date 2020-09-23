@@ -1,55 +1,60 @@
-const Sequelize = require('sequelize');
-const NewsletterModel = require('./models/NewslettersModel');
-const SettingModel = require('./models/SettingModel');
-const UsersModel = require('./models/UsersModel');
-const DiagnosticModel = require('./models/DiagnosticModel');
-const TagModel = require('./models/TagsModel');
-const CommentModel = require('./models/CommentModel');
-const LikeUserModel = require('./models/LikeUserModel');
-const FavorisModel = require('./models/FavorisModel');
-const PublicationModel = require('./models/PublicationModel');
-const SignaledModel = require('./models/SignaledModel');
-const UserTagModel = require('./models/UserTagModel');
-const PublicationTagModel = require('./models/PublicationTagModel');
-const SubscriptionModel = require('./models/SubscriptionModel');
-require('mysql2');
-require('dotenv/config');
+const Sequelize = require("sequelize");
+const NewsletterModel = require("./models/NewslettersModel");
+const SettingModel = require("./models/SettingModel");
+const UsersModel = require("./models/UsersModel");
+const DiagnosticModel = require("./models/DiagnosticModel");
+const TagModel = require("./models/TagsModel");
+const CommentModel = require("./models/CommentModel");
+const LikeUserModel = require("./models/LikeUserModel");
+const FavorisModel = require("./models/FavorisModel");
+const PublicationModel = require("./models/PublicationModel");
+const SignaledModel = require("./models/SignaledModel");
+const UserTagModel = require("./models/UserTagModel");
+const PublicationTagModel = require("./models/PublicationTagModel");
+const SubscriptionModel = require("./models/SubscriptionModel");
+require("mysql2");
+require("dotenv/config");
 const dbConfig = require("./config/db.config.js");
 
 // CONNECT DATABASE WITH SEQUILIZE
-const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
+const sequelize = new Sequelize(
+  process.env.DB_NAME,
+  process.env.DB_USER,
+  process.env.DB_PASSWORD,
+  {
     host: process.env.DB_HOST,
-    // port: dbConfig.PORT,
-    dialect: 'mysql',
+    port: process.env.DB_PORT,
+    dialect: "mysql",
     define: {
-        // The `timestamps` field specify whether or not the `createdAt` and `updatedAt` fields will be created.
-        // This was true by default, but now is false by default
-        timestamps: true
-    }
-});
+      // The `timestamps` field specify whether or not the `createdAt` and `updatedAt` fields will be created.
+      // This was true by default, but now is false by default
+      timestamps: true,
+    },
+  }
+);
 sequelize
-    .authenticate()
-    .then(() => {
-        console.log('Connection has been established successfully.');
-    })
-    .catch(err => {
-        console.error('Unable to connect to the database:', err);
-    });
+  .authenticate()
+  .then(() => {
+    console.log("Connection has been established successfully.");
+  })
+  .catch((err) => {
+    console.error("Unable to connect to the database:", err);
+  });
 
 // ------- Imports of Models ------ //
- const Newsletters = NewsletterModel(sequelize, Sequelize);
- const Setting = SettingModel(sequelize, Sequelize);
- const User = UsersModel(sequelize, Sequelize);
- const Diagnostic = DiagnosticModel(sequelize, Sequelize);
- const Tag = TagModel(sequelize, Sequelize);
- const LikeUser = LikeUserModel(sequelize, Sequelize);
- const Favoris = FavorisModel(sequelize, Sequelize);
- const Publication = PublicationModel(sequelize, Sequelize);
- const Comment = CommentModel(sequelize, Sequelize);
- const Signaled = SignaledModel(sequelize, Sequelize);
- const UserTag = UserTagModel(sequelize, Sequelize);
- const PublicationTag = PublicationTagModel(sequelize, Sequelize);
- const Subscription = SubscriptionModel(sequelize, Sequelize);
+const Newsletters = NewsletterModel(sequelize, Sequelize);
+const Setting = SettingModel(sequelize, Sequelize);
+const User = UsersModel(sequelize, Sequelize);
+const Diagnostic = DiagnosticModel(sequelize, Sequelize);
+const Tag = TagModel(sequelize, Sequelize);
+const LikeUser = LikeUserModel(sequelize, Sequelize);
+const Favoris = FavorisModel(sequelize, Sequelize);
+const Publication = PublicationModel(sequelize, Sequelize);
+const Comment = CommentModel(sequelize, Sequelize);
+const Signaled = SignaledModel(sequelize, Sequelize);
+const UserTag = UserTagModel(sequelize, Sequelize);
+const PublicationTag = PublicationTagModel(sequelize, Sequelize);
+const Subscription = SubscriptionModel(sequelize, Sequelize);
 
 // Relationship
 User.belongsTo(Setting);
@@ -107,24 +112,21 @@ Subscription.belongsTo(User);
 User.hasMany(Subscription);
 
 // synchro with db
-sequelize.sync({ force: false })
-    .then(() => {
-        console.log(`Database & tables created!`)
-    });
+sequelize.sync({ force: false }).then(() => {
+  console.log(`Database & tables created!`);
+});
 
 module.exports = {
-    Newsletters: Newsletters,
-    Setting: Setting,
-    User: User,
-    Diagnostic: Diagnostic,
-    Tag: Tag,
-    Publication: Publication,
-    Comment: Comment,
-    Favoris: Favoris,
-    UserTag: UserTag,
-    PublicationTag: PublicationTag,
-    LikeUser: LikeUser,
-    Subscription: Subscription
+  Newsletters: Newsletters,
+  Setting: Setting,
+  User: User,
+  Diagnostic: Diagnostic,
+  Tag: Tag,
+  Publication: Publication,
+  Comment: Comment,
+  Favoris: Favoris,
+  UserTag: UserTag,
+  PublicationTag: PublicationTag,
+  LikeUser: LikeUser,
+  Subscription: Subscription,
 };
-
-

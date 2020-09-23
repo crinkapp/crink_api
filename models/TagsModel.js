@@ -6,10 +6,8 @@ const TagsModel = (sequelize, type) => {
             autoIncrement: true,
         },
         name_tag: type.STRING,
-
-        isSeen: {
-            type: type.BOOLEAN,
-            default: true,
+        path_image: {
+            type: type.STRING,
         }
     })
 };

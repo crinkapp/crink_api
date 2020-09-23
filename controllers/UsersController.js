@@ -1,5 +1,5 @@
-const { User } = require("../sequelize");
-const { sendEmail } = require("../controllers/NewslettersController");
+const { User, Publication } = require("../sequelize");
+const { sendEmail } = require("./NewslettersController");
 require("dotenv").config();
 const {
   addUserValidation,
@@ -8,10 +8,40 @@ const {
 } = require("../joi/validation");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const {
+  nbSubscriptionsByUserId,
+  nbSubscribersByUserId,
+  isAlreadySubscribed,
+} = require("./SubscriptionController");
+
+const nbPublicationbyUser = async (userId) => {
+  try {
+    return await Publication.count({
+      where: { userId },
+    }).then((count) => {
+      return count;
+    });
+  } catch (err) {
+    return err;
+  }
+};
 
 async function getAllUsers(req, res) {
   try {
     const allUsers = await User.findAll({ raw: true });
+
+    // getting subscription / subscribers info
+    for (let i = 0; i < allUsers.length; i++) {
+      await nbSubscriptionsByUserId(allUsers[i].id).then(
+        (total) => (allUsers[i].nbSubscription = total)
+      );
+      await nbSubscribersByUserId(allUsers[i].id).then(
+        (total) => (allUsers[i].nbSubscribers = total)
+      );
+      await nbPublicationbyUser(allUsers[i].id).then(
+        (total) => (allUsers[i].nbPublications = total)
+      );
+    }
     return res.json(allUsers);
   } catch (err) {
     return res.json(err);
@@ -25,6 +55,15 @@ async function getUser(req, res) {
       const user = await User.findOne({
         where: { id: user_id },
       });
+      await nbSubscriptionsByUserId(user_id).then(
+        (total) => (user.dataValues.nbSubscription = total)
+      );
+      await nbSubscribersByUserId(user_id).then(
+        (total) => (user.dataValues.nbSubscribers = total)
+      );
+      await nbPublicationbyUser(user_id).then(
+        (total) => (user.dataValues.nbPublications = total)
+      );
       return res.json(user);
     } catch (err) {
       return res.status(400).send("Can't find the user");
@@ -35,12 +74,29 @@ async function getUser(req, res) {
 }
 
 async function getUserById(req, res) {
+  const actualUser = res.locals.id_user;
+  const user_id = req.body.id_user;
   try {
     const user = await User.findOne({
-      where: { id: req.body.id_user },
+      where: { id: user_id },
     });
+    await nbSubscriptionsByUserId(user_id).then(
+      (total) => (user.dataValues.nbSubscription = total)
+    );
+    await nbSubscribersByUserId(user_id).then(
+      (total) => (user.dataValues.nbSubscribers = total)
+    );
+    await nbPublicationbyUser(user_id).then(
+      (total) => (user.dataValues.nbPublications = total)
+    );
+    await isAlreadySubscribed(user_id, actualUser).then((subscribed) =>
+      subscribed
+        ? (user.dataValues.alreadySubscribed = true)
+        : (user.dataValues.alreadySubscribed = false)
+    );
     return res.json(user);
   } catch (err) {
+    console.log(err);
     return res.status(400).send("Can't find the user");
   }
 }
@@ -128,6 +184,7 @@ async function register(req, res) {
   const username_user = req.body.username_user;
   const password_user = req.body.password_user;
   const gender_user = req.body.gender_user;
+  const role_user = "User";
 
   const emailExist = await User.findOne({ where: { email_user: email_user } });
   if (emailExist)
@@ -145,6 +202,8 @@ async function register(req, res) {
     username_user: username_user,
     password_user: hashedPassword,
     gender_user: gender_user,
+    path_profil_picture_user: "no_user.jpg",
+    role_user: role_user
   });
   user.save();
   if (req.body.newsletter_user) {
@@ -211,4 +270,5 @@ module.exports = {
   logout,
   updateUserPwd,
   updateUser,
+  nbPublicationbyUser,
 };

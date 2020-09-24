@@ -1,4 +1,12 @@
 const { Favoris, Publication } = require("../sequelize");
+const {
+  getAuthorPublication,
+  getPublicationLikeNumber,
+  likedByActualUser,
+  getPublicationCommentNumber,
+  getPublicationTags,
+  favByActualUser,
+} = require("./PublicationController");
 
 // afficher toutes les publications favoris du user
 async function getAllUserFavoris(req, res) {
@@ -18,13 +26,33 @@ async function getAllUserFavoris(req, res) {
       }
 
       // Get publications by the array of id publications
-      const publications = await Publication.findAll({
+      await Publication.findAll({
         where: {
           id: publicationIds,
         },
+      }).then(async (publications) => {
+        for (let i = 0; i < publications.length; i++) {
+          await getAuthorPublication(publications[i].dataValues).then(
+            (user) => (publications[i].dataValues.user = user)
+          );
+          await likedByActualUser(publications[i].dataValues, user_id).then(
+            (liked) => (publications[i].dataValues.likedByActualUser = liked)
+          );
+          await getPublicationLikeNumber(publications[i].dataValues).then(
+            (total) => (publications[i].dataValues.nbLikes = total)
+          );
+          await getPublicationCommentNumber(publications[i].dataValues).then(
+            (total) => (publications[i].dataValues.nbComments = total)
+          );
+          await getPublicationTags(publications[i].dataValues).then(
+            (tags) => (publications[i].dataValues.hashtags = tags)
+          );
+          await favByActualUser(publications[i].dataValues, user_id).then(
+            (isFav) => (publications[i].dataValues.favoris = isFav)
+          );
+        }
+        return res.json(publications);
       });
-
-      return res.json(publications);
     } catch (err) {
       return res.status(400).send("Can't find user's favoris");
     }
@@ -67,7 +95,6 @@ async function addFavoris(req, res) {
 
     // If not favoris is created
     try {
-
       const new_favoris = await Favoris.create({
         publicationId: publication_id,
         userId: user_id,
@@ -82,7 +109,6 @@ async function addFavoris(req, res) {
   } else {
     return res.status(400).send("publication user not found");
   }
-
 }
 
 async function deleteFavoris(req, res) {

@@ -79,6 +79,6 @@ app.use("/", publicationTagRoute);
 app.use("/", searchRoute);
 
 // BOOT THE SERVER
-app.listen(port, hostname, () => {
+app.listen(port, () => {
   console.log(`Server running at ${hostname}:${port}/`);
 });

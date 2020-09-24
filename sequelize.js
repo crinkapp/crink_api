@@ -23,7 +23,7 @@ const sequelize = new Sequelize(
   process.env.DB_PASSWORD,
   {
     host: process.env.DB_HOST,
-    // port: process.env.DB_PORT,
+    port: process.env.DB_PORT,
     dialect: "mysql",
     define: {
       // The `timestamps` field specify whether or not the `createdAt` and `updatedAt` fields will be created.
